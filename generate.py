@@ -666,7 +666,7 @@ class LatexConverter:
         caption = self._inline_simple(cap_m.group(1)) if cap_m else ''
 
         # --- Try PNG rendering via pdflatex (perfect output) ---
-        if hasattr(self, '_table_assets_dir') and _has_tool('pdflatex'):
+        if getattr(self, '_table_assets_dir', None) is not None and _has_tool('pdflatex'):
             import hashlib
             table_hash = hashlib.md5(raw_content.encode()).hexdigest()[:12]
             png_name = f'table_{self.chapter_slug}_{table_hash}.png'
