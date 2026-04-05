@@ -646,10 +646,15 @@ class LatexConverter:
         # PDF figures are converted to PNG at build time
         if img_name.lower().endswith('.pdf'):
             img_name = os.path.splitext(img_name)[0] + '.png'
-        # Collect figure for gallery
-        self.figures.append({'src': img_name, 'caption': caption, 'chapter_slug': self.chapter_slug})
-        # Single-line <img> — no multi-line attributes that confuse _paragraphs
-        return f'<figure class="thesis-figure"><img src="../assets/{html.escape(img_name)}" alt="{alt}" loading="lazy" class="thesis-img"><figcaption>{caption}</figcaption></figure>\n'
+        # Stable figure ID derived from filename (unique within the site)
+        stem = re.sub(r'[^a-z0-9]+', '-', os.path.splitext(img_name)[0].lower()).strip('-')
+        fig_id = f'fig-{stem}'
+        # Collect figure for gallery (include anchor so gallery can deep-link)
+        self.figures.append({
+            'src': img_name, 'caption': caption,
+            'chapter_slug': self.chapter_slug, 'fig_id': fig_id,
+        })
+        return f'<figure class="thesis-figure" id="{html.escape(fig_id)}"><img src="../assets/{html.escape(img_name)}" alt="{alt}" loading="lazy" class="thesis-img"><figcaption>{caption}</figcaption></figure>\n'
 
     def _table(self, m) -> str:
         """Convert a LaTeX table float into HTML (or PNG image if pdflatex available)."""
@@ -1808,9 +1813,11 @@ def build_figure_gallery(all_figures: List[dict]) -> str:
         cap = fig['caption']
         src = fig['src']
         cap_plain = re.sub(r'<[^>]+>', '', cap)[:120]
+        fig_id = fig.get('fig_id', '')
+        anchor = f'#{html.escape(fig_id)}' if fig_id else ''
         items_html += f"""
 <div class="gallery-item" data-ch="{html.escape(cs)}">
-  <a href="chapters/{html.escape(cs)}.html">
+  <a href="chapters/{html.escape(cs)}.html{anchor}">
     <img src="assets/{html.escape(src)}" alt="{html.escape(cap_plain)}" loading="lazy" onerror="this.closest('.gallery-item').style.display='none'">
   </a>
   <div class="gallery-item-caption">
@@ -2452,7 +2459,7 @@ a:hover { text-decoration: underline; color: var(--accent-hover); }
 .nav-links a:hover { background: rgba(255,255,255,0.1); color: #fff; text-decoration: none; }
 
 /* More dropdown */
-.nav-more { position: relative; }
+.nav-more { position: relative; display: flex; align-items: center; }
 .nav-more-btn {
   background: none;
   border: none;
@@ -2461,6 +2468,9 @@ a:hover { text-decoration: underline; color: var(--accent-hover); }
   padding: 0.4rem 0.75rem;
   border-radius: 4px;
   font-size: 0.9rem;
+  line-height: inherit;
+  font-family: inherit;
+  vertical-align: middle;
   transition: background 0.15s, color 0.15s;
 }
 .nav-more-btn:hover { background: rgba(255,255,255,0.1); color: #fff; }

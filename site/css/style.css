@@ -100,7 +100,7 @@ a:hover { text-decoration: underline; color: var(--accent-hover); }
 .nav-links a:hover { background: rgba(255,255,255,0.1); color: #fff; text-decoration: none; }
 
 /* More dropdown */
-.nav-more { position: relative; }
+.nav-more { position: relative; display: flex; align-items: center; }
 .nav-more-btn {
   background: none;
   border: none;
@@ -109,6 +109,9 @@ a:hover { text-decoration: underline; color: var(--accent-hover); }
   padding: 0.4rem 0.75rem;
   border-radius: 4px;
   font-size: 0.9rem;
+  line-height: inherit;
+  font-family: inherit;
+  vertical-align: middle;
   transition: background 0.15s, color 0.15s;
 }
 .nav-more-btn:hover { background: rgba(255,255,255,0.1); color: #fff; }
