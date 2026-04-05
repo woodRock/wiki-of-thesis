@@ -488,9 +488,12 @@ class LatexConverter:
         content_clean = re.sub(r'(?<!\\)%.*$', '', content, flags=re.MULTILINE)
         content_clean = re.sub(r'\\rowcolors\{[^}]*\}\{[^}]*\}\{[^}]*\}', '', content_clean)
         content_clean = re.sub(r'\\(?:small|footnotesize|large|Large|centering|raggedright|raggedleft)\b\s*', '', content_clean)
-        # Strip \resizebox{...}{!}{% ... %} wrapper — just keep the inner content
-        content_clean = re.sub(r'\\resizebox\{[^}]*\}\{[^}]*\}\{%?\s*', '', content_clean)
-        content_clean = content_clean.rstrip().rstrip('%}').rstrip()
+        # Strip \resizebox{width}{height}{% inner %} wrapper — extract the inner content
+        # Pattern: \resizebox{..}{..}{% content \end{tabular}% }
+        # Replace entire \resizebox{..}{..}{...} with just the inner content
+        content_clean = re.sub(
+            r'\\resizebox\{[^}]*\}\{[^}]*\}\{%?\s*(.*?)\s*%?\s*\}(\s*)$',
+            r'\1\2', content_clean, flags=re.DOTALL)
 
         # Protect nested \begin{tabular}...\end{tabular} environments BEFORE searching
         # for the outer tabular, so (.*?) doesn't stop at an inner \end{tabular}.
@@ -505,9 +508,12 @@ class LatexConverter:
             return k
         # Single pass: protect each innermost tabular (body contains no \begin{tabular}).
         # This leaves exactly the outermost \begin{tabular} visible for the search below.
+        # Match innermost tabular (body contains no \begin{tabular}).
+        # Run passes until only one \begin{tabular} remains (the outer one).
         _innermost_tab = (r'\\begin\{tabular\}(?:\[[^\]]*\])?\{(?:[^{}]|\{[^{}]*\})*\}'
                           r'((?:(?!\\begin\{tabular\})[\s\S])*?)\\end\{tabular\}')
-        content_clean = re.sub(_innermost_tab, _protect_nested_table, content_clean)
+        while content_clean.count(r'\begin{tabular}') > 1:
+            content_clean = re.sub(_innermost_tab, _protect_nested_table, content_clean)
 
         # Column spec may contain @{} so use one-level nested brace matching
         # Also support tabularx and tabulary (second arg is width, third is col spec)
