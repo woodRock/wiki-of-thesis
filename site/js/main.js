@@ -175,35 +175,50 @@ if (filterInput && papersGrid) {
 
 // Active TOC highlighting with sidebar scroll-into-view
 (function() {
-  let activeTocLink = null;
   const sidebar = document.querySelector('.sidebar-sticky');
+  const headings = Array.from(document.querySelectorAll('h2[id], h3[id], h4[id]'));
+  if (!headings.length) return;
 
-  const observer = new IntersectionObserver((entries) => {
-    entries.forEach(entry => {
-      if (!entry.isIntersecting) return;
-      const id = entry.target.id;
-      const link = document.querySelector(`.toc-list a[href="#${id}"]`);
-      if (!link) return;
+  // Build id → toc link map once
+  const tocLinks = {};
+  headings.forEach(h => {
+    const a = document.querySelector(`.toc-list a[href="#${h.id}"]`);
+    if (a) tocLinks[h.id] = a;
+  });
 
-      // Remove active from previous
-      if (activeTocLink && activeTocLink !== link) {
-        activeTocLink.classList.remove('toc-active');
-      }
+  let activeLink = null;
+
+  function scrollTocToLink(link) {
+    if (!sidebar) return;
+    const linkRect = link.getBoundingClientRect();
+    const sbRect = sidebar.getBoundingClientRect();
+    const relTop = linkRect.top - sbRect.top + sidebar.scrollTop;
+    const target = relTop - sbRect.height / 3;
+    sidebar.scrollTo({ top: target, behavior: 'smooth' });
+  }
+
+  function update() {
+    // Find the last heading whose top is at or above 30% of the viewport
+    const threshold = window.innerHeight * 0.3;
+    let current = null;
+    for (const h of headings) {
+      if (h.getBoundingClientRect().top <= threshold) current = h;
+      else break;
+    }
+
+    const link = current ? tocLinks[current.id] : null;
+    if (link === activeLink) return;
+
+    if (activeLink) activeLink.classList.remove('toc-active');
+    if (link) {
       link.classList.add('toc-active');
-      activeTocLink = link;
+      scrollTocToLink(link);
+    }
+    activeLink = link;
+  }
 
-      // Scroll the active TOC item into view within the sidebar
-      if (sidebar) {
-        const linkRect = link.getBoundingClientRect();
-        const sidebarRect = sidebar.getBoundingClientRect();
-        if (linkRect.top < sidebarRect.top + 20 || linkRect.bottom > sidebarRect.bottom - 20) {
-          link.scrollIntoView({ block: 'nearest', behavior: 'smooth' });
-        }
-      }
-    });
-  }, { rootMargin: '-10% 0px -75% 0px' });
-
-  document.querySelectorAll('h2[id], h3[id], h4[id]').forEach(h => observer.observe(h));
+  window.addEventListener('scroll', update, { passive: true });
+  update();
 })();
 
 // ── Reading Progress Bar ──────────────────────────────────────────────
