@@ -571,15 +571,19 @@ class LatexConverter:
         return re.sub(r'[\s_]+', '-', s).strip('-')[:60]
 
     def _sections(self, t: str) -> str:
-        def sec(level, m):
-            title = self._inline_simple(m.group(1))
+        _level_map = {'section': 2, 'subsection': 3, 'subsubsection': 4}
+
+        def sec(m):
+            level = _level_map[m.group(1)]
+            title = self._inline_simple(m.group(2))
             sid = self._slug(re.sub(r'<[^>]+>', '', title))
             self.toc.append((level, re.sub(r'<[^>]+>', '', title), sid))
             return f'\n<h{level} id="{sid}">{title}</h{level}>\n'
 
-        t = re.sub(r'\\section\*?\{((?:[^{}]|\{[^{}]*\})*)\}', lambda m: sec(2, m), t)
-        t = re.sub(r'\\subsection\*?\{((?:[^{}]|\{[^{}]*\})*)\}', lambda m: sec(3, m), t)
-        t = re.sub(r'\\subsubsection\*?\{((?:[^{}]|\{[^{}]*\})*)\}', lambda m: sec(4, m), t)
+        # Single pass — preserves document order for TOC
+        t = re.sub(
+            r'\\(subsubsection|subsection|section)\*?\{((?:[^{}]|\{[^{}]*\})*)\}',
+            sec, t)
         return t
 
     def _environments(self, t: str) -> str:
@@ -1098,6 +1102,7 @@ def page_shell(title: str, content: str, extra_head: str = "", root: str = "..")
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>{html.escape(title)}</title>
   <link rel="stylesheet" href="{root}/css/style.css">
+  <script src="{root}/js/search-index.js"></script>
   <script>
     // Apply saved theme before render
     (function(){{
@@ -1132,10 +1137,15 @@ def _navbar(root: str) -> str:
       <a href="{root}/papers.html">Papers</a>
       <a href="{root}/glossary.html">Glossary</a>
       <a href="{root}/figures.html">Figures</a>
-      <a href="{root}/graph.html">Graph</a>
-      <a href="{root}/authors.html">Authors</a>
-      <a href="{root}/timeline.html">Timeline</a>
-      <a href="{root}/methods.html">Methods</a>
+      <div class="nav-more">
+        <button class="nav-more-btn" id="nav-more-btn">More ▾</button>
+        <div class="nav-more-dropdown" id="nav-more-dropdown">
+          <a href="{root}/graph.html">Citation Graph</a>
+          <a href="{root}/authors.html">Authors</a>
+          <a href="{root}/timeline.html">Timeline</a>
+          <a href="{root}/methods.html">Methods</a>
+        </div>
+      </div>
     </div>
     <div class="nav-actions">
       <button id="search-toggle" class="icon-btn" aria-label="Search">🔍</button>
@@ -1149,6 +1159,7 @@ def _navbar(root: str) -> str:
     <a href="{root}/papers.html">All Papers</a>
     <a href="{root}/glossary.html">Glossary</a>
     <a href="{root}/figures.html">Figures</a>
+    <div class="mobile-menu-divider"></div>
     <a href="{root}/graph.html">Citation Graph</a>
     <a href="{root}/authors.html">Authors</a>
     <a href="{root}/timeline.html">Timeline</a>
@@ -1878,9 +1889,10 @@ def build_search_index(bib: Dict, ss: Dict, chapter_citations: Dict[str, Set[str
             'meta': data.get('full', term),
         })
 
-    out_path = SITE_DIR / 'search-index.json'
-    out_path.write_text(json.dumps(index, ensure_ascii=False, separators=(',', ':')))
-    print(f"  search-index.json written ({len(index)} entries)")
+    # Write as a JS file so it works on file:// and http:// without fetch()
+    js_content = 'window.SEARCH_INDEX=' + json.dumps(index, ensure_ascii=False, separators=(',', ':')) + ';'
+    (SITE_DIR / 'js' / 'search-index.js').write_text(js_content)
+    print(f"  search-index.js written ({len(index)} entries)")
 
 
 def build_citation_graph(bib: Dict, ss: Dict, chapter_citations: Dict[str, Set[str]]) -> str:
@@ -2026,36 +2038,127 @@ def build_citation_graph(bib: Dict, ss: Dict, chapter_citations: Dict[str, Set[s
     return page_shell("Citation Network Graph — ML for REIMS", content, root=".")
 
 
+def _parse_bib_authors(author_field: str) -> List[str]:
+    """Parse BibTeX author field into list of 'Firstname Lastname' strings."""
+    names = []
+    for a in author_field.split(' and '):
+        a = a.strip()
+        if not a:
+            continue
+        if ',' in a:
+            parts = a.split(',', 1)
+            names.append(f"{parts[1].strip()} {parts[0].strip()}")
+        else:
+            names.append(a)
+    return names
+
+
+def _normalize_author_name(name: str) -> str:
+    """Normalize a name for deduplication: lowercase, remove dots, collapse spaces."""
+    return re.sub(r'\s+', ' ', name.lower().replace('.', '').replace('-', ' ')).strip()
+
+
+def _author_surname_initial(name: str):
+    """Return (surname_lower, first_initial_lower) for fuzzy matching."""
+    parts = name.strip().split()
+    if not parts:
+        return ('', '')
+    surname = parts[-1].lower().rstrip('.')
+    initial = parts[0].lstrip('.')[0].lower() if parts[0] else ''
+    return (surname, initial)
+
+
 def build_author_index(bib: Dict, ss: Dict) -> str:
-    """Generate author index page listing all unique authors sorted by paper count."""
-    from collections import defaultdict
-    author_papers: Dict[str, List[str]] = defaultdict(list)
+    """Generate author index page with deduplicated authors.
 
-    for key, entry in bib.items():
-        author_field = entry.get('author', '')
-        # Try SS authors first
-        ss_d = ss.get(key)
+    Dedup priority (three lookups before creating a new record):
+      1. SS authorId (stable, cross-paper identity)
+      2. Normalized name string (handles 'T.' vs 'T', case differences)
+      3. Surname + first initial (handles 'D. Killeen' vs 'Daniel Killeen')
+    """
+    records: Dict[str, dict] = {}       # canonical_key → {name, papers}
+    id_to_key:   Dict[str, str] = {}    # ss_authorId   → canonical_key
+    norm_to_key: Dict[str, str] = {}    # normalized_name → canonical_key
+    si_to_key:   Dict[tuple, str] = {}  # (surname, initial) → canonical_key
+
+    def _register_name(ckey: str, display_name: str):
+        """Register all lookup indices for a canonical key."""
+        norm = _normalize_author_name(display_name)
+        si   = _author_surname_initial(display_name)
+        if norm not in norm_to_key:
+            norm_to_key[norm] = ckey
+        if si not in si_to_key:
+            si_to_key[si] = ckey
+
+    def _resolve_key(author_id: str, display_name: str) -> str:
+        """Find existing canonical key or create a new one."""
+        # 1. authorId
+        if author_id and author_id in id_to_key:
+            return id_to_key[author_id]
+        # 2. exact normalized name
+        norm = _normalize_author_name(display_name)
+        if norm in norm_to_key:
+            return norm_to_key[norm]
+        # 3. surname + initial
+        si = _author_surname_initial(display_name)
+        if si[0] and si in si_to_key:
+            return si_to_key[si]
+        # Create new
+        ckey = f'ss:{author_id}' if author_id else f'norm:{norm}'
+        return ckey
+
+    def add_author(author_id: str, display_name: str, paper_key: str):
+        if not display_name:
+            return
+        ckey = _resolve_key(author_id, display_name)
+
+        if ckey not in records:
+            records[ckey] = {'name': display_name, 'papers': []}
+            if author_id:
+                id_to_key[author_id] = ckey
+            _register_name(ckey, display_name)
+        else:
+            # Update authorId index if we now have one
+            if author_id and author_id not in id_to_key:
+                id_to_key[author_id] = ckey
+            # Prefer the longer/fuller display name
+            existing = records[ckey]['name']
+            if len(display_name) > len(existing):
+                records[ckey]['name'] = display_name
+                _register_name(ckey, display_name)
+
+        if paper_key not in records[ckey]['papers']:
+            records[ckey]['papers'].append(paper_key)
+
+    for bib_key, entry in bib.items():
+        ss_d = ss.get(bib_key)
+        bib_authors = _parse_bib_authors(entry.get('author', ''))
+
         if ss_d and ss_d.get('authors'):
-            for a in ss_d['authors']:
-                name = a.get('name', '').strip()
-                if name:
-                    author_papers[name].append(key)
-        elif author_field:
-            for a in author_field.split(' and '):
-                a = a.strip()
-                if ',' in a:
-                    parts = a.split(',', 1)
-                    name = f"{parts[1].strip()} {parts[0].strip()}"
-                else:
-                    name = a
-                if name:
-                    author_papers[name].append(key)
+            for ss_author in ss_d['authors']:
+                author_id = (ss_author.get('authorId') or '').strip()
+                ss_name   = (ss_author.get('name') or '').strip()
+                if not ss_name:
+                    continue
+                # Prefer BibTeX full name when surname+initial matches
+                ss_si = _author_surname_initial(ss_name)
+                display = ss_name
+                for bn in bib_authors:
+                    if _author_surname_initial(bn) == ss_si:
+                        display = bn  # e.g. "Daniel P Killeen" instead of "D. Killeen"
+                        break
+                add_author(author_id, display, bib_key)
+        else:
+            for bib_name in bib_authors:
+                add_author('', bib_name, bib_key)
 
-    # Sort by paper count desc, then name
-    sorted_authors = sorted(author_papers.items(), key=lambda x: (-len(x[1]), x[0]))
+    # Sort by paper count desc, then display name
+    sorted_authors = sorted(records.values(), key=lambda r: (-len(r['papers']), r['name']))
 
     cards_html = ''
-    for author, keys in sorted_authors[:500]:  # limit to top 500
+    for rec in sorted_authors[:500]:
+        author = rec['name']
+        keys = rec['papers']
         count = len(keys)
         papers_links = ' '.join(
             f'<a href="papers/{k}.html" class="mini-chip" title="{html.escape(bib.get(k,{}).get("title","")[:60])}">{html.escape(k)}</a>'
@@ -2063,7 +2166,7 @@ def build_author_index(bib: Dict, ss: Dict) -> str:
         )
         more = f'<span class="mini-chip text-muted">+{count-6} more</span>' if count > 6 else ''
         cards_html += f"""
-<div class="author-card">
+<div class="author-card" data-name="{html.escape(author.lower())}">
   <div class="author-name">{html.escape(author)}</div>
   <div class="author-count">{count} paper{'s' if count != 1 else ''}</div>
   <div class="author-papers">{papers_links}{more}</div>
@@ -2347,6 +2450,44 @@ a:hover { text-decoration: underline; color: var(--accent-hover); }
   transition: background 0.15s, color 0.15s;
 }
 .nav-links a:hover { background: rgba(255,255,255,0.1); color: #fff; text-decoration: none; }
+
+/* More dropdown */
+.nav-more { position: relative; }
+.nav-more-btn {
+  background: none;
+  border: none;
+  color: rgba(255,255,255,0.8);
+  cursor: pointer;
+  padding: 0.4rem 0.75rem;
+  border-radius: 4px;
+  font-size: 0.9rem;
+  transition: background 0.15s, color 0.15s;
+}
+.nav-more-btn:hover { background: rgba(255,255,255,0.1); color: #fff; }
+.nav-more-dropdown {
+  display: none;
+  position: absolute;
+  top: calc(100% + 4px);
+  left: 0;
+  background: var(--nav-bg);
+  border: 1px solid rgba(255,255,255,0.12);
+  border-radius: var(--radius);
+  box-shadow: var(--shadow-md);
+  min-width: 160px;
+  z-index: 200;
+  padding: 0.35rem 0;
+}
+.nav-more-dropdown.open { display: block; }
+.nav-more-dropdown a {
+  display: block;
+  padding: 0.45rem 1rem;
+  color: rgba(255,255,255,0.85);
+  font-size: 0.88rem;
+  text-decoration: none;
+  transition: background 0.12s;
+}
+.nav-more-dropdown a:hover { background: rgba(255,255,255,0.08); color: #fff; text-decoration: none; }
+.mobile-menu-divider { height: 1px; background: rgba(255,255,255,0.1); margin: 0.35rem 0; }
 
 .nav-actions { display: flex; gap: 0.25rem; margin-left: auto; }
 .icon-btn {
@@ -3618,6 +3759,17 @@ if (menuBtn && mobileMenu) {
   });
 }
 
+// "More" dropdown
+const moreBtn = document.getElementById('nav-more-btn');
+const moreDropdown = document.getElementById('nav-more-dropdown');
+if (moreBtn && moreDropdown) {
+  moreBtn.addEventListener('click', e => {
+    e.stopPropagation();
+    moreDropdown.classList.toggle('open');
+  });
+  document.addEventListener('click', () => moreDropdown.classList.remove('open'));
+}
+
 // Search toggle
 const searchToggle = document.getElementById('search-toggle');
 const searchBar = document.getElementById('search-bar');
@@ -3661,46 +3813,32 @@ if (filterInput && papersGrid) {
   });
 }
 
-// Global search — lazy-loaded from search-index.json
+// Global search — uses window.SEARCH_INDEX set by search-index.js (works on file:// and http://)
 (function() {
-  let searchIndex = null;
-  let searchLoading = false;
-
   const resultsDiv = document.getElementById('search-results');
   if (!searchInput || !resultsDiv) return;
 
-  function getIndexUrl() {
+  // Resolve a site-root-relative URL to an absolute path for the current page location
+  function siteUrl(relUrl) {
     const p = window.location.pathname;
-    if (p.includes('/chapters/') || p.includes('/papers/')) {
-      return '../search-index.json';
-    }
-    return 'search-index.json';
+    const inSub = p.includes('/chapters/') || p.includes('/papers/');
+    if (inSub) return '../' + relUrl;
+    // Handle file:// — build relative to the directory of index.html
+    return relUrl;
   }
-
-  function loadIndex() {
-    if (searchIndex || searchLoading) return;
-    searchLoading = true;
-    fetch(getIndexUrl())
-      .then(r => r.json())
-      .then(data => { searchIndex = data; })
-      .catch(() => { searchIndex = []; });
-  }
-
-  // Start loading when search opens
-  searchToggle && searchToggle.addEventListener('click', loadIndex);
 
   function renderResults(q) {
-    if (!resultsDiv) return;
     if (!q) { resultsDiv.innerHTML = ''; return; }
-    if (!searchIndex) {
-      resultsDiv.innerHTML = '<div class="search-result-item"><div class="sri-meta">Loading…</div></div>';
+    const index = window.SEARCH_INDEX;
+    if (!index) {
+      resultsDiv.innerHTML = '<div class="search-result-item"><div class="sri-meta">Search index unavailable.</div></div>';
       return;
     }
     const ql = q.toLowerCase();
-    const matches = searchIndex.filter(item =>
+    const matches = index.filter(item =>
       (item.title || '').toLowerCase().includes(ql) ||
-      (item.text || '').toLowerCase().includes(ql) ||
-      (item.meta || '').toLowerCase().includes(ql)
+      (item.text  || '').toLowerCase().includes(ql) ||
+      (item.meta  || '').toLowerCase().includes(ql)
     );
 
     if (!matches.length) {
@@ -3708,38 +3846,34 @@ if (filterInput && papersGrid) {
       return;
     }
 
-    // Group by type
-    const groups = { paper: [], chapter: [], glossary: [] };
-    matches.forEach(item => {
-      const g = groups[item.type] || groups.paper;
-      if (g.length < 4) g.push(item);
-    });
+    // Group by type, up to 4 per group
+    const groups = { chapter: [], paper: [], glossary: [] };
+    for (const item of matches) {
+      const g = groups[item.type];
+      if (g && g.length < 4) g.push(item);
+    }
 
-    const typeLabels = { paper: 'Papers', chapter: 'Chapters', glossary: 'Glossary' };
-    let html = '';
+    const typeLabels = { chapter: 'Chapters', paper: 'Papers', glossary: 'Glossary' };
+    let out = '';
     for (const [type, items] of Object.entries(groups)) {
       if (!items.length) continue;
-      html += `<div class="search-result-group">${typeLabels[type]}</div>`;
-      const root = (window.location.pathname.includes('/chapters/') || window.location.pathname.includes('/papers/')) ? '../' : '';
-      html += items.map(item =>
-        `<div class="search-result-item" onclick="window.location='${root}${item.url}'">
-          <div class="sri-title">${escHtml((item.title||'').slice(0,90))}</div>
-          <div class="sri-meta">${escHtml((item.meta||'').slice(0,80))}</div>
+      out += `<div class="search-result-group">${typeLabels[type]}</div>`;
+      out += items.map(item =>
+        `<div class="search-result-item" onclick="window.location='${siteUrl(item.url)}'">
+          <div class="sri-title">${escHtml((item.title || '').slice(0, 90))}</div>
+          <div class="sri-meta">${escHtml((item.meta  || '').slice(0, 80))}</div>
         </div>`
       ).join('');
     }
-    resultsDiv.innerHTML = html;
+    resultsDiv.innerHTML = out;
   }
 
-  searchInput.addEventListener('input', () => {
-    const q = searchInput.value.trim();
-    if (!searchIndex && q) { loadIndex(); setTimeout(() => renderResults(q), 400); return; }
-    renderResults(q);
-  });
+  searchInput.addEventListener('input', () => renderResults(searchInput.value.trim()));
 
   document.addEventListener('click', e => {
     if (!searchBar?.contains(e.target) && !searchToggle?.contains(e.target)) {
       searchBar?.classList.add('hidden');
+      resultsDiv.innerHTML = '';
     }
   });
 })();

@@ -5,6 +5,7 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Conclusions — ML for REIMS</title>
   <link rel="stylesheet" href="../css/style.css">
+  <script src="../js/search-index.js"></script>
   <script>
     // Apply saved theme before render
     (function(){
@@ -41,10 +42,15 @@
       <a href="../papers.html">Papers</a>
       <a href="../glossary.html">Glossary</a>
       <a href="../figures.html">Figures</a>
-      <a href="../graph.html">Graph</a>
-      <a href="../authors.html">Authors</a>
-      <a href="../timeline.html">Timeline</a>
-      <a href="../methods.html">Methods</a>
+      <div class="nav-more">
+        <button class="nav-more-btn" id="nav-more-btn">More ▾</button>
+        <div class="nav-more-dropdown" id="nav-more-dropdown">
+          <a href="../graph.html">Citation Graph</a>
+          <a href="../authors.html">Authors</a>
+          <a href="../timeline.html">Timeline</a>
+          <a href="../methods.html">Methods</a>
+        </div>
+      </div>
     </div>
     <div class="nav-actions">
       <button id="search-toggle" class="icon-btn" aria-label="Search">🔍</button>
@@ -58,6 +64,7 @@
     <a href="../papers.html">All Papers</a>
     <a href="../glossary.html">Glossary</a>
     <a href="../figures.html">Figures</a>
+    <div class="mobile-menu-divider"></div>
     <a href="../graph.html">Citation Graph</a>
     <a href="../authors.html">Authors</a>
     <a href="../timeline.html">Timeline</a>
@@ -79,29 +86,29 @@
       </div>
       <nav class="toc"><h4>Contents</h4><ol class="toc-list">
   <li class="toc-l2"><a href="#achievement-of-research-objectives">Achievement of Research Objectives</a></li>
-  <li class="toc-l2"><a href="#summary-of-key-findings">Summary of Key Findings</a></li>
-  <li class="toc-l2"><a href="#limitations-of-the-research">Limitations of the Research</a></li>
-  <li class="toc-l2"><a href="#future-work">Future Work</a></li>
-  <li class="toc-l2"><a href="#final-remarks">Final Remarks</a></li>
   <li class="toc-l3"><a href="#1-foundational-capabilities-species-and-body-part-identifica">1. Foundational Capabilities: Species and Body Part Identification (Chapter 4)</a></li>
   <li class="toc-l3"><a href="#2-advanced-safety-and-fraud-detection-chapter-5">2. Advanced Safety and Fraud Detection (Chapter 5)</a></li>
   <li class="toc-l3"><a href="#3-novel-label-free-batch-traceability-chapter-6">3. Novel, Label-Free Batch Traceability (Chapter 6)</a></li>
+  <li class="toc-l2"><a href="#summary-of-key-findings">Summary of Key Findings</a></li>
   <li class="toc-l3"><a href="#on-foundational-classification-chapter-4">On Foundational Classification (Chapter 4)</a></li>
+  <li class="toc-l4"><a href="#deep-learning-supremacy">Deep Learning Supremacy</a></li>
+  <li class="toc-l4"><a href="#explainable-ai">Explainable AI</a></li>
+  <li class="toc-l4"><a href="#balanced-expert-utilization">Balanced Expert Utilization</a></li>
   <li class="toc-l3"><a href="#on-contamination-and-adulteration-chapter-5">On Contamination and Adulteration (Chapter 5)</a></li>
+  <li class="toc-l4"><a href="#pretraining-strategies">Pretraining Strategies</a></li>
+  <li class="toc-l4"><a href="#oil-contamination-detection-is-hard">Oil Contamination Detection is Hard</a></li>
+  <li class="toc-l4"><a href="#oil-contamination-consistently-benefits">Oil Contamination Consistently Benefits</a></li>
   <li class="toc-l3"><a href="#on-batch-traceability-chapter-6">On Batch Traceability (Chapter 6)</a></li>
+  <li class="toc-l4"><a href="#deep-learning-supremacy">Deep Learning Supremacy</a></li>
+  <li class="toc-l4"><a href="#contrastive-learning-outperforms-binary-classification">Contrastive Learning Outperforms Binary Classification</a></li>
+  <li class="toc-l2"><a href="#limitations-of-the-research">Limitations of the Research</a></li>
+  <li class="toc-l2"><a href="#future-work">Future Work</a></li>
   <li class="toc-l3"><a href="#ordinal-classification-for-oil-contamination">Ordinal Classification for Oil Contamination</a></li>
   <li class="toc-l3"><a href="#real-world-validation-and-deployment">Real-World Validation and Deployment</a></li>
   <li class="toc-l3"><a href="#online-learning-and-model-adaptation">Online Learning and Model Adaptation</a></li>
   <li class="toc-l3"><a href="#multi-modal-data-fusion">Multi-Modal Data Fusion</a></li>
   <li class="toc-l3"><a href="#advanced-model-architectures-and-hybrid-approaches">Advanced Model Architectures and Hybrid Approaches</a></li>
-  <li class="toc-l4"><a href="#deep-learning-supremacy">Deep Learning Supremacy</a></li>
-  <li class="toc-l4"><a href="#explainable-ai">Explainable AI</a></li>
-  <li class="toc-l4"><a href="#balanced-expert-utilization">Balanced Expert Utilization</a></li>
-  <li class="toc-l4"><a href="#pretraining-strategies">Pretraining Strategies</a></li>
-  <li class="toc-l4"><a href="#oil-contamination-detection-is-hard">Oil Contamination Detection is Hard</a></li>
-  <li class="toc-l4"><a href="#oil-contamination-consistently-benefits">Oil Contamination Consistently Benefits</a></li>
-  <li class="toc-l4"><a href="#deep-learning-supremacy">Deep Learning Supremacy</a></li>
-  <li class="toc-l4"><a href="#contrastive-learning-outperforms-binary-classification">Contrastive Learning Outperforms Binary Classification</a></li>
+  <li class="toc-l2"><a href="#final-remarks">Final Remarks</a></li>
 </ol></nav>
       <div class="chapter-nav">
         <a href="chapter-6.html" class="nav-btn">← Contrastive Learning for Batch Detection</a>

@@ -5,6 +5,7 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Contrastive Learning for Batch Detection — ML for REIMS</title>
   <link rel="stylesheet" href="../css/style.css">
+  <script src="../js/search-index.js"></script>
   <script>
     // Apply saved theme before render
     (function(){
@@ -41,10 +42,15 @@
       <a href="../papers.html">Papers</a>
       <a href="../glossary.html">Glossary</a>
       <a href="../figures.html">Figures</a>
-      <a href="../graph.html">Graph</a>
-      <a href="../authors.html">Authors</a>
-      <a href="../timeline.html">Timeline</a>
-      <a href="../methods.html">Methods</a>
+      <div class="nav-more">
+        <button class="nav-more-btn" id="nav-more-btn">More ▾</button>
+        <div class="nav-more-dropdown" id="nav-more-dropdown">
+          <a href="../graph.html">Citation Graph</a>
+          <a href="../authors.html">Authors</a>
+          <a href="../timeline.html">Timeline</a>
+          <a href="../methods.html">Methods</a>
+        </div>
+      </div>
     </div>
     <div class="nav-actions">
       <button id="search-toggle" class="icon-btn" aria-label="Search">🔍</button>
@@ -58,6 +64,7 @@
     <a href="../papers.html">All Papers</a>
     <a href="../glossary.html">Glossary</a>
     <a href="../figures.html">Figures</a>
+    <div class="mobile-menu-divider"></div>
     <a href="../graph.html">Citation Graph</a>
     <a href="../authors.html">Authors</a>
     <a href="../timeline.html">Timeline</a>
@@ -79,33 +86,33 @@
       </div>
       <nav class="toc"><h4>Contents</h4><ol class="toc-list">
   <li class="toc-l2"><a href="#chapter-overview">Chapter Overview</a></li>
-  <li class="toc-l2"><a href="#the-approach">The Approach</a></li>
-  <li class="toc-l2"><a href="#experimental-setup">Experimental Setup</a></li>
-  <li class="toc-l2"><a href="#results-and-analysis">Results and Analysis</a></li>
-  <li class="toc-l2"><a href="#chapter-summary">Chapter Summary</a></li>
   <li class="toc-l3"><a href="#contributions">Contributions</a></li>
+  <li class="toc-l2"><a href="#the-approach">The Approach</a></li>
   <li class="toc-l3"><a href="#approach-overview">Approach Overview</a></li>
   <li class="toc-l3"><a href="#data-augmentation">Data Augmentation</a></li>
-  <li class="toc-l3"><a href="#encoder">Encoder</a></li>
-  <li class="toc-l3"><a href="#projection-head">Projection Head</a></li>
-  <li class="toc-l3"><a href="#loss-function">Loss Function</a></li>
-  <li class="toc-l3"><a href="#threshold">Threshold</a></li>
-  <li class="toc-l3"><a href="#benchmark-methods">Benchmark Methods</a></li>
-  <li class="toc-l3"><a href="#benchmark-technique">Benchmark Technique</a></li>
-  <li class="toc-l3"><a href="#experimental-settings">Experimental Settings</a></li>
-  <li class="toc-l3"><a href="#parameter-settings">Parameter Settings</a></li>
-  <li class="toc-l3"><a href="#overall-results">Overall Results</a></li>
-  <li class="toc-l3"><a href="#visualization">Visualization</a></li>
-  <li class="toc-l3"><a href="#computational-cost">Computational Cost</a></li>
-  <li class="toc-l3"><a href="#other-contrastive-learning-methods">Other Contrastive Learning Methods</a></li>
-  <li class="toc-l3"><a href="#conclusions">Conclusions</a></li>
-  <li class="toc-l3"><a href="#future-work">Future Work</a></li>
   <li class="toc-l4"><a href="#jitter-noise">Jitter (Noise)</a></li>
   <li class="toc-l4"><a href="#shift">Shift</a></li>
   <li class="toc-l4"><a href="#scale">Scale</a></li>
   <li class="toc-l4"><a href="#crop-and-pad">Crop and Pad</a></li>
   <li class="toc-l4"><a href="#flip">Flip</a></li>
   <li class="toc-l4"><a href="#permutation">Permutation</a></li>
+  <li class="toc-l3"><a href="#encoder">Encoder</a></li>
+  <li class="toc-l3"><a href="#projection-head">Projection Head</a></li>
+  <li class="toc-l3"><a href="#loss-function">Loss Function</a></li>
+  <li class="toc-l3"><a href="#threshold">Threshold</a></li>
+  <li class="toc-l2"><a href="#experimental-setup">Experimental Setup</a></li>
+  <li class="toc-l3"><a href="#benchmark-methods">Benchmark Methods</a></li>
+  <li class="toc-l3"><a href="#benchmark-technique">Benchmark Technique</a></li>
+  <li class="toc-l3"><a href="#experimental-settings">Experimental Settings</a></li>
+  <li class="toc-l3"><a href="#parameter-settings">Parameter Settings</a></li>
+  <li class="toc-l2"><a href="#results-and-analysis">Results and Analysis</a></li>
+  <li class="toc-l3"><a href="#overall-results">Overall Results</a></li>
+  <li class="toc-l3"><a href="#visualization">Visualization</a></li>
+  <li class="toc-l3"><a href="#computational-cost">Computational Cost</a></li>
+  <li class="toc-l3"><a href="#other-contrastive-learning-methods">Other Contrastive Learning Methods</a></li>
+  <li class="toc-l2"><a href="#chapter-summary">Chapter Summary</a></li>
+  <li class="toc-l3"><a href="#conclusions">Conclusions</a></li>
+  <li class="toc-l3"><a href="#future-work">Future Work</a></li>
 </ol></nav>
       <div class="chapter-nav">
         <a href="chapter-5.html" class="nav-btn">← Oil Contamination and Cross-Species Adulteration</a>

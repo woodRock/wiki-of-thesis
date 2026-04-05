@@ -5,6 +5,7 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>SOKNL: A novel way of integrating K-nearest neighbours with … — ML for REIMS</title>
   <link rel="stylesheet" href="../css/style.css">
+  <script src="../js/search-index.js"></script>
   <script>
     // Apply saved theme before render
     (function(){
@@ -28,10 +29,15 @@
       <a href="../papers.html">Papers</a>
       <a href="../glossary.html">Glossary</a>
       <a href="../figures.html">Figures</a>
-      <a href="../graph.html">Graph</a>
-      <a href="../authors.html">Authors</a>
-      <a href="../timeline.html">Timeline</a>
-      <a href="../methods.html">Methods</a>
+      <div class="nav-more">
+        <button class="nav-more-btn" id="nav-more-btn">More ▾</button>
+        <div class="nav-more-dropdown" id="nav-more-dropdown">
+          <a href="../graph.html">Citation Graph</a>
+          <a href="../authors.html">Authors</a>
+          <a href="../timeline.html">Timeline</a>
+          <a href="../methods.html">Methods</a>
+        </div>
+      </div>
     </div>
     <div class="nav-actions">
       <button id="search-toggle" class="icon-btn" aria-label="Search">🔍</button>
@@ -45,6 +51,7 @@
     <a href="../papers.html">All Papers</a>
     <a href="../glossary.html">Glossary</a>
     <a href="../figures.html">Figures</a>
+    <div class="mobile-menu-divider"></div>
     <a href="../graph.html">Citation Graph</a>
     <a href="../authors.html">Authors</a>
     <a href="../timeline.html">Timeline</a>

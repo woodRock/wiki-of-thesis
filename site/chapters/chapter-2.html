@@ -5,6 +5,7 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Literature Survey — ML for REIMS</title>
   <link rel="stylesheet" href="../css/style.css">
+  <script src="../js/search-index.js"></script>
   <script>
     // Apply saved theme before render
     (function(){
@@ -41,10 +42,15 @@
       <a href="../papers.html">Papers</a>
       <a href="../glossary.html">Glossary</a>
       <a href="../figures.html">Figures</a>
-      <a href="../graph.html">Graph</a>
-      <a href="../authors.html">Authors</a>
-      <a href="../timeline.html">Timeline</a>
-      <a href="../methods.html">Methods</a>
+      <div class="nav-more">
+        <button class="nav-more-btn" id="nav-more-btn">More ▾</button>
+        <div class="nav-more-dropdown" id="nav-more-dropdown">
+          <a href="../graph.html">Citation Graph</a>
+          <a href="../authors.html">Authors</a>
+          <a href="../timeline.html">Timeline</a>
+          <a href="../methods.html">Methods</a>
+        </div>
+      </div>
     </div>
     <div class="nav-actions">
       <button id="search-toggle" class="icon-btn" aria-label="Search">🔍</button>
@@ -58,6 +64,7 @@
     <a href="../papers.html">All Papers</a>
     <a href="../glossary.html">Glossary</a>
     <a href="../figures.html">Figures</a>
+    <div class="mobile-menu-divider"></div>
     <a href="../graph.html">Citation Graph</a>
     <a href="../authors.html">Authors</a>
     <a href="../timeline.html">Timeline</a>
@@ -79,29 +86,29 @@
       </div>
       <nav class="toc"><h4>Contents</h4><ol class="toc-list">
   <li class="toc-l2"><a href="#the-challenges-of-seafood-integrity-fish-processing-fraud-an">The Challenges of Seafood Integrity: Fish Processing, Fraud, and Contamination</a></li>
-  <li class="toc-l2"><a href="#analytical-techniques-for-seafood-authentication">Analytical Techniques for Seafood Authentication</a></li>
-  <li class="toc-l2"><a href="#literature-review-the-state-of-reims-data-analysis">Literature Review: The State of REIMS Data Analysis</a></li>
-  <li class="toc-l2"><a href="#advanced-deep-learning-architectures-for-reims-analysis">Advanced Deep Learning Architectures for REIMS Analysis</a></li>
-  <li class="toc-l2"><a href="#explainable-ai-for-model-trust-and-interpretability">Explainable AI for Model Trust and Interpretability</a></li>
-  <li class="toc-l2"><a href="#summary">Summary</a></li>
   <li class="toc-l3"><a href="#mislabeling">Mislabeling</a></li>
   <li class="toc-l3"><a href="#adulteration">Adulteration</a></li>
   <li class="toc-l3"><a href="#contamination">Contamination</a></li>
   <li class="toc-l3"><a href="#batch-detection">Batch Detection</a></li>
+  <li class="toc-l2"><a href="#analytical-techniques-for-seafood-authentication">Analytical Techniques for Seafood Authentication</a></li>
   <li class="toc-l3"><a href="#traditional-methods">Traditional Methods</a></li>
   <li class="toc-l3"><a href="#rapid-evaporative-ionization-mass-spectrometry-reims">Rapid Evaporative Ionization Mass Spectrometry (REIMS)</a></li>
+  <li class="toc-l2"><a href="#literature-review-the-state-of-reims-data-analysis">Literature Review: The State of REIMS Data Analysis</a></li>
   <li class="toc-l3"><a href="#foundational-studies-establishing-reims-for-in-situ-tissue-a">Foundational Studies: Establishing REIMS for In-Situ Tissue Analysis</a></li>
   <li class="toc-l3"><a href="#advancements-in-food-science-from-chemometrics-to-machine-le">Advancements in Food Science: From Chemometrics to Machine Learning</a></li>
   <li class="toc-l3"><a href="#connecting-to-the-contributions-of-this-thesis">Connecting to the Contributions of This Thesis</a></li>
+  <li class="toc-l2"><a href="#advanced-deep-learning-architectures-for-reims-analysis">Advanced Deep Learning Architectures for REIMS Analysis</a></li>
   <li class="toc-l3"><a href="#deep-learning">Deep Learning</a></li>
   <li class="toc-l3"><a href="#stacking-ensembles">Stacking Ensembles</a></li>
   <li class="toc-l3"><a href="#transformers">Transformers</a></li>
+  <li class="toc-l4"><a href="#self-attention">Self-Attention</a></li>
+  <li class="toc-l4"><a href="#multi-head-attention">Multi-head Attention</a></li>
   <li class="toc-l3"><a href="#mixture-of-experts-moe">Mixture of Experts (MoE)</a></li>
   <li class="toc-l3"><a href="#pretrained-transformers">Pretrained Transformers</a></li>
   <li class="toc-l3"><a href="#transfer-learning">Transfer Learning</a></li>
   <li class="toc-l3"><a href="#contrastive-learning">Contrastive Learning</a></li>
-  <li class="toc-l4"><a href="#self-attention">Self-Attention</a></li>
-  <li class="toc-l4"><a href="#multi-head-attention">Multi-head Attention</a></li>
+  <li class="toc-l2"><a href="#explainable-ai-for-model-trust-and-interpretability">Explainable AI for Model Trust and Interpretability</a></li>
+  <li class="toc-l2"><a href="#summary">Summary</a></li>
 </ol></nav>
       <div class="chapter-nav">
         <a href="chapter-1.html" class="nav-btn">← Introduction</a>

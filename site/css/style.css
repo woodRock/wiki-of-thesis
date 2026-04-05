@@ -99,6 +99,44 @@ a:hover { text-decoration: underline; color: var(--accent-hover); }
 }
 .nav-links a:hover { background: rgba(255,255,255,0.1); color: #fff; text-decoration: none; }
 
+/* More dropdown */
+.nav-more { position: relative; }
+.nav-more-btn {
+  background: none;
+  border: none;
+  color: rgba(255,255,255,0.8);
+  cursor: pointer;
+  padding: 0.4rem 0.75rem;
+  border-radius: 4px;
+  font-size: 0.9rem;
+  transition: background 0.15s, color 0.15s;
+}
+.nav-more-btn:hover { background: rgba(255,255,255,0.1); color: #fff; }
+.nav-more-dropdown {
+  display: none;
+  position: absolute;
+  top: calc(100% + 4px);
+  left: 0;
+  background: var(--nav-bg);
+  border: 1px solid rgba(255,255,255,0.12);
+  border-radius: var(--radius);
+  box-shadow: var(--shadow-md);
+  min-width: 160px;
+  z-index: 200;
+  padding: 0.35rem 0;
+}
+.nav-more-dropdown.open { display: block; }
+.nav-more-dropdown a {
+  display: block;
+  padding: 0.45rem 1rem;
+  color: rgba(255,255,255,0.85);
+  font-size: 0.88rem;
+  text-decoration: none;
+  transition: background 0.12s;
+}
+.nav-more-dropdown a:hover { background: rgba(255,255,255,0.08); color: #fff; text-decoration: none; }
+.mobile-menu-divider { height: 1px; background: rgba(255,255,255,0.1); margin: 0.35rem 0; }
+
 .nav-actions { display: flex; gap: 0.25rem; margin-left: auto; }
 .icon-btn {
   background: none;

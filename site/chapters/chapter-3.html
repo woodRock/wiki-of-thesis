@@ -5,6 +5,7 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Datasets and Processing — ML for REIMS</title>
   <link rel="stylesheet" href="../css/style.css">
+  <script src="../js/search-index.js"></script>
   <script>
     // Apply saved theme before render
     (function(){
@@ -41,10 +42,15 @@
       <a href="../papers.html">Papers</a>
       <a href="../glossary.html">Glossary</a>
       <a href="../figures.html">Figures</a>
-      <a href="../graph.html">Graph</a>
-      <a href="../authors.html">Authors</a>
-      <a href="../timeline.html">Timeline</a>
-      <a href="../methods.html">Methods</a>
+      <div class="nav-more">
+        <button class="nav-more-btn" id="nav-more-btn">More ▾</button>
+        <div class="nav-more-dropdown" id="nav-more-dropdown">
+          <a href="../graph.html">Citation Graph</a>
+          <a href="../authors.html">Authors</a>
+          <a href="../timeline.html">Timeline</a>
+          <a href="../methods.html">Methods</a>
+        </div>
+      </div>
     </div>
     <div class="nav-actions">
       <button id="search-toggle" class="icon-btn" aria-label="Search">🔍</button>
@@ -58,6 +64,7 @@
     <a href="../papers.html">All Papers</a>
     <a href="../glossary.html">Glossary</a>
     <a href="../figures.html">Figures</a>
+    <div class="mobile-menu-divider"></div>
     <a href="../graph.html">Citation Graph</a>
     <a href="../authors.html">Authors</a>
     <a href="../timeline.html">Timeline</a>
@@ -80,14 +87,14 @@
       <nav class="toc"><h4>Contents</h4><ol class="toc-list">
   <li class="toc-l2"><a href="#data-source-and-acquisition">Data Source and Acquisition</a></li>
   <li class="toc-l2"><a href="#data-curation-and-preprocessing">Data Curation and Preprocessing</a></li>
-  <li class="toc-l2"><a href="#task-specific-datasets">Task-Specific Datasets</a></li>
-  <li class="toc-l2"><a href="#summary">Summary</a></li>
   <li class="toc-l3"><a href="#normalization">Normalization</a></li>
+  <li class="toc-l2"><a href="#task-specific-datasets">Task-Specific Datasets</a></li>
   <li class="toc-l3"><a href="#species-identification">Species Identification</a></li>
   <li class="toc-l3"><a href="#body-part-identification">Body Part Identification</a></li>
   <li class="toc-l3"><a href="#oil-contamination-detection">Oil Contamination Detection</a></li>
   <li class="toc-l3"><a href="#cross-species-adulteration-detection">Cross-species Adulteration Detection</a></li>
   <li class="toc-l3"><a href="#batch-detection">Batch Detection</a></li>
+  <li class="toc-l2"><a href="#summary">Summary</a></li>
 </ol></nav>
       <div class="chapter-nav">
         <a href="chapter-2.html" class="nav-btn">← Literature Survey</a>

@@ -36,6 +36,17 @@ if (menuBtn && mobileMenu) {
   });
 }
 
+// "More" dropdown
+const moreBtn = document.getElementById('nav-more-btn');
+const moreDropdown = document.getElementById('nav-more-dropdown');
+if (moreBtn && moreDropdown) {
+  moreBtn.addEventListener('click', e => {
+    e.stopPropagation();
+    moreDropdown.classList.toggle('open');
+  });
+  document.addEventListener('click', () => moreDropdown.classList.remove('open'));
+}
+
 // Search toggle
 const searchToggle = document.getElementById('search-toggle');
 const searchBar = document.getElementById('search-bar');
@@ -79,46 +90,32 @@ if (filterInput && papersGrid) {
   });
 }
 
-// Global search — lazy-loaded from search-index.json
+// Global search — uses window.SEARCH_INDEX set by search-index.js (works on file:// and http://)
 (function() {
-  let searchIndex = null;
-  let searchLoading = false;
-
   const resultsDiv = document.getElementById('search-results');
   if (!searchInput || !resultsDiv) return;
 
-  function getIndexUrl() {
+  // Resolve a site-root-relative URL to an absolute path for the current page location
+  function siteUrl(relUrl) {
     const p = window.location.pathname;
-    if (p.includes('/chapters/') || p.includes('/papers/')) {
-      return '../search-index.json';
-    }
-    return 'search-index.json';
+    const inSub = p.includes('/chapters/') || p.includes('/papers/');
+    if (inSub) return '../' + relUrl;
+    // Handle file:// — build relative to the directory of index.html
+    return relUrl;
   }
-
-  function loadIndex() {
-    if (searchIndex || searchLoading) return;
-    searchLoading = true;
-    fetch(getIndexUrl())
-      .then(r => r.json())
-      .then(data => { searchIndex = data; })
-      .catch(() => { searchIndex = []; });
-  }
-
-  // Start loading when search opens
-  searchToggle && searchToggle.addEventListener('click', loadIndex);
 
   function renderResults(q) {
-    if (!resultsDiv) return;
     if (!q) { resultsDiv.innerHTML = ''; return; }
-    if (!searchIndex) {
-      resultsDiv.innerHTML = '<div class="search-result-item"><div class="sri-meta">Loading…</div></div>';
+    const index = window.SEARCH_INDEX;
+    if (!index) {
+      resultsDiv.innerHTML = '<div class="search-result-item"><div class="sri-meta">Search index unavailable.</div></div>';
       return;
     }
     const ql = q.toLowerCase();
-    const matches = searchIndex.filter(item =>
+    const matches = index.filter(item =>
       (item.title || '').toLowerCase().includes(ql) ||
-      (item.text || '').toLowerCase().includes(ql) ||
-      (item.meta || '').toLowerCase().includes(ql)
+      (item.text  || '').toLowerCase().includes(ql) ||
+      (item.meta  || '').toLowerCase().includes(ql)
     );
 
     if (!matches.length) {
@@ -126,38 +123,34 @@ if (filterInput && papersGrid) {
       return;
     }
 
-    // Group by type
-    const groups = { paper: [], chapter: [], glossary: [] };
-    matches.forEach(item => {
-      const g = groups[item.type] || groups.paper;
-      if (g.length < 4) g.push(item);
-    });
+    // Group by type, up to 4 per group
+    const groups = { chapter: [], paper: [], glossary: [] };
+    for (const item of matches) {
+      const g = groups[item.type];
+      if (g && g.length < 4) g.push(item);
+    }
 
-    const typeLabels = { paper: 'Papers', chapter: 'Chapters', glossary: 'Glossary' };
-    let html = '';
+    const typeLabels = { chapter: 'Chapters', paper: 'Papers', glossary: 'Glossary' };
+    let out = '';
     for (const [type, items] of Object.entries(groups)) {
       if (!items.length) continue;
-      html += `<div class="search-result-group">${typeLabels[type]}</div>`;
-      const root = (window.location.pathname.includes('/chapters/') || window.location.pathname.includes('/papers/')) ? '../' : '';
-      html += items.map(item =>
-        `<div class="search-result-item" onclick="window.location='${root}${item.url}'">
-          <div class="sri-title">${escHtml((item.title||'').slice(0,90))}</div>
-          <div class="sri-meta">${escHtml((item.meta||'').slice(0,80))}</div>
+      out += `<div class="search-result-group">${typeLabels[type]}</div>`;
+      out += items.map(item =>
+        `<div class="search-result-item" onclick="window.location='${siteUrl(item.url)}'">
+          <div class="sri-title">${escHtml((item.title || '').slice(0, 90))}</div>
+          <div class="sri-meta">${escHtml((item.meta  || '').slice(0, 80))}</div>
         </div>`
       ).join('');
     }
-    resultsDiv.innerHTML = html;
+    resultsDiv.innerHTML = out;
   }
 
-  searchInput.addEventListener('input', () => {
-    const q = searchInput.value.trim();
-    if (!searchIndex && q) { loadIndex(); setTimeout(() => renderResults(q), 400); return; }
-    renderResults(q);
-  });
+  searchInput.addEventListener('input', () => renderResults(searchInput.value.trim()));
 
   document.addEventListener('click', e => {
     if (!searchBar?.contains(e.target) && !searchToggle?.contains(e.target)) {
       searchBar?.classList.add('hidden');
+      resultsDiv.innerHTML = '';
     }
   });
 })();

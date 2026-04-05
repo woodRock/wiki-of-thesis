@@ -5,6 +5,7 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Fish Species and Part Identification — ML for REIMS</title>
   <link rel="stylesheet" href="../css/style.css">
+  <script src="../js/search-index.js"></script>
   <script>
     // Apply saved theme before render
     (function(){
@@ -41,10 +42,15 @@
       <a href="../papers.html">Papers</a>
       <a href="../glossary.html">Glossary</a>
       <a href="../figures.html">Figures</a>
-      <a href="../graph.html">Graph</a>
-      <a href="../authors.html">Authors</a>
-      <a href="../timeline.html">Timeline</a>
-      <a href="../methods.html">Methods</a>
+      <div class="nav-more">
+        <button class="nav-more-btn" id="nav-more-btn">More ▾</button>
+        <div class="nav-more-dropdown" id="nav-more-dropdown">
+          <a href="../graph.html">Citation Graph</a>
+          <a href="../authors.html">Authors</a>
+          <a href="../timeline.html">Timeline</a>
+          <a href="../methods.html">Methods</a>
+        </div>
+      </div>
     </div>
     <div class="nav-actions">
       <button id="search-toggle" class="icon-btn" aria-label="Search">🔍</button>
@@ -58,6 +64,7 @@
     <a href="../papers.html">All Papers</a>
     <a href="../glossary.html">Glossary</a>
     <a href="../figures.html">Figures</a>
+    <div class="mobile-menu-divider"></div>
     <a href="../graph.html">Citation Graph</a>
     <a href="../authors.html">Authors</a>
     <a href="../timeline.html">Timeline</a>
@@ -79,33 +86,33 @@
       </div>
       <nav class="toc"><h4>Contents</h4><ol class="toc-list">
   <li class="toc-l2"><a href="#chapter-overview">Chapter Overview</a></li>
-  <li class="toc-l2"><a href="#transformer-based-models-for-mass-spectrometry-analysis">Transformer-Based Models for Mass Spectrometry Analysis</a></li>
-  <li class="toc-l2"><a href="#experimental-setup">Experimental Setup</a></li>
-  <li class="toc-l2"><a href="#results-and-analysis">Results and Analysis</a></li>
-  <li class="toc-l2"><a href="#chapter-summary">Chapter Summary</a></li>
   <li class="toc-l3"><a href="#contributions">Contributions</a></li>
+  <li class="toc-l2"><a href="#transformer-based-models-for-mass-spectrometry-analysis">Transformer-Based Models for Mass Spectrometry Analysis</a></li>
   <li class="toc-l3"><a href="#core-transformer-architecture">Core Transformer Architecture</a></li>
   <li class="toc-l3"><a href="#mixture-of-experts-moe-transformer-enhancement">Mixture of Experts (MoE) Transformer Enhancement</a></li>
   <li class="toc-l3"><a href="#ensemble-transformer">Ensemble Transformer</a></li>
+  <li class="toc-l2"><a href="#experimental-setup">Experimental Setup</a></li>
   <li class="toc-l3"><a href="#benchmark-methods">Benchmark Methods</a></li>
   <li class="toc-l3"><a href="#benchmark-techniques">Benchmark Techniques</a></li>
   <li class="toc-l3"><a href="#experimental-settings">Experimental Settings</a></li>
   <li class="toc-l3"><a href="#parameter-settings">Parameter Settings</a></li>
+  <li class="toc-l2"><a href="#results-and-analysis">Results and Analysis</a></li>
   <li class="toc-l3"><a href="#overall-performance">Overall Performance</a></li>
-  <li class="toc-l3"><a href="#visualization">Visualization</a></li>
-  <li class="toc-l3"><a href="#computational-cost">Computational Cost</a></li>
-  <li class="toc-l3"><a href="#ablation-of-moe-transformer">Ablation of MoE Transformer</a></li>
-  <li class="toc-l3"><a href="#conclusions">Conclusions</a></li>
-  <li class="toc-l3"><a href="#future-work">Future Work</a></li>
   <li class="toc-l4"><a href="#fish-species-classification">Fish Species Classification</a></li>
   <li class="toc-l4"><a href="#fish-body-part-classification">Fish Body Part Classification</a></li>
   <li class="toc-l4"><a href="#summary">Summary:</a></li>
+  <li class="toc-l3"><a href="#visualization">Visualization</a></li>
   <li class="toc-l4"><a href="#fish-species-classification">Fish Species Classification</a></li>
   <li class="toc-l4"><a href="#fish-body-part">Fish Body Part</a></li>
   <li class="toc-l4"><a href="#top-10-features">Top 10 Features</a></li>
+  <li class="toc-l3"><a href="#computational-cost">Computational Cost</a></li>
+  <li class="toc-l3"><a href="#ablation-of-moe-transformer">Ablation of MoE Transformer</a></li>
   <li class="toc-l4"><a href="#majority-voting-versus-top-k-routing">Majority Voting versus Top-k Routing:</a></li>
   <li class="toc-l4"><a href="#expert-count-analysis">Expert Count Analysis:</a></li>
   <li class="toc-l4"><a href="#top-k-routing">Top-k Routing:</a></li>
+  <li class="toc-l2"><a href="#chapter-summary">Chapter Summary</a></li>
+  <li class="toc-l3"><a href="#conclusions">Conclusions</a></li>
+  <li class="toc-l3"><a href="#future-work">Future Work</a></li>
 </ol></nav>
       <div class="chapter-nav">
         <a href="chapter-3.html" class="nav-btn">← Datasets and Processing</a>
