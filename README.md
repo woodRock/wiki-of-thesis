@@ -16,7 +16,7 @@
 >
 > — [@karpathy](https://x.com/karpathy/status/2039805659525644595?s=20), Apr 3, 2026
 
-A Wikipedia-style static site generated from Jesse Wood's PhD thesis: **"Machine Learning for Rapid Evaporative Ionization Mass Spectrometry for Marine Biomass Analysis"** (University of Waikato, 2025).
+A Wikipedia-style static site generated from Jesse Wood's PhD thesis: **"Machine Learning for Rapid Evaporative Ionization Mass Spectrometry for Marine Biomass Analysis"** (Victoria University of Wellington, 2025).
 
 Every chapter, paper, figure, author, method, and glossary term from the thesis is cross-linked, hover-annotated, and browsable — like a personal Wikipedia for a PhD.
 
