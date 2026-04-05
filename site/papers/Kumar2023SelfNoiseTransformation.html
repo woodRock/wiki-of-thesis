@@ -1,0 +1,99 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Self-Noise Cancellation in Underwater Acoustics Using Deep N… — ML for REIMS</title>
+  <link rel="stylesheet" href="../css/style.css">
+  <script>
+    // Apply saved theme before render
+    (function(){
+      const t = localStorage.getItem('theme');
+      if(t === 'dark') document.documentElement.classList.add('dark');
+    })();
+  </script>
+  
+</head>
+<body>
+<nav class="site-nav">
+  <div class="nav-inner">
+    <a href="../index.html" class="nav-brand">
+      <img src="../assets/university-logo.png" alt="University Logo" class="nav-logo" onerror="this.style.display='none'">
+      <span class="nav-title">ML for REIMS</span>
+    </a>
+    <div class="nav-links">
+      <a href="../index.html">Home</a>
+      <a href="../chapters/chapter-1.html">Chapters</a>
+      <a href="../papers.html">Papers</a>
+    </div>
+    <div class="nav-actions">
+      <button id="search-toggle" class="icon-btn" aria-label="Search">🔍</button>
+      <button id="theme-toggle" class="icon-btn" aria-label="Toggle theme">🌙</button>
+      <button id="menu-toggle" class="icon-btn" aria-label="Menu">☰</button>
+    </div>
+  </div>
+  <div id="mobile-menu" class="mobile-menu hidden">
+    <a href="../index.html">Home</a>
+    <a href="../chapters/chapter-1.html">Chapters</a>
+    <a href="../papers.html">All Papers</a>
+  </div>
+  <div id="search-bar" class="search-bar hidden">
+    <input type="text" id="search-input" placeholder="Search papers, concepts, authors…" autocomplete="off">
+    <div id="search-results" class="search-results"></div>
+  </div>
+</nav>
+<div id="page-wrapper">
+
+<div class="paper-layout">
+  <main class="paper-main">
+    <div class="breadcrumb"><a href="../index.html">Home</a> / <a href="../papers.html">Papers</a> / Kumar2023SelfNoiseTransformation</div>
+
+    <article class="paper-article">
+      <header class="paper-header">
+        <h1 class="paper-title">Self-Noise Cancellation in Underwater Acoustics Using Deep Neural Network-Based Eigencomponent Transformation</h1>
+        <p class="paper-authors">Pawan Kumar, Karan Nathwani</p>
+        <div class="paper-meta">
+          <span class="paper-year">2023</span>
+          <span class="paper-venue">IEEE Sensors Letters</span>
+          <span class="cite-count">Cited 7 times</span>
+        </div>
+        <div class="paper-links"><a href="https://doi.org/10.1109/LSENS.2023.3326458" target="_blank" class="ext-link">DOI ↗</a></div>
+      </header>
+
+      <div class="abstract-block"><h3>Abstract</h3><p>This letter presents novel methodologies employing deep neural networks to address the problem of self-noise cancellation in passive SONAR systems. In this method, an autoencoder enables a transformation on the diagonal matrix to remove the orthogonal vectors that correspond to self-noise. The method centers on an eigencomponent transformation (ET) approach, creating a mapping between a diagonal matrix containing noisy data and an updated diagonal matrix obtained from the original target data. The ET approach converges faster compared to a direct approach, which maps noisy data to clean data. To cater to the difficulty of obtaining the original target data in real-world scenarios, we have also proposed a semisupervised version of this ET approach. In this technique, the diagonal matrix of the estimated target signal is computed using singular value decomposition (SVD). Our research makes predictions under two distinct conditions: matched and mismatched. In the matched conditions, both the training and test data exhibit similar ambient noise characteristics. In contrast, the mismatched conditions refer to instances where the ambient noise characteristics of the training and test data differ. Experimental results are portrayed in the form of a beampattern plot, waterfall display, and output signal-to-interference-noise ratio (SINR) versus input SINR.</p></div>
+
+      
+
+      <details class="bibtex-block">
+        <summary>BibTeX</summary>
+        <pre><code>@article{Kumar2023SelfNoiseTransformation,
+  author = {Kumar, Pawan and Nathwani, Karan},
+  journal = {IEEE Sensors Letters},
+  title = {Self-Noise Cancellation in Underwater Acoustics Using Deep Neural Network-Based Eigencomponent Transformation},
+  year = {2023},
+  volume = {7},
+  number = {11},
+  pages = {1-4},
+  abstract = {This letter presents novel methodologies employing deep neural networks to address the problem of self-noise cancellation in passive SONAR systems. In this method, an autoencoder enables a transformation on the diagonal matrix to remove the orthogonal vectors that correspond to self-noise. The method centers on an eigencomponent transformation (ET) approach, creating a mapping between a diagonal matrix containing noisy data and an updated diagonal matrix obtained from the original target data. The ET approach converges faster compared to a direct approach, which maps noisy data to clean data. To cater to the difficulty of obtaining the original target data in real-world scenarios, we have also proposed a semisupervised version of this ET approach. In this technique, the diagonal matrix of the estimated target signal is computed using singular value decomposition (SVD). Our research makes predictions under two distinct conditions: matched and mismatched. In the matched conditions, both the training and test data exhibit similar ambient noise characteristics. In contrast, the mismatched conditions refer to instances where the ambient noise characteristics of the training and test data differ. Experimental results are portrayed in the form of a beampattern plot, waterfall display, and output signal-to-interference-noise ratio (SINR) versus input SINR.},
+  keywords = {Matrix decomposition;Noise measurement;Interference;Signal to noise ratio;Training;Sensors;Decoding;Sensor signal processing;deep learning;eigenvector;self-noise cancellation;underwater acoustics},
+  doi = {10.1109/LSENS.2023.3326458},
+  issn = {2475-1472},
+  month = {Nov},
+}</code></pre>
+      </details>
+    </article>
+  </main>
+</div>
+
+</div>
+<footer class="site-footer">
+  <div class="footer-inner">
+    <p>
+      <strong>Jesse Wood</strong> · PhD Thesis · Victoria University of Wellington · 2025
+    </p>
+    <p class="footer-sub">Machine Learning for Rapid Evaporative Ionization Mass Spectrometry for Marine Biomass Analysis</p>
+  </div>
+</footer>
+<script src="../js/main.js"></script>
+</body>
+</html>

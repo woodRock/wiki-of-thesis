@@ -83,6 +83,10 @@ def parse_bibtex(filepath: Path) -> Dict[str, Dict]:
     with open(filepath, 'r', encoding='utf-8', errors='replace') as f:
         content = f.read()
 
+    # Normalize entries where the closing } is on the same line as the last field
+    # e.g. "  month={Oct},}" → "  month={Oct},\n}"
+    content = re.sub(r'\},\}(\s*\n)', r'},\n}\1', content)
+
     entries = {}
     # Match @Type{key, fields...}
     for m in re.finditer(r'@(\w+)\s*\{\s*([^,\s]+)\s*,\s*(.*?)\n\}', content, re.DOTALL):
@@ -180,10 +184,10 @@ def convert_pdf_to_png(pdf_path: Path, out_path: Path, resolution: int = 200) ->
             if r.returncode == 0 and out_path.exists():
                 return True
 
-        # sips (macOS fallback)
+        # sips (macOS fallback) — use -Z 2000 to ensure high-res output
         if platform.system() == 'Darwin' and _has_tool('sips'):
             r = subprocess.run(
-                ['sips', '-s', 'format', 'png', str(cropped_pdf), '--out', str(out_path)],
+                ['sips', '-s', 'format', 'png', '-Z', '2000', str(cropped_pdf), '--out', str(out_path)],
                 capture_output=True, timeout=30
             )
             if r.returncode == 0 and out_path.exists():
@@ -249,8 +253,8 @@ def fetch_semantic_scholar(bib_entries: Dict[str, Dict]) -> Dict[str, dict]:
     headers = {"x-api-key": SS_API_KEY}
     results = {}
 
-    # Separate entries: those with DOI (batch lookup) vs those with only title (search)
-    doi_entries = {}     # {key: doi}
+    # Separate entries: those with DOI/CorpusID (batch lookup) vs those with only title (search)
+    doi_entries = {}     # {key: id_string}  e.g. "DOI:10.x/y" or "CorpusID:12345"
     title_entries = {}   # {key: title}
 
     for key, entry in bib_entries.items():
@@ -258,16 +262,21 @@ def fetch_semantic_scholar(bib_entries: Dict[str, Dict]) -> Dict[str, dict]:
             results[key] = cache[key]
             continue
         doi = entry.get('doi', '').strip()
+        url = entry.get('url', '').strip()
+        # Extract Semantic Scholar CorpusID from url field if present
+        corpus_m = re.search(r'semanticscholar\.org/CorpusID:(\d+)', url)
         if doi:
-            doi_entries[key] = doi
+            doi_entries[key] = f"DOI:{doi}"
+        elif corpus_m:
+            doi_entries[key] = f"CorpusID:{corpus_m.group(1)}"
         elif entry.get('title'):
             title_entries[key] = entry['title']
 
     # --- Batch DOI lookup ---
     if doi_entries:
-        print(f"  Fetching {len(doi_entries)} papers by DOI (batch)...")
+        print(f"  Fetching {len(doi_entries)} papers by DOI/CorpusID (batch)...")
         keys = list(doi_entries.keys())
-        ids = [f"DOI:{doi_entries[k]}" for k in keys]
+        ids = [doi_entries[k] for k in keys]  # already prefixed with DOI: or CorpusID:
         # Process in chunks of 100
         for i in range(0, len(ids), 100):
             chunk_keys = keys[i:i+100]
@@ -400,14 +409,26 @@ class LatexConverter:
         # Itemize
         t = re.sub(r'\\begin\{itemize\}(.*?)\\end\{itemize\}',
                    self._itemize, t, flags=re.DOTALL)
-        # Display math
+        # Display math — process \begin{equation} and \begin{align} first,
+        # then protect those results before running the bare \[...\] pattern
+        # to avoid double-wrapping.
         t = re.sub(r'\\begin\{equation\*?\}(.*?)\\end\{equation\*?\}',
                    r'<div class="math-display">\\[\1\\]</div>', t, flags=re.DOTALL)
         t = re.sub(r'\\begin\{align\*?\}(.*?)\\end\{align\*?\}',
                    lambda m: f'<div class="math-display">\\[\\begin{{aligned}}{m.group(1)}\\end{{aligned}}\\]</div>',
                    t, flags=re.DOTALL)
+        # Protect already-wrapped display math before matching bare \[...\]
+        _dm_store: Dict[str, str] = {}
+        def _dm_protect(m):
+            k = f'\x00DMATH{len(_dm_store)}\x00'
+            _dm_store[k] = m.group(0)
+            return k
+        t = re.sub(r'<div class="math-display">.*?</div>', _dm_protect, t, flags=re.DOTALL)
         t = re.sub(r'\\\[(.*?)\\\]',
                    r'<div class="math-display">\\[\1\\]</div>', t, flags=re.DOTALL)
+        # Restore protected blocks
+        for k, v in _dm_store.items():
+            t = t.replace(k, v)
         # Quoting/quote
         t = re.sub(r'\\begin\{(?:quoting|quote)\}(.*?)\\end\{(?:quoting|quote)\}',
                    r'<blockquote>\1</blockquote>', t, flags=re.DOTALL)
@@ -469,9 +490,16 @@ class LatexConverter:
         content_clean = re.sub(r'\\(?:small|footnotesize|large|Large|centering|raggedright|raggedleft)\b\s*', '', content_clean)
 
         # Column spec may contain @{} so use one-level nested brace matching
+        # Also support tabularx and tabulary (second arg is width, third is col spec)
+        # For tabularx: \begin{tabularx}{\textwidth}{col_spec}
         tab_m = re.search(
             r'\\begin\{tabular[*]?\}\{((?:[^{}]|\{[^{}]*\})*)\}(.*?)\\end\{tabular[*]?\}',
             content_clean, re.DOTALL)
+        if not tab_m:
+            # Try tabularx / tabulary which have an extra {width} argument
+            tab_m = re.search(
+                r'\\begin\{tabular[xy]\}\{[^}]*\}\{((?:[^{}]|\{(?:[^{}]|\{[^{}]*\})*\})*)\}(.*?)\\end\{tabular[xy]\}',
+                content_clean, re.DOTALL)
         if not tab_m:
             return f'<div class="table-note">📊 {caption}</div>\n' if caption else ''
 
@@ -494,10 +522,12 @@ class LatexConverter:
         body = re.sub(r'\\midrule\b', '\x00MID\x00', body)
         # \cmidrule is purely decorative — remove
         body = re.sub(r'\\cmidrule\s*(?:\([^)]*\))?\s*\{[^}]*\}', '', body)
-        # \toprule / \bottomrule → remove (just visual decoration)
-        body = re.sub(r'\\(?:toprule|bottomrule)\b', '', body)
+        # \toprule / \bottomrule / \addlinespace → remove (just visual decoration)
+        body = re.sub(r'\\(?:toprule|bottomrule|addlinespace)\b(?:\[[^\]]*\])?', '', body)
         # \hline → mark
         body = re.sub(r'\\hline\b', '\x00HLINE\x00', body)
+        # \thead{...} → extract content (used for multi-line headers)
+        body = re.sub(r'\\thead\{((?:[^{}]|\{[^{}]*\})*)\}', lambda m: m.group(1).replace(r'\\', ' '), body)
 
         # Decide header/body split
         has_midrule = '\x00MID\x00' in body
@@ -611,6 +641,22 @@ class LatexConverter:
         return t.strip()
 
     def _inline(self, t: str) -> str:
+        # Protect display math blocks (already wrapped by _environments) from HTML processing
+        display_maths = {}
+        def _protect_display(m):
+            k = f'\x00D{len(display_maths)}\x00'
+            display_maths[k] = m.group(0)
+            return k
+        t = re.sub(r'<div class="math-display">.*?</div>', _protect_display, t, flags=re.DOTALL)
+
+        # Protect already-converted inline math spans (from _inline_simple in table cells)
+        # so their \pm, \times etc. don't get stripped
+        def _protect_span(m):
+            k = f'\x00D{len(display_maths)}\x00'
+            display_maths[k] = m.group(0)
+            return k
+        t = re.sub(r'<span class="math">.*?</span>', _protect_span, t, flags=re.DOTALL)
+
         # Protect inline math
         maths = {}
         def _protect(m):
@@ -660,6 +706,9 @@ class LatexConverter:
 
         # Restore math
         for k, v in maths.items():
+            t = t.replace(k, v)
+        # Restore display math blocks
+        for k, v in display_maths.items():
             t = t.replace(k, v)
         return t
 

@@ -1,0 +1,99 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Anomaly Detection for In situ Marine Plankton Images… — ML for REIMS</title>
+  <link rel="stylesheet" href="../css/style.css">
+  <script>
+    // Apply saved theme before render
+    (function(){
+      const t = localStorage.getItem('theme');
+      if(t === 'dark') document.documentElement.classList.add('dark');
+    })();
+  </script>
+  
+</head>
+<body>
+<nav class="site-nav">
+  <div class="nav-inner">
+    <a href="../index.html" class="nav-brand">
+      <img src="../assets/university-logo.png" alt="University Logo" class="nav-logo" onerror="this.style.display='none'">
+      <span class="nav-title">ML for REIMS</span>
+    </a>
+    <div class="nav-links">
+      <a href="../index.html">Home</a>
+      <a href="../chapters/chapter-1.html">Chapters</a>
+      <a href="../papers.html">Papers</a>
+    </div>
+    <div class="nav-actions">
+      <button id="search-toggle" class="icon-btn" aria-label="Search">🔍</button>
+      <button id="theme-toggle" class="icon-btn" aria-label="Toggle theme">🌙</button>
+      <button id="menu-toggle" class="icon-btn" aria-label="Menu">☰</button>
+    </div>
+  </div>
+  <div id="mobile-menu" class="mobile-menu hidden">
+    <a href="../index.html">Home</a>
+    <a href="../chapters/chapter-1.html">Chapters</a>
+    <a href="../papers.html">All Papers</a>
+  </div>
+  <div id="search-bar" class="search-bar hidden">
+    <input type="text" id="search-input" placeholder="Search papers, concepts, authors…" autocomplete="off">
+    <div id="search-results" class="search-results"></div>
+  </div>
+</nav>
+<div id="page-wrapper">
+
+<div class="paper-layout">
+  <main class="paper-main">
+    <div class="breadcrumb"><a href="../index.html">Home</a> / <a href="../papers.html">Papers</a> / Pu2021Anomaly</div>
+
+    <article class="paper-article">
+      <header class="paper-header">
+        <h1 class="paper-title">Anomaly Detection for In situ Marine Plankton Images</h1>
+        <p class="paper-authors">Yuchun Pu, Zhenghui Feng, Zhonglei Wang, Zhenyu Yang, Jianping Li</p>
+        <div class="paper-meta">
+          <span class="paper-year">2021</span>
+          <span class="paper-venue">2021 IEEE/CVF International Conference on Computer Vision Workshops (ICCVW)</span>
+          <span class="cite-count">Cited 14 times</span>
+        </div>
+        <div class="paper-links"><a href="https://doi.org/10.1109/ICCVW54120.2021.00409" target="_blank" class="ext-link">DOI ↗</a></div>
+      </header>
+
+      <div class="abstract-block"><h3>Abstract</h3><p>Machine learning and deep learning algorithms have achieved great success in plankton image recognition, but most of them are proposed to deal with closed-set tasks, where the distribution of the test data is the same as the training one. In reality, however, we face the challenges of open-set tasks, which are also recognized as the anomaly detection problems. In these tasks, there often exist abnormal classes, which are not in the training set, and the final goal of anomaly detection is to detect the anomalies correctly so that the misclassification of them can be reduced. However, little attention has been paid to anomaly detection in marine related fields. In this paper, to help marine plankton observers to detect anomalies conveniently and efficiently, we propose an anomaly detection pipeline including both the training and the testing phases. The training phase includes two parts, the pre-training and the post-training. In the pre-training phase, we propose a new loss function to better detect the abnormal classes and classify the normal classes simultaneously, which incorporates the expected cross-entropy loss, the expected Kullback-Leibler divergence, and the Anchor loss. We conduct several experiments to show the efficacy of the proposed method and compare its performance with other competitors based on a newly released dataset of in situ marine plankton images. Numerical results show that the proposed method outperforms its competitors in terms of classification accuracy and other commonly used criteria.</p></div>
+
+      
+
+      <details class="bibtex-block">
+        <summary>BibTeX</summary>
+        <pre><code>@inproceedings{Pu2021Anomaly,
+  author = {Pu, Yuchun and Feng, Zhenghui and Wang, Zhonglei and Yang, Zhenyu and Li, Jianping},
+  booktitle = {2021 IEEE/CVF International Conference on Computer Vision Workshops (ICCVW)},
+  title = {Anomaly Detection for In situ Marine Plankton Images},
+  year = {2021},
+  volume = {},
+  number = {},
+  pages = {3654-3664},
+  abstract = {Machine learning and deep learning algorithms have achieved great success in plankton image recognition, but most of them are proposed to deal with closed-set tasks, where the distribution of the test data is the same as the training one. In reality, however, we face the challenges of open-set tasks, which are also recognized as the anomaly detection problems. In these tasks, there often exist abnormal classes, which are not in the training set, and the final goal of anomaly detection is to detect the anomalies correctly so that the misclassification of them can be reduced. However, little attention has been paid to anomaly detection in marine related fields. In this paper, to help marine plankton observers to detect anomalies conveniently and efficiently, we propose an anomaly detection pipeline including both the training and the testing phases. The training phase includes two parts, the pre-training and the post-training. In the pre-training phase, we propose a new loss function to better detect the abnormal classes and classify the normal classes simultaneously, which incorporates the expected cross-entropy loss, the expected Kullback-Leibler divergence, and the Anchor loss. We conduct several experiments to show the efficacy of the proposed method and compare its performance with other competitors based on a newly released dataset of in situ marine plankton images. Numerical results show that the proposed method outperforms its competitors in terms of classification accuracy and other commonly used criteria.},
+  keywords = {Training;Machine learning algorithms;Face recognition;Pipelines;Observers;Robustness;Task analysis},
+  doi = {10.1109/ICCVW54120.2021.00409},
+  issn = {2473-9944},
+  month = {Oct},
+}</code></pre>
+      </details>
+    </article>
+  </main>
+</div>
+
+</div>
+<footer class="site-footer">
+  <div class="footer-inner">
+    <p>
+      <strong>Jesse Wood</strong> · PhD Thesis · Victoria University of Wellington · 2025
+    </p>
+    <p class="footer-sub">Machine Learning for Rapid Evaporative Ionization Mass Spectrometry for Marine Biomass Analysis</p>
+  </div>
+</footer>
+<script src="../js/main.js"></script>
+</body>
+</html>

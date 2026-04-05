@@ -1,0 +1,99 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Plankton Classification on Imbalanced Dataset via Hybrid Res… — ML for REIMS</title>
+  <link rel="stylesheet" href="../css/style.css">
+  <script>
+    // Apply saved theme before render
+    (function(){
+      const t = localStorage.getItem('theme');
+      if(t === 'dark') document.documentElement.classList.add('dark');
+    })();
+  </script>
+  
+</head>
+<body>
+<nav class="site-nav">
+  <div class="nav-inner">
+    <a href="../index.html" class="nav-brand">
+      <img src="../assets/university-logo.png" alt="University Logo" class="nav-logo" onerror="this.style.display='none'">
+      <span class="nav-title">ML for REIMS</span>
+    </a>
+    <div class="nav-links">
+      <a href="../index.html">Home</a>
+      <a href="../chapters/chapter-1.html">Chapters</a>
+      <a href="../papers.html">Papers</a>
+    </div>
+    <div class="nav-actions">
+      <button id="search-toggle" class="icon-btn" aria-label="Search">🔍</button>
+      <button id="theme-toggle" class="icon-btn" aria-label="Toggle theme">🌙</button>
+      <button id="menu-toggle" class="icon-btn" aria-label="Menu">☰</button>
+    </div>
+  </div>
+  <div id="mobile-menu" class="mobile-menu hidden">
+    <a href="../index.html">Home</a>
+    <a href="../chapters/chapter-1.html">Chapters</a>
+    <a href="../papers.html">All Papers</a>
+  </div>
+  <div id="search-bar" class="search-bar hidden">
+    <input type="text" id="search-input" placeholder="Search papers, concepts, authors…" autocomplete="off">
+    <div id="search-results" class="search-results"></div>
+  </div>
+</nav>
+<div id="page-wrapper">
+
+<div class="paper-layout">
+  <main class="paper-main">
+    <div class="breadcrumb"><a href="../index.html">Home</a> / <a href="../papers.html">Papers</a> / Liu2021Plankton</div>
+
+    <article class="paper-article">
+      <header class="paper-header">
+        <h1 class="paper-title">Plankton Classification on Imbalanced Dataset via Hybrid Resample Method with LightBGM</h1>
+        <p class="paper-authors">Yiran Liu, Xu Qiao, Rui Gao</p>
+        <div class="paper-meta">
+          <span class="paper-year">2021</span>
+          <span class="paper-venue">International Conference on Image, Vision and Computing</span>
+          <span class="cite-count">Cited 3 times</span>
+        </div>
+        <div class="paper-links"><a href="https://doi.org/10.1109/ICIVC52351.2021.9526988" target="_blank" class="ext-link">DOI ↗</a></div>
+      </header>
+
+      <div class="abstract-block"><h3>Abstract</h3><p>Plankton monitoring plays an essential role in marine ecological environment protection, effective identification of its species and quantity can assess the health of the marine ecosystem. Thus, it is valuable to build an automatic classification system for plankton. However, the data of plankton naturally exhibit an imbalance in their class distribution. As a result, we need to take the class-imbalance problem into account for plankton classification. In this paper, we propose a classification model based on a hybrid resample method with LightBGM classifier. Our hybrid resample method combines borderline-SMOTE oversampling and Fuzzy C-means cluster-based undersampling (BSFCM), which is available for handling both within-class and between-class imbalance. In addition, to eliminate the irrelevant factors, dataset preprocessing and feature dimension reduction are employed for the in situ plankton images. The F1-measure and G-mean are used as the evaluation criterion to assess the classification performance. The experimental results show that our BSFCM method using LightBGM classifier is superior to the compared benchmark methods, and achieves good performance on the imbalanced plankton dataset.</p></div>
+
+      
+
+      <details class="bibtex-block">
+        <summary>BibTeX</summary>
+        <pre><code>@inproceedings{Liu2021Plankton,
+  author = {Liu, Yiran and Qiao, Xu and Gao, Rui},
+  booktitle = {2021 6th International Conference on Image, Vision and Computing (ICIVC)},
+  title = {Plankton Classification on Imbalanced Dataset via Hybrid Resample Method with LightBGM},
+  year = {2021},
+  volume = {},
+  number = {},
+  pages = {191-195},
+  abstract = {Plankton monitoring plays an essential role in marine ecological environment protection, effective identification of its species and quantity can assess the health of the marine ecosystem. Thus, it is valuable to build an automatic classification system for plankton. However, the data of plankton naturally exhibit an imbalance in their class distribution. As a result, we need to take the class-imbalance problem into account for plankton classification. In this paper, we propose a classification model based on a hybrid resample method with LightBGM classifier. Our hybrid resample method combines borderline-SMOTE oversampling and Fuzzy C-means cluster-based undersampling (BSFCM), which is available for handling both within-class and between-class imbalance. In addition, to eliminate the irrelevant factors, dataset preprocessing and feature dimension reduction are employed for the in situ plankton images. The F1-measure and G-mean are used as the evaluation criterion to assess the classification performance. The experimental results show that our BSFCM method using LightBGM classifier is superior to the compared benchmark methods, and achieves good performance on the imbalanced plankton dataset.},
+  keywords = {Dimensionality reduction;Deep learning;Technological innovation;Image recognition;Biological system modeling;Ecosystems;Benchmark testing;plankton classification;imbalanced data;FCM;cluster-based undersampling;borderline-SMOTE;LightBGM},
+  doi = {10.1109/ICIVC52351.2021.9526988},
+  issn = {},
+  month = {July},
+}</code></pre>
+      </details>
+    </article>
+  </main>
+</div>
+
+</div>
+<footer class="site-footer">
+  <div class="footer-inner">
+    <p>
+      <strong>Jesse Wood</strong> · PhD Thesis · Victoria University of Wellington · 2025
+    </p>
+    <p class="footer-sub">Machine Learning for Rapid Evaporative Ionization Mass Spectrometry for Marine Biomass Analysis</p>
+  </div>
+</footer>
+<script src="../js/main.js"></script>
+</body>
+</html>

@@ -14103,5 +14103,966 @@
       }
     ],
     "abstract": null
+  },
+  "Keskin2012": {
+    "paperId": "b91a983a3e62e7a1aaed219af4422b5f99626524",
+    "externalIds": {
+      "MAG": "2027258747",
+      "DOI": "10.1111/J.1439-0426.2012.02031.X",
+      "CorpusId": 84711940
+    },
+    "title": "Molecular identification of fish species from surimi\u2010based products labeled as Alaskan pollock",
+    "venue": "",
+    "year": 2012,
+    "citationCount": 37,
+    "openAccessPdf": {
+      "url": "",
+      "status": "CLOSED",
+      "license": null,
+      "disclaimer": "Notice: The following paper fields have been elided by the publisher: {'abstract'}. Paper or abstract available at https://api.unpaywall.org/v2/10.1111/J.1439-0426.2012.02031.X?email=<INSERT_YOUR_EMAIL> or https://doi.org/10.1111/J.1439-0426.2012.02031.X, which is subject to the license by the author or copyright owner provided with this content. Please go to the source to verify the license and copyright information for your use."
+    },
+    "authors": [
+      {
+        "authorId": "102104414",
+        "name": "E. Keskin"
+      },
+      {
+        "authorId": "32153374",
+        "name": "H. Atar"
+      }
+    ],
+    "abstract": null
+  },
+  "Kumar2023SelfNoiseTransformation": {
+    "paperId": "401d3754f3f2d592f5588d8aadf0537ac95dae52",
+    "externalIds": {
+      "DOI": "10.1109/LSENS.2023.3326458",
+      "CorpusId": 264446215
+    },
+    "title": "Self-Noise Cancellation in Underwater Acoustics Using Deep Neural Network-Based Eigencomponent Transformation",
+    "venue": "IEEE Sensors Letters",
+    "year": 2023,
+    "citationCount": 7,
+    "openAccessPdf": {
+      "url": "",
+      "status": "CLOSED",
+      "license": null,
+      "disclaimer": "Notice: Paper or abstract available at https://api.unpaywall.org/v2/10.1109/LSENS.2023.3326458?email=<INSERT_YOUR_EMAIL> or https://doi.org/10.1109/LSENS.2023.3326458, which is subject to the license by the author or copyright owner provided with this content. Please go to the source to verify the license and copyright information for your use."
+    },
+    "authors": [
+      {
+        "authorId": "2239412885",
+        "name": "Pawan Kumar"
+      },
+      {
+        "authorId": "2239280366",
+        "name": "Karan Nathwani"
+      }
+    ],
+    "abstract": "This letter presents novel methodologies employing deep neural networks to address the problem of self-noise cancellation in passive SONAR systems. In this method, an autoencoder enables a transformation on the diagonal matrix to remove the orthogonal vectors that correspond to self-noise. The method centers on an eigencomponent transformation (ET) approach, creating a mapping between a diagonal matrix containing noisy data and an updated diagonal matrix obtained from the original target data. The ET approach converges faster compared to a direct approach, which maps noisy data to clean data. To cater to the difficulty of obtaining the original target data in real-world scenarios, we have also proposed a semisupervised version of this ET approach. In this technique, the diagonal matrix of the estimated target signal is computed using singular value decomposition (SVD). Our research makes predictions under two distinct conditions: matched and mismatched. In the matched conditions, both the training and test data exhibit similar ambient noise characteristics. In contrast, the mismatched conditions refer to instances where the ambient noise characteristics of the training and test data differ. Experimental results are portrayed in the form of a beampattern plot, waterfall display, and output signal-to-interference-noise ratio (SINR) versus input SINR."
+  },
+  "kwon2025": {
+    "paperId": "d384c3196b943efafd15eb613b10a76897fb0a34",
+    "externalIds": {
+      "DOI": "10.1080/15481603.2025.2484864",
+      "CorpusId": 277760272
+    },
+    "title": "Probabilistic machine learning-based phytoplankton abundance using hyperspectral remote sensing",
+    "venue": "GIScience &amp; Remote Sensing",
+    "year": 2025,
+    "citationCount": 6,
+    "openAccessPdf": {
+      "url": "https://doi.org/10.1080/15481603.2025.2484864",
+      "status": "GOLD",
+      "license": "CCBYNC",
+      "disclaimer": "Notice: Paper or abstract available at https://api.unpaywall.org/v2/10.1080/15481603.2025.2484864?email=<INSERT_YOUR_EMAIL> or https://doi.org/10.1080/15481603.2025.2484864, which is subject to the license by the author or copyright owner provided with this content. Please go to the source to verify the license and copyright information for your use."
+    },
+    "authors": [
+      {
+        "authorId": "2013939968",
+        "name": "Do-Hyuck Kwon"
+      },
+      {
+        "authorId": "2258315278",
+        "name": "Jung Min Ahn"
+      },
+      {
+        "authorId": "2345769597",
+        "name": "JongCheol Pyo"
+      },
+      {
+        "authorId": "2257078568",
+        "name": "Jiye Lee"
+      },
+      {
+        "authorId": "2000416053",
+        "name": "Ather Abbas"
+      },
+      {
+        "authorId": "2237347342",
+        "name": "Sanghyun Park"
+      },
+      {
+        "authorId": "2355667323",
+        "name": "Kyunghyun Kim"
+      },
+      {
+        "authorId": "2355122202",
+        "name": "Hyuk Lee"
+      },
+      {
+        "authorId": "2355348018",
+        "name": "Kyung Hwa Cho"
+      }
+    ],
+    "abstract": "ABSTRACT Remote sensing is a crucial tool for understanding the spatial dynamics of algal blooms by quantifying and detecting algal proliferation in water bodies. Hyperspectral remote monitoring enables precise pigment concentration measurements of Cyanobacteria, facilitating the accurate quantification of algal blooms with high spatial and spectral resolutions. However, current water quality management policies in the Republic of Korea predominantly rely on phytoplankton concentration to assess algal bloom status, which presents challenges for effective pigment estimation from remote sensing. To address this gap, this study employed airborne remote sensing using hyperspectral imagery and a deep-learning approach to directly estimate phytoplankton cell concentrations across extensive water bodies. Airborne monitoring was conducted to comprehensively capture the spatiotemporal features of algal dynamics from 2016 to 2022, complemented by concurrent in situ assessments of phytoplankton concentration, including Cyanobacteria, diatom, and Green algae. Utilizing a Bayesian neural network and natural gradient-boosting algorithm, we simulated phytoplankton abundance using airborne remote sensing data. The probabilistic models achieved test accuracy with coefficients of determination (R2) of approximately 0.6 and 0.4 for the cell concentration of different algal phyla, respectively. Furthermore, the algorithms provided spatial distributions of algal cell concentrations, enabling the identification of critical management zones for water quality. This study demonstrates that probabilistic deep learning algorithms can deliver timely and accurate phytoplankton concentrations, improving decision-making processes in water quality management."
+  },
+  "Liu2021Plankton": {
+    "paperId": "ca4d01159f5021badece9fe086f65b7c86c6b384",
+    "externalIds": {
+      "DOI": "10.1109/ICIVC52351.2021.9526988",
+      "CorpusId": 237520392
+    },
+    "title": "Plankton Classification on Imbalanced Dataset via Hybrid Resample Method with LightBGM",
+    "venue": "International Conference on Image, Vision and Computing",
+    "year": 2021,
+    "citationCount": 3,
+    "openAccessPdf": {
+      "url": "",
+      "status": null,
+      "license": null,
+      "disclaimer": "Notice: Paper or abstract available at https://api.unpaywall.org/v2/10.1109/ICIVC52351.2021.9526988?email=<INSERT_YOUR_EMAIL> or https://doi.org/10.1109/ICIVC52351.2021.9526988, which is subject to the license by the author or copyright owner provided with this content. Please go to the source to verify the license and copyright information for your use."
+    },
+    "authors": [
+      {
+        "authorId": "2311073461",
+        "name": "Yiran Liu"
+      },
+      {
+        "authorId": "2052305488",
+        "name": "Xu Qiao"
+      },
+      {
+        "authorId": "2057937359",
+        "name": "Rui Gao"
+      }
+    ],
+    "abstract": "Plankton monitoring plays an essential role in marine ecological environment protection, effective identification of its species and quantity can assess the health of the marine ecosystem. Thus, it is valuable to build an automatic classification system for plankton. However, the data of plankton naturally exhibit an imbalance in their class distribution. As a result, we need to take the class-imbalance problem into account for plankton classification. In this paper, we propose a classification model based on a hybrid resample method with LightBGM classifier. Our hybrid resample method combines borderline-SMOTE oversampling and Fuzzy C-means cluster-based undersampling (BSFCM), which is available for handling both within-class and between-class imbalance. In addition, to eliminate the irrelevant factors, dataset preprocessing and feature dimension reduction are employed for the in situ plankton images. The F1-measure and G-mean are used as the evaluation criterion to assess the classification performance. The experimental results show that our BSFCM method using LightBGM classifier is superior to the compared benchmark methods, and achieves good performance on the imbalanced plankton dataset."
+  },
+  "Pu2021Anomaly": {
+    "paperId": "fbe252d4cb72b9cb3581d2dd7f2863135ba058c3",
+    "externalIds": {
+      "DBLP": "conf/iccvw/PuFWYL21",
+      "DOI": "10.1109/ICCVW54120.2021.00409",
+      "CorpusId": 244531233
+    },
+    "title": "Anomaly Detection for In situ Marine Plankton Images",
+    "venue": "2021 IEEE/CVF International Conference on Computer Vision Workshops (ICCVW)",
+    "year": 2021,
+    "citationCount": 14,
+    "openAccessPdf": {
+      "url": "",
+      "status": null,
+      "license": null,
+      "disclaimer": "Notice: Paper or abstract available at https://api.unpaywall.org/v2/10.1109/ICCVW54120.2021.00409?email=<INSERT_YOUR_EMAIL> or https://doi.org/10.1109/ICCVW54120.2021.00409, which is subject to the license by the author or copyright owner provided with this content. Please go to the source to verify the license and copyright information for your use."
+    },
+    "authors": [
+      {
+        "authorId": "2144617487",
+        "name": "Yuchun Pu"
+      },
+      {
+        "authorId": "2640743",
+        "name": "Zhenghui Feng"
+      },
+      {
+        "authorId": "2142988449",
+        "name": "Zhonglei Wang"
+      },
+      {
+        "authorId": "2149233024",
+        "name": "Zhenyu Yang"
+      },
+      {
+        "authorId": "2144535331",
+        "name": "Jianping Li"
+      }
+    ],
+    "abstract": "Machine learning and deep learning algorithms have achieved great success in plankton image recognition, but most of them are proposed to deal with closed-set tasks, where the distribution of the test data is the same as the training one. In reality, however, we face the challenges of open-set tasks, which are also recognized as the anomaly detection problems. In these tasks, there often exist abnormal classes, which are not in the training set, and the final goal of anomaly detection is to detect the anomalies correctly so that the misclassification of them can be reduced. However, little attention has been paid to anomaly detection in marine related fields. In this paper, to help marine plankton observers to detect anomalies conveniently and efficiently, we propose an anomaly detection pipeline including both the training and the testing phases. The training phase includes two parts, the pre-training and the post-training. In the pre-training phase, we propose a new loss function to better detect the abnormal classes and classify the normal classes simultaneously, which incorporates the expected cross-entropy loss, the expected Kullback-Leibler divergence, and the Anchor loss. We conduct several experiments to show the efficacy of the proposed method and compare its performance with other competitors based on a newly released dataset of in situ marine plankton images. Numerical results show that the proposed method outperforms its competitors in terms of classification accuracy and other commonly used criteria."
+  },
+  "Radford2018": {
+    "paperId": "cd18800a0fe0b668a1cc19f2ec95b5003d0a5035",
+    "externalIds": {
+      "MAG": "2965425874",
+      "CorpusId": 49313245
+    },
+    "title": "Improving Language Understanding by Generative Pre-Training",
+    "venue": "",
+    "year": 2018,
+    "citationCount": 14504,
+    "openAccessPdf": {
+      "url": "",
+      "status": null,
+      "license": null,
+      "disclaimer": "Notice: The following paper fields have been elided by the publisher: {'abstract'}. Paper or abstract available at https://www.gwern.net/docs/www/s3-us-west-2.amazonaws.com/d73fdc5ffa8627bce44dcda2fc012da638ffb158.pdf, which is subject to the license by the author or copyright owner provided with this content. Please go to the source to verify the license and copyright information for your use."
+    },
+    "authors": [
+      {
+        "authorId": "38909097",
+        "name": "Alec Radford"
+      },
+      {
+        "authorId": "144958935",
+        "name": "Karthik Narasimhan"
+      }
+    ],
+    "abstract": null
+  },
+  "Varma2020Autonomous": {
+    "paperId": "5545eb2b1c75818c0900281252f4e03dfa366685",
+    "externalIds": {
+      "DOI": "10.1109/IEEECONF38699.2020.9389240",
+      "CorpusId": 233227604
+    },
+    "title": "Autonomous Plankton Classification from Reconstructed Holographic Imagery by L1- PCA-assisted Convolutional Neural Networks",
+    "venue": "Global Oceans 2020: Singapore \u2013 U.S. Gulf Coast",
+    "year": 2020,
+    "citationCount": 4,
+    "openAccessPdf": {
+      "url": "",
+      "status": null,
+      "license": null,
+      "disclaimer": "Notice: Paper or abstract available at https://api.unpaywall.org/v2/10.1109/IEEECONF38699.2020.9389240?email=<INSERT_YOUR_EMAIL> or https://doi.org/10.1109/IEEECONF38699.2020.9389240, which is subject to the license by the author or copyright owner provided with this content. Please go to the source to verify the license and copyright information for your use."
+    },
+    "authors": [
+      {
+        "authorId": "2068191856",
+        "name": "Kavita Varma"
+      },
+      {
+        "authorId": "145440728",
+        "name": "Lisa Nyman"
+      },
+      {
+        "authorId": "30945399",
+        "name": "Konstantinos Tountas"
+      },
+      {
+        "authorId": "2436053",
+        "name": "George Sklivanitis"
+      },
+      {
+        "authorId": "34917979",
+        "name": "A. R. Nayak"
+      },
+      {
+        "authorId": "2483917",
+        "name": "D. Pados"
+      }
+    ],
+    "abstract": "Studying and monitoring plankton distribution is vital for global climate and environment protection as they are the most elementary part of oceanic eco-systems. However, the conventional methods and techniques used for understanding the planktons are slow and lacks precision and therefore, in modern day scientific and engineering implementations, Convolutional Neural Networks is extensively used in deep learning and machine learning applications as it outperforms traditional manual approach. Dynamic nature of oceans make it very challenging to monitor these microscopic organisms. Our approach here is to generate a powerful automated plankton recognition system to autonomously identify them and improve the D-CNN for classification of the Plankton holographic imagery curated with the method of Data Conformity Evaluation. The performance of D-CNN classifier is improved by various hyper-parameter tuning, regularization techniques and appending meta-data. Conformity evaluation is based on a matric that's calculated on a continuously refined sequence of calculated $L_{1}$-norm tensor subspaces of the Plankton images. We note that our classifier performs accurately where our results improve performances from contemporary Deep Learning classifier alone."
+  },
+  "Allen1983": null,
+  "Asimov1981": {
+    "paperId": "93cd219a978d009bc3ec16d035eee27829ea17fe",
+    "externalIds": {
+      "MAG": "2900358843",
+      "CorpusId": 140046442
+    },
+    "title": "The sun shines bright on high-purity quartz",
+    "venue": "",
+    "year": 2018,
+    "citationCount": 0,
+    "openAccessPdf": {
+      "url": "",
+      "status": null,
+      "license": null
+    },
+    "authors": [
+      {
+        "authorId": "102660029",
+        "name": "C. Perks"
+      }
+    ],
+    "abstract": null
+  },
+  "Clarke1962": {
+    "paperId": "a6663a24de5dcb883febb343d9066024612745d4",
+    "externalIds": {
+      "DOI": "10.1093/aje/kwab046",
+      "CorpusId": 232039791,
+      "PubMed": "33623982"
+    },
+    "title": "Life Course Socioeconomic Status and Risk of Hospitalization for Heart Failure or Atrial Fibrillation in The Moli-Sani Study Cohort.",
+    "venue": "American Journal of Epidemiology",
+    "year": 2021,
+    "citationCount": 14,
+    "openAccessPdf": {
+      "url": "",
+      "status": "CLOSED",
+      "license": null,
+      "disclaimer": "Notice: Paper or abstract available at https://api.unpaywall.org/v2/10.1093/aje/kwab046?email=<INSERT_YOUR_EMAIL> or https://doi.org/10.1093/aje/kwab046, which is subject to the license by the author or copyright owner provided with this content. Please go to the source to verify the license and copyright information for your use."
+    },
+    "authors": [
+      {
+        "authorId": "5815016",
+        "name": "M. Bonaccio"
+      },
+      {
+        "authorId": "5294310",
+        "name": "A. Di Castelnuovo"
+      },
+      {
+        "authorId": "4855511",
+        "name": "S. Costanzo"
+      },
+      {
+        "authorId": "3777389",
+        "name": "A. De Curtis"
+      },
+      {
+        "authorId": "6676669",
+        "name": "M. Persichillo"
+      },
+      {
+        "authorId": "3803643",
+        "name": "C. Cerletti"
+      },
+      {
+        "authorId": "2068480",
+        "name": "M. Donati"
+      },
+      {
+        "authorId": "34742277",
+        "name": "G. de Gaetano"
+      },
+      {
+        "authorId": "4630317",
+        "name": "L. Iacoviello"
+      },
+      {
+        "authorId": "2051525352",
+        "name": "On Behalf Of The Moli-Sani Study Investigators"
+      }
+    ],
+    "abstract": "We investigated the association of cumulative socioeconomic disadvantage (CSD) and socioeconomic (SES) trajectories across life course with the risk of first hospitalization for heart failure (HF) or atrial fibrillation (AF) and tested some biological mechanisms in explaining such associations. Longitudinal analysis on 21,756 HF- and AF-free subjects recruited in the Moli-sani Study (2005-2010; Italy) and followed up for 8.2 years. CSD was computed using childhood SES, education and adulthood SES indicators, and the same were used to define overall trajectories. High disadvantage across life course (CSD\u22658) posed subjects at increased risk of HF (Hazard ratio [HR]=2.58; 95%CI 1.78, 3.74) or AF (HR=1.57;1.05,2.33), as compared to low CSD. All explanatory factors accounted for 18.5% and 24% of the excess of HF and AF risks, respectively, associated with CSD. For subjects with low childhood SES, advancements in education lowered risk of HF (HR=0.70;0.48, 1.02) or AF (HR=0.50;0.28, 0.89), whereas achievements of adulthood SES were unlikely to contribute to disease reduction. In conclusion, a life-course disadvantaged SES is an important predictor of first hospitalization for HF and AF; known risk factors partially explained the SES-disease gradient. Upwardly mobile groups are likely to mitigate the effect of poor childhood circumstances especially through educational advancement."
+  },
+  "Einstein2011": {
+    "paperId": "4ffbc30ab371455ff96c774ef4ca6db77c81e8ab",
+    "externalIds": {
+      "DOI": "10.2307/j.ctvs32rgr.25",
+      "CorpusId": 264675624
+    },
+    "title": "On Miscellaneous Subjects",
+    "venue": "The Ultimate Quotable Einstein",
+    "year": 2019,
+    "citationCount": 0,
+    "openAccessPdf": {
+      "url": "",
+      "status": null,
+      "license": null,
+      "disclaimer": "Notice: Paper or abstract available at https://api.unpaywall.org/v2/10.2307/j.ctvs32rgr.25?email=<INSERT_YOUR_EMAIL> or https://doi.org/10.2307/j.ctvs32rgr.25, which is subject to the license by the author or copyright owner provided with this content. Please go to the source to verify the license and copyright information for your use."
+    },
+    "authors": [],
+    "abstract": null
+  },
+  "Grill2020": {
+    "paperId": "38f93092ece8eee9771e61c1edaf11b1293cae1b",
+    "externalIds": {
+      "MAG": "3101821705",
+      "DBLP": "conf/nips/GrillSATRBDPGAP20",
+      "ArXiv": "2006.07733",
+      "CorpusId": 219687798
+    },
+    "title": "Bootstrap Your Own Latent: A New Approach to Self-Supervised Learning",
+    "venue": "Neural Information Processing Systems",
+    "year": 2020,
+    "citationCount": 8287,
+    "openAccessPdf": {
+      "url": "",
+      "status": null,
+      "license": null,
+      "disclaimer": "Notice: Paper or abstract available at https://arxiv.org/abs/2006.07733, which is subject to the license by the author or copyright owner provided with this content. Please go to the source to verify the license and copyright information for your use."
+    },
+    "authors": [
+      {
+        "authorId": "145840757",
+        "name": "Jean-Bastien Grill"
+      },
+      {
+        "authorId": "3367628",
+        "name": "Florian Strub"
+      },
+      {
+        "authorId": "2064347514",
+        "name": "Florent Altch'e"
+      },
+      {
+        "authorId": "31803582",
+        "name": "Corentin Tallec"
+      },
+      {
+        "authorId": "16326904",
+        "name": "Pierre H. Richemond"
+      },
+      {
+        "authorId": "118801223",
+        "name": "Elena Buchatskaya"
+      },
+      {
+        "authorId": "2786693",
+        "name": "Carl Doersch"
+      },
+      {
+        "authorId": "3429927",
+        "name": "B. '. Pires"
+      },
+      {
+        "authorId": "3407143",
+        "name": "Z. Guo"
+      },
+      {
+        "authorId": "37666967",
+        "name": "M. G. Azar"
+      },
+      {
+        "authorId": "1808897",
+        "name": "Bilal Piot"
+      },
+      {
+        "authorId": "2645384",
+        "name": "K. Kavukcuoglu"
+      },
+      {
+        "authorId": "1708654",
+        "name": "R. Munos"
+      },
+      {
+        "authorId": "1806291",
+        "name": "Michal Valko"
+      }
+    ],
+    "abstract": "We introduce Bootstrap Your Own Latent (BYOL), a new approach to self-supervised image representation learning. BYOL relies on two neural networks, referred to as online and target networks, that interact and learn from each other. From an augmented view of an image, we train the online network to predict the target network representation of the same image under a different augmented view. At the same time, we update the target network with a slow-moving average of the online network. While state-of-the art methods rely on negative pairs, BYOL achieves a new state of the art without them. BYOL reaches $74.3\\%$ top-1 classification accuracy on ImageNet using a linear evaluation with a ResNet-50 architecture and $79.6\\%$ with a larger ResNet. We show that BYOL performs on par or better than the current state of the art on both transfer and semi-supervised benchmarks. Our implementation and pretrained models are given on GitHub."
+  },
+  "huang2025symbolically": {
+    "paperId": "14f646329c41a0c926af34f31150be53363e7b59",
+    "externalIds": {
+      "ArXiv": "2505.21901",
+      "DBLP": "journals/corr/abs-2505-21901",
+      "DOI": "10.48550/arXiv.2505.21901",
+      "CorpusId": 278959155
+    },
+    "title": "Symbolically Regressing Fish Biomass Spectral Data: A Linear Genetic Programming Method with Tunable Primitives",
+    "venue": "arXiv.org",
+    "year": 2025,
+    "citationCount": 0,
+    "openAccessPdf": {
+      "url": "",
+      "status": null,
+      "license": null,
+      "disclaimer": "Notice: Paper or abstract available at https://arxiv.org/abs/2505.21901, which is subject to the license by the author or copyright owner provided with this content. Please go to the source to verify the license and copyright information for your use."
+    },
+    "authors": [
+      {
+        "authorId": "2279745898",
+        "name": "Zhixing Huang"
+      },
+      {
+        "authorId": "144395433",
+        "name": "Bing Xue"
+      },
+      {
+        "authorId": "2334886595",
+        "name": "Mengjie Zhang"
+      },
+      {
+        "authorId": "2363871940",
+        "name": "Jeremy S. Ronney"
+      },
+      {
+        "authorId": "2315503821",
+        "name": "Keith C. Gordon"
+      },
+      {
+        "authorId": "4862789",
+        "name": "D. Killeen"
+      }
+    ],
+    "abstract": "Machine learning techniques play an important role in analyzing spectral data. The spectral data of fish biomass is useful in fish production, as it carries many important chemistry properties of fish meat. However, it is challenging for existing machine learning techniques to comprehensively discover hidden patterns from fish biomass spectral data since the spectral data often have a lot of noises while the training data are quite limited. To better analyze fish biomass spectral data, this paper models it as a symbolic regression problem and solves it by a linear genetic programming method with newly proposed tunable primitives. In the symbolic regression problem, linear genetic programming automatically synthesizes regression models based on the given primitives and training data. The tunable primitives further improve the approximation ability of the regression models by tuning their inherent coefficients. Our empirical results over ten fish biomass targets show that the proposed method improves the overall performance of fish biomass composition prediction. The synthesized regression models are compact and have good interpretability, which allow us to highlight useful features over the spectrum. Our further investigation also verifies the good generality of the proposed method across various spectral data treatments and other symbolic regression problems."
+  },
+  "Jennings2001": {
+    "paperId": "a414679e30a1500d64cb449691f73ec501cf9ff1",
+    "externalIds": {
+      "MAG": "103317547",
+      "DOI": "10.1577/1548-8659(2003)132<0619:br>2.0.co;2",
+      "CorpusId": 127136118
+    },
+    "title": "Marine Fisheries Ecology",
+    "venue": "",
+    "year": 2001,
+    "citationCount": 479,
+    "openAccessPdf": {
+      "url": "",
+      "status": "CLOSED",
+      "license": null,
+      "disclaimer": "Notice: The following paper fields have been elided by the publisher: {'abstract'}. Paper or abstract available at https://api.unpaywall.org/v2/10.1577/1548-8659(2003)132<0619:br>2.0.co;2?email=<INSERT_YOUR_EMAIL> or https://doi.org/10.1577/1548-8659(2003)132<0619:br>2.0.co;2, which is subject to the license by the author or copyright owner provided with this content. Please go to the source to verify the license and copyright information for your use."
+    },
+    "authors": [
+      {
+        "authorId": "144532094",
+        "name": "S. Jennings"
+      },
+      {
+        "authorId": "38292176",
+        "name": "M. Kaiser"
+      },
+      {
+        "authorId": "38215496",
+        "name": "J. Reynolds"
+      }
+    ],
+    "abstract": null
+  },
+  "Liu2024": {
+    "paperId": "14fdab35cc6288083a38a92392af3f1da0b95a90",
+    "externalIds": {
+      "DBLP": "journals/corr/abs-2404-19756",
+      "ArXiv": "2404.19756",
+      "DOI": "10.48550/arXiv.2404.19756",
+      "CorpusId": 269457619
+    },
+    "title": "KAN: Kolmogorov-Arnold Networks",
+    "venue": "International Conference on Learning Representations",
+    "year": 2024,
+    "citationCount": 1528,
+    "openAccessPdf": {
+      "url": "",
+      "status": null,
+      "license": null,
+      "disclaimer": "Notice: Paper or abstract available at https://arxiv.org/abs/2404.19756, which is subject to the license by the author or copyright owner provided with this content. Please go to the source to verify the license and copyright information for your use."
+    },
+    "authors": [
+      {
+        "authorId": "2298997886",
+        "name": "Ziming Liu"
+      },
+      {
+        "authorId": "2299114926",
+        "name": "Yixuan Wang"
+      },
+      {
+        "authorId": "2298970079",
+        "name": "Sachin Vaidya"
+      },
+      {
+        "authorId": "2298969843",
+        "name": "Fabian Ruehle"
+      },
+      {
+        "authorId": "2298969998",
+        "name": "James Halverson"
+      },
+      {
+        "authorId": "2303854843",
+        "name": "Marin Soljacic"
+      },
+      {
+        "authorId": "2298969388",
+        "name": "Thomas Y. Hou"
+      },
+      {
+        "authorId": "2298969894",
+        "name": "Max Tegmark"
+      }
+    ],
+    "abstract": "Inspired by the Kolmogorov-Arnold representation theorem, we propose Kolmogorov-Arnold Networks (KANs) as promising alternatives to Multi-Layer Perceptrons (MLPs). While MLPs have fixed activation functions on nodes (\"neurons\"), KANs have learnable activation functions on edges (\"weights\"). KANs have no linear weights at all -- every weight parameter is replaced by a univariate function parametrized as a spline. We show that this seemingly simple change makes KANs outperform MLPs in terms of accuracy and interpretability. For accuracy, much smaller KANs can achieve comparable or better accuracy than much larger MLPs in data fitting and PDE solving. Theoretically and empirically, KANs possess faster neural scaling laws than MLPs. For interpretability, KANs can be intuitively visualized and can easily interact with human users. Through two examples in mathematics and physics, KANs are shown to be useful collaborators helping scientists (re)discover mathematical and physical laws. In summary, KANs are promising alternatives for MLPs, opening opportunities for further improving today's deep learning models which rely heavily on MLPs."
+  },
+  "Mackay2018": null,
+  "Matsuo2022": {
+    "paperId": "effa7077e6580a8ab22c30d3c876744b4e51cd6e",
+    "externalIds": {
+      "DBLP": "journals/nn/MatsuoLSPSSUM22",
+      "DOI": "10.1016/j.neunet.2022.03.037",
+      "CorpusId": 248279450,
+      "PubMed": "35569196"
+    },
+    "title": "Deep learning, reinforcement learning, and world models",
+    "venue": "Neural Networks",
+    "year": 2022,
+    "citationCount": 451,
+    "openAccessPdf": {
+      "url": "https://doi.org/10.1016/j.neunet.2022.03.037",
+      "status": "HYBRID",
+      "license": "CCBYNCND",
+      "disclaimer": "Notice: Paper or abstract available at https://api.unpaywall.org/v2/10.1016/j.neunet.2022.03.037?email=<INSERT_YOUR_EMAIL> or https://doi.org/10.1016/j.neunet.2022.03.037, which is subject to the license by the author or copyright owner provided with this content. Please go to the source to verify the license and copyright information for your use."
+    },
+    "authors": [
+      {
+        "authorId": "2111872453",
+        "name": "Yu Matsuo"
+      },
+      {
+        "authorId": "1688882",
+        "name": "Yann LeCun"
+      },
+      {
+        "authorId": "2283363",
+        "name": "M. Sahani"
+      },
+      {
+        "authorId": "144368601",
+        "name": "Doina Precup"
+      },
+      {
+        "authorId": "145824029",
+        "name": "David Silver"
+      },
+      {
+        "authorId": "67154907",
+        "name": "Masashi Sugiyama"
+      },
+      {
+        "authorId": "1773761",
+        "name": "E. Uchibe"
+      },
+      {
+        "authorId": "50414121",
+        "name": "J. Morimoto"
+      }
+    ],
+    "abstract": "Deep learning (DL) and reinforcement learning (RL) methods seem to be a part of indispensable factors to achieve human-level or super-human AI systems. On the other hand, both DL and RL have strong connections with our brain functions and with neuroscientific findings. In this review, we summarize talks and discussions in the \"Deep Learning and Reinforcement Learning\" session of the symposium, International Symposium on Artificial Intelligence and Brain Science. In this session, we discussed whether we can achieve comprehensive understanding of human intelligence based on the recent advances of deep learning and reinforcement learning algorithms. Speakers contributed to provide talks about their recent studies that can be key technologies to achieve human-level intelligence."
+  },
+  "mccullagh1980regression": {
+    "paperId": "0c86d2393b781941d178bf2bc2709ff4b3db90dd",
+    "externalIds": {
+      "MAG": "214995755",
+      "DOI": "10.1111/J.2517-6161.1980.TB01109.X",
+      "CorpusId": 118338183
+    },
+    "title": "Regression Models for Ordinal Data",
+    "venue": "",
+    "year": 1980,
+    "citationCount": 4075,
+    "openAccessPdf": {
+      "url": "",
+      "status": "CLOSED",
+      "license": null,
+      "disclaimer": "Notice: The following paper fields have been elided by the publisher: {'abstract'}. Paper or abstract available at https://api.unpaywall.org/v2/10.1111/J.2517-6161.1980.TB01109.X?email=<INSERT_YOUR_EMAIL> or https://doi.org/10.1111/J.2517-6161.1980.TB01109.X, which is subject to the license by the author or copyright owner provided with this content. Please go to the source to verify the license and copyright information for your use."
+    },
+    "authors": [
+      {
+        "authorId": "144676022",
+        "name": "P. McCullagh"
+      }
+    ],
+    "abstract": null
+  },
+  "Song2020": {
+    "paperId": "014576b866078524286802b1d0e18628520aa886",
+    "externalIds": {
+      "ArXiv": "2010.02502",
+      "DBLP": "journals/corr/abs-2010-02502",
+      "MAG": "3092442149",
+      "CorpusId": 222140788
+    },
+    "title": "Denoising Diffusion Implicit Models",
+    "venue": "International Conference on Learning Representations",
+    "year": 2020,
+    "citationCount": 11330,
+    "openAccessPdf": {
+      "url": "",
+      "status": null,
+      "license": null,
+      "disclaimer": "Notice: Paper or abstract available at https://arxiv.org/abs/2010.02502, which is subject to the license by the author or copyright owner provided with this content. Please go to the source to verify the license and copyright information for your use."
+    },
+    "authors": [
+      {
+        "authorId": "51453887",
+        "name": "Jiaming Song"
+      },
+      {
+        "authorId": "2057110631",
+        "name": "Chenlin Meng"
+      },
+      {
+        "authorId": "2066211828",
+        "name": "Stefano Ermon"
+      }
+    ],
+    "abstract": "Denoising diffusion probabilistic models (DDPMs) have achieved high quality image generation without adversarial training, yet they require simulating a Markov chain for many steps to produce a sample. To accelerate sampling, we present denoising diffusion implicit models (DDIMs), a more efficient class of iterative implicit probabilistic models with the same training procedure as DDPMs. In DDPMs, the generative process is defined as the reverse of a Markovian diffusion process. We construct a class of non-Markovian diffusion processes that lead to the same training objective, but whose reverse process can be much faster to sample from. We empirically demonstrate that DDIMs can produce high quality samples $10 \\times$ to $50 \\times$ faster in terms of wall-clock time compared to DDPMs, allow us to trade off computation for sample quality, and can perform semantically meaningful image interpolation directly in the latent space."
+  },
+  "Thompson2005": {
+    "paperId": "3f5e0cb25059e93eef4097fd1b2da53ae0f6128f",
+    "externalIds": {
+      "MAG": "2002824492",
+      "DOI": "10.1111/J.1541-4337.2005.TB00067.X",
+      "CorpusId": 84622132,
+      "PubMed": "33430569"
+    },
+    "title": "Seafood Traceability in the United States: Current Trends, System Design, and Potential Applications.",
+    "venue": "Comprehensive Reviews in Food Science and Food Safety",
+    "year": 2005,
+    "citationCount": 126,
+    "openAccessPdf": {
+      "url": "https://doi.org/10.1111/j.1541-4337.2005.tb00067.x",
+      "status": "CLOSED",
+      "license": null,
+      "disclaimer": "Notice: The following paper fields have been elided by the publisher: {'abstract'}. Paper or abstract available at https://api.unpaywall.org/v2/10.1111/J.1541-4337.2005.TB00067.X?email=<INSERT_YOUR_EMAIL> or https://doi.org/10.1111/J.1541-4337.2005.TB00067.X, which is subject to the license by the author or copyright owner provided with this content. Please go to the source to verify the license and copyright information for your use."
+    },
+    "authors": [
+      {
+        "authorId": "2118555344",
+        "name": "M. Thompson"
+      },
+      {
+        "authorId": "23301260",
+        "name": "G. Sylvia"
+      },
+      {
+        "authorId": "10035273",
+        "name": "M. Morrissey"
+      }
+    ],
+    "abstract": null
+  },
+  "Vaswani2017": {
+    "paperId": "204e3073870fae3d05bcbc2f6a8e263d9b72e776",
+    "externalIds": {
+      "DBLP": "journals/corr/VaswaniSPUJGKP17",
+      "MAG": "2963403868",
+      "ArXiv": "1706.03762",
+      "CorpusId": 13756489
+    },
+    "title": "Attention is All you Need",
+    "venue": "Neural Information Processing Systems",
+    "year": 2017,
+    "citationCount": 171736,
+    "openAccessPdf": {
+      "url": "",
+      "status": null,
+      "license": null,
+      "disclaimer": "Notice: Paper or abstract available at https://arxiv.org/abs/1706.03762, which is subject to the license by the author or copyright owner provided with this content. Please go to the source to verify the license and copyright information for your use."
+    },
+    "authors": [
+      {
+        "authorId": "40348417",
+        "name": "Ashish Vaswani"
+      },
+      {
+        "authorId": "1846258",
+        "name": "Noam Shazeer"
+      },
+      {
+        "authorId": "3877127",
+        "name": "Niki Parmar"
+      },
+      {
+        "authorId": "39328010",
+        "name": "Jakob Uszkoreit"
+      },
+      {
+        "authorId": "145024664",
+        "name": "Llion Jones"
+      },
+      {
+        "authorId": "19177000",
+        "name": "Aidan N. Gomez"
+      },
+      {
+        "authorId": "40527594",
+        "name": "Lukasz Kaiser"
+      },
+      {
+        "authorId": "3443442",
+        "name": "I. Polosukhin"
+      }
+    ],
+    "abstract": "The dominant sequence transduction models are based on complex recurrent or convolutional neural networks in an encoder-decoder configuration. The best performing models also connect the encoder and decoder through an attention mechanism. We propose a new simple network architecture, the Transformer, based solely on attention mechanisms, dispensing with recurrence and convolutions entirely. Experiments on two machine translation tasks show these models to be superior in quality while being more parallelizable and requiring significantly less time to train. Our model achieves 28.4 BLEU on the WMT 2014 English-to-German translation task, improving over the existing best results, including ensembles by over 2 BLEU. On the WMT 2014 English-to-French translation task, our model establishes a new single-model state-of-the-art BLEU score of 41.8 after training for 3.5 days on eight GPUs, a small fraction of the training costs of the best models from the literature. We show that the Transformer generalizes well to other tasks by applying it successfully to English constituency parsing both with large and limited training data."
+  },
+  "Wang2024": {
+    "paperId": "37b1ce339678f63315c82841c6824dd739269636",
+    "externalIds": {
+      "DBLP": "journals/corr/abs-2404-12224",
+      "ArXiv": "2404.12224",
+      "DOI": "10.48550/arXiv.2404.12224",
+      "CorpusId": 269213989
+    },
+    "title": "Length Generalization of Causal Transformers without Position Encoding",
+    "venue": "Annual Meeting of the Association for Computational Linguistics",
+    "year": 2024,
+    "citationCount": 50,
+    "openAccessPdf": {
+      "url": "",
+      "status": null,
+      "license": null,
+      "disclaimer": "Notice: Paper or abstract available at https://arxiv.org/abs/2404.12224, which is subject to the license by the author or copyright owner provided with this content. Please go to the source to verify the license and copyright information for your use."
+    },
+    "authors": [
+      {
+        "authorId": "2297186132",
+        "name": "Jie Wang"
+      },
+      {
+        "authorId": "2279023445",
+        "name": "Tao Ji"
+      },
+      {
+        "authorId": "2287464794",
+        "name": "Yuanbin Wu"
+      },
+      {
+        "authorId": "2280182177",
+        "name": "Hang Yan"
+      },
+      {
+        "authorId": "2067331064",
+        "name": "Tao Gui"
+      },
+      {
+        "authorId": "2257376355",
+        "name": "Qi Zhang"
+      },
+      {
+        "authorId": "2257129989",
+        "name": "Xuanjing Huang"
+      },
+      {
+        "authorId": "2297356406",
+        "name": "Xiaoling Wang"
+      }
+    ],
+    "abstract": "Generalizing to longer sentences is important for recent Transformer-based language models. Besides algorithms manipulating explicit position features, the success of Transformers without position encodings (NoPE) provides a new way to overcome the challenge. In this paper, we study the length generalization property of NoPE. We find that although NoPE can extend to longer sequences than the commonly used explicit position encodings, it still has a limited context length. We identify a connection between the failure of NoPE's generalization and the distraction of attention distributions. We propose a parameter-efficient tuning for searching attention heads' best temperature hyper-parameters, which substantially expands NoPE's context size. Experiments on long sequence language modeling, the synthetic passkey retrieval task and real-world long context tasks show that NoPE can achieve competitive performances with state-of-the-art length generalization algorithms. The source code is publicly accessible"
+  },
+  "White2023": {
+    "paperId": "8973ad5fc1264594a1fda3bd9e04258074cea9cc",
+    "externalIds": {
+      "DBLP": "journals/corr/abs-2301-08727",
+      "ArXiv": "2301.08727",
+      "DOI": "10.48550/arXiv.2301.08727",
+      "CorpusId": 256080480
+    },
+    "title": "Neural Architecture Search: Insights from 1000 Papers",
+    "venue": "arXiv.org",
+    "year": 2023,
+    "citationCount": 206,
+    "openAccessPdf": {
+      "url": "http://arxiv.org/pdf/2301.08727",
+      "status": "GREEN",
+      "license": null,
+      "disclaimer": "Notice: Paper or abstract available at https://arxiv.org/abs/2301.08727, which is subject to the license by the author or copyright owner provided with this content. Please go to the source to verify the license and copyright information for your use."
+    },
+    "authors": [
+      {
+        "authorId": "2263465506",
+        "name": "Colin White"
+      },
+      {
+        "authorId": "2151789838",
+        "name": "Mahmoud Safari"
+      },
+      {
+        "authorId": "46219704",
+        "name": "R. Sukthanker"
+      },
+      {
+        "authorId": "88739736",
+        "name": "Binxin Ru"
+      },
+      {
+        "authorId": "2501244",
+        "name": "T. Elsken"
+      },
+      {
+        "authorId": "51109984",
+        "name": "Arber Zela"
+      },
+      {
+        "authorId": "1780951",
+        "name": "Debadeepta Dey"
+      },
+      {
+        "authorId": "144661829",
+        "name": "F. Hutter"
+      }
+    ],
+    "abstract": "In the past decade, advances in deep learning have resulted in breakthroughs in a variety of areas, including computer vision, natural language understanding, speech recognition, and reinforcement learning. Specialized, high-performing neural architectures are crucial to the success of deep learning in these areas. Neural architecture search (NAS), the process of automating the design of neural architectures for a given task, is an inevitable next step in automating machine learning and has already outpaced the best human-designed architectures on many tasks. In the past few years, research in NAS has been progressing rapidly, with over 1000 papers released since 2020 (Deng and Lindauer, 2021). In this survey, we provide an organized and comprehensive guide to neural architecture search. We give a taxonomy of search spaces, algorithms, and speedup techniques, and we discuss resources such as benchmarks, best practices, other surveys, and open-source libraries."
+  },
+  "yelp_dataset": {
+    "paperId": "829e61e39367b86282385979b8329e3eb7701f63",
+    "externalIds": {
+      "DBLP": "journals/bdcc/BelaroussiNDV25",
+      "DOI": "10.3390/bdcc9050140",
+      "CorpusId": 278857263
+    },
+    "title": "Polarity of Yelp Reviews: A BERT-LSTM Comparative Study",
+    "venue": "Big Data and Cognitive Computing",
+    "year": 2025,
+    "citationCount": 5,
+    "openAccessPdf": {
+      "url": "",
+      "status": null,
+      "license": null,
+      "disclaimer": "Notice: Paper or abstract available at https://api.unpaywall.org/v2/10.3390/bdcc9050140?email=<INSERT_YOUR_EMAIL> or https://doi.org/10.3390/bdcc9050140, which is subject to the license by the author or copyright owner provided with this content. Please go to the source to verify the license and copyright information for your use."
+    },
+    "authors": [
+      {
+        "authorId": "1863042",
+        "name": "R. Belaroussi"
+      },
+      {
+        "authorId": "2363104082",
+        "name": "Si\u00e9 Cyriac Noufe"
+      },
+      {
+        "authorId": "2726177",
+        "name": "F. Dupin"
+      },
+      {
+        "authorId": "3086856",
+        "name": "P. Vandanjon"
+      }
+    ],
+    "abstract": "With the rapid growth in social network comments, the need for more effective methods to classify their polarity\u2014negative, neutral, or positive\u2014has become essential. Sentiment analysis, powered by natural language processing, has evolved significantly with the adoption of advanced deep learning techniques. Long Short-Term Memory networks capture long-range dependencies in text, while transformers, with their attention mechanisms, excel at preserving contextual meaning and handling high-dimensional, semantically complex data. This study compares the performance of sentiment analysis models based on LSTM and BERT architectures using key evaluation metrics. The dataset consists of business reviews from the Yelp Open Dataset. We tested LSTM-based methods against BERT and its variants\u2014RoBERTa, BERTweet, and DistilBERT\u2014leveraging popular pipelines from the Hugging Face Hub. A class-by-class performance analysis is presented, revealing that more complex BERT-based models do not always guarantee superior results in the classification of Yelp reviews. Additionally, the use of bidirectionality in LSTMs does not necessarily lead to better performance. However, across a diversity of test sets, transformer models outperform traditional RNN-based models, as their generalization capability is greater than that of a simple LSTM model."
+  },
+  "Zbontar2021": {
+    "paperId": "8a9d84d86ac0d76e63914802f9738325c3bece9c",
+    "externalIds": {
+      "ArXiv": "2103.03230",
+      "DBLP": "conf/icml/ZbontarJMLD21",
+      "CorpusId": 232110471
+    },
+    "title": "Barlow Twins: Self-Supervised Learning via Redundancy Reduction",
+    "venue": "International Conference on Machine Learning",
+    "year": 2021,
+    "citationCount": 2889,
+    "openAccessPdf": {
+      "url": "",
+      "status": null,
+      "license": null,
+      "disclaimer": "Notice: Paper or abstract available at https://arxiv.org/abs/2103.03230, which is subject to the license by the author or copyright owner provided with this content. Please go to the source to verify the license and copyright information for your use."
+    },
+    "authors": [
+      {
+        "authorId": "3105120",
+        "name": "Jure Zbontar"
+      },
+      {
+        "authorId": "50780902",
+        "name": "Li Jing"
+      },
+      {
+        "authorId": "1806773",
+        "name": "Ishan Misra"
+      },
+      {
+        "authorId": "1688882",
+        "name": "Yann LeCun"
+      },
+      {
+        "authorId": "4789914",
+        "name": "St\u00e9phane Deny"
+      }
+    ],
+    "abstract": "Self-supervised learning (SSL) is rapidly closing the gap with supervised methods on large computer vision benchmarks. A successful approach to SSL is to learn embeddings which are invariant to distortions of the input sample. However, a recurring issue with this approach is the existence of trivial constant solutions. Most current methods avoid such solutions by careful implementation details. We propose an objective function that naturally avoids collapse by measuring the cross-correlation matrix between the outputs of two identical networks fed with distorted versions of a sample, and making it as close to the identity matrix as possible. This causes the embedding vectors of distorted versions of a sample to be similar, while minimizing the redundancy between the components of these vectors. The method is called Barlow Twins, owing to neuroscientist H. Barlow's redundancy-reduction principle applied to a pair of identical networks. Barlow Twins does not require large batches nor asymmetry between the network twins such as a predictor network, gradient stopping, or a moving average on the weight updates. Intriguingly it benefits from very high-dimensional output vectors. Barlow Twins outperforms previous methods on ImageNet for semi-supervised classification in the low-data regime, and is on par with current state of the art for ImageNet classification with a linear classifier head, and for transfer tasks of classification and object detection."
   }
 }

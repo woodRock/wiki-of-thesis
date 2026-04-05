@@ -1,0 +1,97 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Probabilistic machine learning-based phytoplankton abundance… — ML for REIMS</title>
+  <link rel="stylesheet" href="../css/style.css">
+  <script>
+    // Apply saved theme before render
+    (function(){
+      const t = localStorage.getItem('theme');
+      if(t === 'dark') document.documentElement.classList.add('dark');
+    })();
+  </script>
+  
+</head>
+<body>
+<nav class="site-nav">
+  <div class="nav-inner">
+    <a href="../index.html" class="nav-brand">
+      <img src="../assets/university-logo.png" alt="University Logo" class="nav-logo" onerror="this.style.display='none'">
+      <span class="nav-title">ML for REIMS</span>
+    </a>
+    <div class="nav-links">
+      <a href="../index.html">Home</a>
+      <a href="../chapters/chapter-1.html">Chapters</a>
+      <a href="../papers.html">Papers</a>
+    </div>
+    <div class="nav-actions">
+      <button id="search-toggle" class="icon-btn" aria-label="Search">🔍</button>
+      <button id="theme-toggle" class="icon-btn" aria-label="Toggle theme">🌙</button>
+      <button id="menu-toggle" class="icon-btn" aria-label="Menu">☰</button>
+    </div>
+  </div>
+  <div id="mobile-menu" class="mobile-menu hidden">
+    <a href="../index.html">Home</a>
+    <a href="../chapters/chapter-1.html">Chapters</a>
+    <a href="../papers.html">All Papers</a>
+  </div>
+  <div id="search-bar" class="search-bar hidden">
+    <input type="text" id="search-input" placeholder="Search papers, concepts, authors…" autocomplete="off">
+    <div id="search-results" class="search-results"></div>
+  </div>
+</nav>
+<div id="page-wrapper">
+
+<div class="paper-layout">
+  <main class="paper-main">
+    <div class="breadcrumb"><a href="../index.html">Home</a> / <a href="../papers.html">Papers</a> / kwon2025</div>
+
+    <article class="paper-article">
+      <header class="paper-header">
+        <h1 class="paper-title">Probabilistic machine learning-based phytoplankton abundance using hyperspectral remote sensing</h1>
+        <p class="paper-authors">Do-Hyuck Kwon, Jung Min Ahn, JongCheol Pyo, Jiye Lee, Ather Abbas, Sanghyun Park et al.</p>
+        <div class="paper-meta">
+          <span class="paper-year">2025</span>
+          <span class="paper-venue">GIScience &amp;amp; Remote Sensing</span>
+          <span class="cite-count">Cited 6 times</span>
+        </div>
+        <div class="paper-links"><a href="https://doi.org/10.1080/15481603.2025.2484864" target="_blank" class="ext-link">DOI ↗</a> <a href="https://doi.org/10.1080/15481603.2025.2484864" target="_blank" class="ext-link pdf-link">PDF ↗</a></div>
+      </header>
+
+      <div class="abstract-block"><h3>Abstract</h3><p>ABSTRACT Remote sensing is a crucial tool for understanding the spatial dynamics of algal blooms by quantifying and detecting algal proliferation in water bodies. Hyperspectral remote monitoring enables precise pigment concentration measurements of Cyanobacteria, facilitating the accurate quantification of algal blooms with high spatial and spectral resolutions. However, current water quality management policies in the Republic of Korea predominantly rely on phytoplankton concentration to assess algal bloom status, which presents challenges for effective pigment estimation from remote sensing. To address this gap, this study employed airborne remote sensing using hyperspectral imagery and a deep-learning approach to directly estimate phytoplankton cell concentrations across extensive water bodies. Airborne monitoring was conducted to comprehensively capture the spatiotemporal features of algal dynamics from 2016 to 2022, complemented by concurrent in situ assessments of phytoplankton concentration, including Cyanobacteria, diatom, and Green algae. Utilizing a Bayesian neural network and natural gradient-boosting algorithm, we simulated phytoplankton abundance using airborne remote sensing data. The probabilistic models achieved test accuracy with coefficients of determination (R2) of approximately 0.6 and 0.4 for the cell concentration of different algal phyla, respectively. Furthermore, the algorithms provided spatial distributions of algal cell concentrations, enabling the identification of critical management zones for water quality. This study demonstrates that probabilistic deep learning algorithms can deliver timely and accurate phytoplankton concentrations, improving decision-making processes in water quality management.</p></div>
+
+      
+
+      <details class="bibtex-block">
+        <summary>BibTeX</summary>
+        <pre><code>@article{kwon2025,
+  title = {Probabilistic machine learning-based phytoplankton abundance using hyperspectral remote sensing},
+  author = {Kwon, Do Hyuck and Ahn, Jung Min and Pyo, Jong Cheol and Lee, Jiye and Abbas, Ather and Park, Sanghyun and Kim, Kyunghyun and Lee, Hyuk and Cho, Kyung Hwa},
+  journal = {GIScience &amp; Remote Sensing},
+  volume = {62},
+  number = {1},
+  pages = {2484864},
+  year = {2025},
+  publisher = {Taylor &amp; Francis},
+  doi = {10.1080/15481603.2025.2484864},
+  abstract = {Remote sensing is a crucial tool for understanding the spatial dynamics of algal blooms by quantifying and detecting algal proliferation in water bodies. Hyperspectral remote monitoring enables precise pigment concentration measurements of Cyanobacteria, facilitating the accurate quantification of algal blooms with high spatial and spectral resolutions. However, current water quality management policies in the Republic of Korea predominantly rely on phytoplankton concentration to assess algal bloom status, which presents challenges for effective pigment estimation from remote sensing. To address this gap, this study employed airborne remote sensing using hyperspectral imagery and a deep-learning approach to directly estimate phytoplankton cell concentrations across extensive water bodies. Airborne monitoring was conducted to comprehensively capture the spatiotemporal features of algal dynamics from 2016 to 2022, complemented by concurrent in situ assessments of phytoplankton concentration, including Cyanobacteria, diatom, and Green algae. Utilizing a Bayesian neural network and natural gradient-boosting algorithm, we simulated phytoplankton abundance using airborne remote sensing data. The probabilistic models achieved test accuracy with coefficients of determination (R2) of approximately 0.6 and 0.4 for the cell concentration of different algal phyla, respectively. Furthermore, the algorithms provided spatial distributions of algal cell concentrations, enabling the identification of critical management zones for water quality. This study demonstrates that probabilistic deep learning algorithms can deliver timely and accurate phytoplankton concentrations, improving decision-making processes in water quality management.},
+}</code></pre>
+      </details>
+    </article>
+  </main>
+</div>
+
+</div>
+<footer class="site-footer">
+  <div class="footer-inner">
+    <p>
+      <strong>Jesse Wood</strong> · PhD Thesis · Victoria University of Wellington · 2025
+    </p>
+    <p class="footer-sub">Machine Learning for Rapid Evaporative Ionization Mass Spectrometry for Marine Biomass Analysis</p>
+  </div>
+</footer>
+<script src="../js/main.js"></script>
+</body>
+</html>
