@@ -1442,7 +1442,7 @@ def build_index(bib: Dict, ss: Dict, chapter_citations: Dict[str, Set[str]],
           <li>First MoE Transformer for REIMS data</li>
           <li>SpectroSim: self-supervised batch traceability</li>
           <li>First REIMS-based oil contamination detection</li>
-          <li>First REIMS-based cross-species adulteration detection</li>
+          <li>First REIMS-based cross-species adulteration detection in marine biomass</li>
         </ul>
       </div>
       <div class="info-box">
