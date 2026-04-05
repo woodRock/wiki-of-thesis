@@ -546,6 +546,7 @@ class LatexConverter:
         self.figures: List[dict] = []  # {src, caption, chapter_slug}
 
     def convert(self, latex: str) -> str:
+        self._build_label_map(latex)   # Must run before _preprocess strips \label{}
         t = self._preprocess(latex)
         t = self._environments(t)
         t = self._sections(t)
@@ -553,6 +554,32 @@ class LatexConverter:
         t = self._inline(t)
         t = self._paragraphs(t)
         return t
+
+    def _build_label_map(self, latex: str) -> None:
+        """Pre-scan raw LaTeX to build label→HTML-anchor map before labels are stripped."""
+        self._label_map: Dict[str, str] = {}
+        # Figure labels → fig-{stem} anchors
+        for fig_m in re.finditer(
+                r'\\begin\{figure\*?\}(.*?)\\end\{figure\*?\}', latex, re.DOTALL):
+            fig_content = fig_m.group(1)
+            img_paths = re.findall(r'\\includegraphics(?:\[[^\]]*\])?\{([^}]+)\}', fig_content)
+            label_m = re.search(r'\\label\{([^}]+)\}', fig_content)
+            if img_paths and label_m:
+                img_name = os.path.basename(img_paths[0])
+                stem = re.sub(r'[^a-z0-9]+', '-',
+                              os.path.splitext(img_name)[0].lower()).strip('-')
+                self._label_map[label_m.group(1)] = f'fig-{stem}'
+        # Section labels → section slug anchors
+        for sec_m in re.finditer(
+                r'\\(?:subsubsection|subsection|section)\*?\{((?:[^{}]|\{[^{}]*\})*)\}',
+                latex):
+            after = latex[sec_m.end():sec_m.end() + 300]
+            label_m = re.search(r'\\label\{([^}]+)\}', after)
+            if label_m:
+                raw_title = sec_m.group(1)
+                clean = re.sub(r'\\[a-zA-Z]+\{([^}]*)\}', r'\1', raw_title)
+                clean = re.sub(r'\\[a-zA-Z]+', '', clean)
+                self._label_map[label_m.group(1)] = self._slug(clean)
 
     def _preprocess(self, t: str) -> str:
         t = re.sub(r'(?m)(?<!\\)%.*$', '', t)
@@ -986,17 +1013,36 @@ class LatexConverter:
         return t
 
     def _cref(self, m) -> str:
+        label_map = getattr(self, '_label_map', {})
         labels = [l.strip() for l in m.group(1).split(',')]
         parts = []
         for lab in labels:
-            # Map chapter labels to chapter pages
+            # Chapter references
             for ch_slug, ch_title in CHAPTERS:
                 if ch_slug.replace('chapter-', '') in lab or lab in ch_slug:
                     parts.append(f'<a href="../chapters/{ch_slug}.html" class="internal-ref">{ch_title}</a>')
                     break
             else:
-                clean = lab.replace(':', '-').replace('_', '-')
-                parts.append(f'<a href="#{clean}" class="internal-ref">{lab}</a>')
+                # Use pre-scanned label map for precise anchors
+                if lab in label_map:
+                    anchor = label_map[lab]
+                    display = 'Figure' if anchor.startswith('fig-') else 'Section'
+                    parts.append(f'<a href="#{anchor}" class="internal-ref">{display}</a>')
+                else:
+                    # Fallback: normalise label to a best-guess anchor
+                    clean = re.sub(r'^assets/', '', lab)
+                    clean = clean.replace(':', '-').replace('_', '-').replace('/', '-')
+                    if 'fig' in lab.lower():
+                        display = 'Figure'
+                    elif lab.startswith('eq:'):
+                        display = 'Equation'
+                    elif lab.startswith('tab:'):
+                        display = 'Table'
+                    elif lab.startswith('sec:') or lab.startswith('chapter:'):
+                        display = 'Section'
+                    else:
+                        display = lab
+                    parts.append(f'<a href="#{clean}" class="internal-ref">{display}</a>')
         return ', '.join(parts)
 
     def _citations(self, t: str) -> str:
@@ -1225,9 +1271,11 @@ def toc_html(items: List[Tuple[int, str, str]]) -> str:
 
 # ── Page Generators ────────────────────────────────────────────────────────────
 
-def build_index(bib: Dict, ss: Dict, chapter_citations: Dict[str, Set[str]]) -> str:
+def build_index(bib: Dict, ss: Dict, chapter_citations: Dict[str, Set[str]],
+                thesis_stats: Dict = None) -> str:
     """Generate homepage."""
     m = THESIS_META
+    stats = thesis_stats or {}
 
     # Chapter cards
     chapter_cards = ""
@@ -1273,6 +1321,21 @@ def build_index(bib: Dict, ss: Dict, chapter_citations: Dict[str, Set[str]]) -> 
     dyk_items = ''.join(f'<div class="dyk-fact" style="display:none">{html.escape(f)}</div>' for f in dyk_facts)
     dyk_first = html.escape(dyk_facts[0])
 
+    words_k = f"{stats.get('words', 0) // 1000}K" if stats.get('words', 0) >= 1000 else str(stats.get('words', 0))
+    stat_items = [
+        (str(stats.get('chapters', len(CHAPTERS))), 'Chapters'),
+        (f"{stats.get('papers', len(bib)):,}", 'Papers Cited'),
+        (str(stats.get('figures', 0)), 'Figures'),
+        (str(stats.get('equations', 0)), 'Equations'),
+        (str(stats.get('glossary', len(GLOSSARY))), 'Glossary Terms'),
+        (f'~{words_k}', 'Words'),
+    ]
+    stats_html = ''.join(
+        f'<div class="stat-item"><span class="stat-num">{n}</span>'
+        f'<span class="stat-label">{l}</span></div>'
+        for n, l in stat_items
+    )
+
     content = f"""
 <div class="hero">
   <div class="hero-inner">
@@ -1282,6 +1345,7 @@ def build_index(bib: Dict, ss: Dict, chapter_citations: Dict[str, Set[str]]) -> 
     <div class="hero-tags">{topic_tags}</div>
   </div>
 </div>
+<div class="thesis-stats-bar">{stats_html}</div>
 
 <div class="main-content">
   <div class="content-cols">
@@ -1341,7 +1405,11 @@ def build_index(bib: Dict, ss: Dict, chapter_citations: Dict[str, Set[str]]) -> 
           <dt>Year</dt><dd>{html.escape(m['year'])}</dd>
           <dt>Subject</dt><dd>{html.escape(m['subject'])}</dd>
           <dt>Chapters</dt><dd>{len(CHAPTERS)}</dd>
-          <dt>References</dt><dd>{len(bib)}</dd>
+          <dt>References</dt><dd>{len(bib):,}</dd>
+          <dt>Figures</dt><dd>{stats.get('figures', '—')}</dd>
+          <dt>Equations</dt><dd>{stats.get('equations', '—')}</dd>
+          <dt>Glossary Terms</dt><dd>{len(GLOSSARY)}</dd>
+          <dt>Word Count</dt><dd>~{words_k}</dd>
         </dl>
       </div>
       <div class="info-box">
@@ -1889,33 +1957,62 @@ def build_search_index(bib: Dict, ss: Dict, chapter_citations: Dict[str, Set[str
             'type': 'paper',
             'title': title[:200],
             'text': (abstract[:400] if abstract else ''),
+            'snippet': (abstract[:160] if abstract else ''),
             'url': f'papers/{key}.html',
             'meta': f'{authors_str} · {year}'.strip(' ·'),
         })
 
-    # Chapters
+    def _strip_latex(t: str) -> str:
+        t = re.sub(r'\\[a-zA-Z]+\{([^}]*)\}', r'\1', t)
+        t = re.sub(r'\\[a-zA-Z]+', ' ', t)
+        t = re.sub(r'[{}%$\\]', ' ', t)
+        return re.sub(r'\s+', ' ', t).strip()
+
+    # Chapters — one top-level entry + one entry per section for deep-link search
     for slug, title in CHAPTERS:
         latex = chapter_latex.get(slug, '')
-        # Strip LaTeX to plain text for search
-        plain = re.sub(r'\\[a-zA-Z]+\{([^}]*)\}', r'\1', latex)
-        plain = re.sub(r'\\[a-zA-Z]+', ' ', plain)
-        plain = re.sub(r'[{}%]', ' ', plain)
-        plain = re.sub(r'\s+', ' ', plain).strip()
         num = slug.replace('chapter-', '')
+        plain_chapter = _strip_latex(latex[:600])
+
         index.append({
             'type': 'chapter',
             'title': f'Chapter {num}: {title}',
-            'text': plain[:600],
+            'text': plain_chapter,
+            'snippet': plain_chapter[:160],
             'url': f'chapters/{slug}.html',
             'meta': f'Chapter {num}',
         })
 
+        # Split into sections and add a searchable entry per section
+        sec_pattern = re.compile(
+            r'\\(subsubsection|subsection|section)\*?\{((?:[^{}]|\{[^{}]*\})*)\}')
+        positions = [(m.start(), m) for m in sec_pattern.finditer(latex)]
+        for i, (pos, sec_m) in enumerate(positions):
+            sec_title_raw = sec_m.group(2)
+            sec_title = re.sub(r'\\[a-zA-Z]+\{([^}]*)\}', r'\1', sec_title_raw)
+            sec_title = re.sub(r'\\[a-zA-Z]+', '', sec_title).strip()
+            sid = re.sub(r'[^a-z0-9]+', '-', sec_title.lower()).strip('-')
+            # Body text of this section (up to next section or 600 chars)
+            body_start = pos + len(sec_m.group(0))
+            body_end = positions[i + 1][0] if i + 1 < len(positions) else body_start + 600
+            body_plain = _strip_latex(latex[body_start:min(body_end, body_start + 600)])
+            index.append({
+                'type': 'chapter',
+                'title': sec_title,
+                'text': body_plain,
+                'snippet': body_plain[:160],
+                'url': f'chapters/{slug}.html#{sid}',
+                'meta': f'Chapter {num}: {title}',
+            })
+
     # Glossary
     for term, data in GLOSSARY.items():
+        defn = data['definition']
         index.append({
             'type': 'glossary',
             'title': term,
-            'text': data['definition'],
+            'text': defn,
+            'snippet': defn[:160],
             'url': f'glossary.html#{re.sub(r"[^a-z0-9]+", "-", term.lower()).strip("-")}',
             'meta': data.get('full', term),
         })
@@ -2595,6 +2692,9 @@ a:hover { text-decoration: underline; color: var(--accent-hover); }
 .search-result-item:last-child { border-bottom: none; }
 .sri-title { font-size: 0.9rem; font-weight: 500; color: var(--text); }
 .sri-meta { font-size: 0.8rem; color: var(--text-muted); }
+.sri-snippet { font-size: 0.8rem; color: var(--text-muted); margin-top: 0.2rem; line-height: 1.4; }
+.sri-snippet mark { background: rgba(59,130,246,0.25); color: var(--text); border-radius: 2px; padding: 0 1px; }
+.search-results { max-height: 500px; }
 
 .hidden { display: none !important; }
 
@@ -2632,6 +2732,38 @@ a:hover { text-decoration: underline; color: var(--accent-hover); }
   margin-bottom: 1rem;
 }
 .hero-tags { display: flex; flex-wrap: wrap; gap: 0.4rem; }
+
+/* ── Thesis Stats Bar ───────────────────────────────────────── */
+.thesis-stats-bar {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  gap: 0;
+  background: var(--bg-alt);
+  border-bottom: 1px solid var(--border);
+}
+.stat-item {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  padding: 0.9rem 1.5rem;
+  border-right: 1px solid var(--border);
+}
+.stat-item:last-child { border-right: none; }
+.stat-num {
+  font-size: 1.4rem;
+  font-weight: 800;
+  color: var(--accent);
+  line-height: 1.1;
+  letter-spacing: -0.03em;
+}
+.stat-label {
+  font-size: 0.72rem;
+  color: var(--text-muted);
+  text-transform: uppercase;
+  letter-spacing: 0.06em;
+  margin-top: 0.15rem;
+}
 
 /* ── Tags ───────────────────────────────────────────────────── */
 .tag {
@@ -2827,6 +2959,7 @@ a:hover { text-decoration: underline; color: var(--accent-hover); }
   line-height: 1.4;
 }
 .toc-list a:hover { color: var(--accent); border-color: var(--accent); text-decoration: none; }
+.toc-list a.toc-active { color: var(--accent); border-color: var(--accent); font-weight: 600; }
 .toc-l3 a { padding-left: 1.25rem; font-size: 0.82rem; }
 .toc-l4 a { padding-left: 2rem; font-size: 0.8rem; }
 
@@ -3861,6 +3994,22 @@ if (filterInput && papersGrid) {
     return relUrl;
   }
 
+  function highlightSnippet(text, q) {
+    if (!text) return '';
+    const idx = text.toLowerCase().indexOf(q.toLowerCase());
+    let snip;
+    if (idx < 0) {
+      snip = text.slice(0, 130) + (text.length > 130 ? '…' : '');
+    } else {
+      const start = Math.max(0, idx - 40);
+      const end = Math.min(text.length, idx + q.length + 80);
+      snip = (start > 0 ? '…' : '') + text.slice(start, end) + (end < text.length ? '…' : '');
+    }
+    const escaped = escHtml(snip);
+    const escapedQ = escHtml(q).replace(/[.*+?^${}()|[\]\\]/g, '\\$&');
+    return escaped.replace(new RegExp('(' + escapedQ + ')', 'gi'), '<mark>$1</mark>');
+  }
+
   function renderResults(q) {
     if (!q) { resultsDiv.innerHTML = ''; return; }
     const index = window.SEARCH_INDEX;
@@ -3880,11 +4029,11 @@ if (filterInput && papersGrid) {
       return;
     }
 
-    // Group by type, up to 4 per group
+    // Group by type, up to 5 per group
     const groups = { chapter: [], paper: [], glossary: [] };
     for (const item of matches) {
       const g = groups[item.type];
-      if (g && g.length < 4) g.push(item);
+      if (g && g.length < 5) g.push(item);
     }
 
     const typeLabels = { chapter: 'Chapters', paper: 'Papers', glossary: 'Glossary' };
@@ -3892,12 +4041,14 @@ if (filterInput && papersGrid) {
     for (const [type, items] of Object.entries(groups)) {
       if (!items.length) continue;
       out += `<div class="search-result-group">${typeLabels[type]}</div>`;
-      out += items.map(item =>
-        `<div class="search-result-item" onclick="window.location='${siteUrl(item.url)}'">
+      out += items.map(item => {
+        const snippet = highlightSnippet(item.snippet || item.text || '', q);
+        return `<div class="search-result-item" onclick="window.location='${siteUrl(item.url)}'">
           <div class="sri-title">${escHtml((item.title || '').slice(0, 90))}</div>
-          <div class="sri-meta">${escHtml((item.meta  || '').slice(0, 80))}</div>
-        </div>`
-      ).join('');
+          <div class="sri-meta">${escHtml((item.meta || '').slice(0, 80))}</div>
+          ${snippet ? `<div class="sri-snippet">${snippet}</div>` : ''}
+        </div>`;
+      }).join('');
     }
     resultsDiv.innerHTML = out;
   }
@@ -3912,19 +4063,38 @@ if (filterInput && papersGrid) {
   });
 })();
 
-// Active TOC highlighting
-const observer = new IntersectionObserver((entries) => {
-  entries.forEach(entry => {
-    const id = entry.target.id;
-    const link = document.querySelector(`.toc-list a[href="#${id}"]`);
-    if (link) {
-      link.style.color = entry.isIntersecting ? 'var(--accent)' : '';
-      link.style.borderColor = entry.isIntersecting ? 'var(--accent)' : 'transparent';
-    }
-  });
-}, { rootMargin: '-20% 0px -70% 0px' });
+// Active TOC highlighting with sidebar scroll-into-view
+(function() {
+  let activeTocLink = null;
+  const sidebar = document.querySelector('.sidebar-sticky');
 
-document.querySelectorAll('h2[id], h3[id], h4[id]').forEach(h => observer.observe(h));
+  const observer = new IntersectionObserver((entries) => {
+    entries.forEach(entry => {
+      if (!entry.isIntersecting) return;
+      const id = entry.target.id;
+      const link = document.querySelector(`.toc-list a[href="#${id}"]`);
+      if (!link) return;
+
+      // Remove active from previous
+      if (activeTocLink && activeTocLink !== link) {
+        activeTocLink.classList.remove('toc-active');
+      }
+      link.classList.add('toc-active');
+      activeTocLink = link;
+
+      // Scroll the active TOC item into view within the sidebar
+      if (sidebar) {
+        const linkRect = link.getBoundingClientRect();
+        const sidebarRect = sidebar.getBoundingClientRect();
+        if (linkRect.top < sidebarRect.top + 20 || linkRect.bottom > sidebarRect.bottom - 20) {
+          link.scrollIntoView({ block: 'nearest', behavior: 'smooth' });
+        }
+      }
+    });
+  }, { rootMargin: '-10% 0px -75% 0px' });
+
+  document.querySelectorAll('h2[id], h3[id], h4[id]').forEach(h => observer.observe(h));
+})();
 
 // ── Reading Progress Bar ──────────────────────────────────────────────
 const progressBar = document.getElementById('reading-progress');
@@ -4293,9 +4463,29 @@ def main():
     papers_meta_js = build_papers_meta_js(bib, ss_data)
     glossary_js = build_glossary_js()
 
+    # Pre-compute thesis stats for homepage
+    _total_words = 0
+    _total_figs = 0
+    _total_eqs = 0
+    for _slug, _ in CHAPTERS:
+        _ltx = chapter_latex.get(_slug, '')
+        _plain = re.sub(r'\\[a-zA-Z]+\{([^}]*)\}', r'\1', _ltx)
+        _plain = re.sub(r'[\\{}%$]', ' ', _plain)
+        _total_words += len(_plain.split())
+        _total_figs += len(re.findall(r'\\includegraphics', _ltx))
+        _total_eqs += len(re.findall(r'\\begin\{(?:equation|align)\*?\}|\$\$', _ltx))
+    thesis_stats = {
+        'words': _total_words,
+        'figures': _total_figs,
+        'equations': _total_eqs,
+        'chapters': len(CHAPTERS),
+        'papers': len(bib),
+        'glossary': len(GLOSSARY),
+    }
+
     # Homepage
     (SITE_DIR / "index.html").write_text(
-        build_index(bib, ss_data, chapter_citations))
+        build_index(bib, ss_data, chapter_citations, thesis_stats))
     print("  index.html done")
 
     # Chapters — also collect all figures for gallery
