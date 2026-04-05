@@ -15,6 +15,7 @@
   
 </head>
 <body>
+<div id="reading-progress"></div>
 <nav class="site-nav">
   <div class="nav-inner">
     <a href="./index.html" class="nav-brand">
@@ -25,6 +26,12 @@
       <a href="./index.html">Home</a>
       <a href="./chapters/chapter-1.html">Chapters</a>
       <a href="./papers.html">Papers</a>
+      <a href="./glossary.html">Glossary</a>
+      <a href="./figures.html">Figures</a>
+      <a href="./graph.html">Graph</a>
+      <a href="./authors.html">Authors</a>
+      <a href="./timeline.html">Timeline</a>
+      <a href="./methods.html">Methods</a>
     </div>
     <div class="nav-actions">
       <button id="search-toggle" class="icon-btn" aria-label="Search">🔍</button>
@@ -36,6 +43,12 @@
     <a href="./index.html">Home</a>
     <a href="./chapters/chapter-1.html">Chapters</a>
     <a href="./papers.html">All Papers</a>
+    <a href="./glossary.html">Glossary</a>
+    <a href="./figures.html">Figures</a>
+    <a href="./graph.html">Citation Graph</a>
+    <a href="./authors.html">Authors</a>
+    <a href="./timeline.html">Timeline</a>
+    <a href="./methods.html">Methods</a>
   </div>
   <div id="search-bar" class="search-bar hidden">
     <input type="text" id="search-input" placeholder="Search papers, concepts, authors…" autocomplete="off">
@@ -56,6 +69,22 @@
 <div class="main-content">
   <div class="content-cols">
     <main class="content-main">
+
+      <div class="did-you-know" id="dyk-box">
+        <strong>Did you know?</strong>
+        <span id="dyk-text">Gone Phishing (MoE Transformer) achieves 100% accuracy on fish species identification — a perfect score.</span>
+        <button class="dyk-next" onclick="dykNext()" aria-label="Next fact">&#8594;</button>
+      </div>
+      <script>
+        var _dykFacts = ["Gone Phishing (MoE Transformer) achieves 100% accuracy on fish species identification \u2014 a perfect score.", "The thesis analyzes 2,080 distinct m/z features spanning 77.04 to 999.32 m/z per spectrum.", "SpectroSim achieves 70.8% batch detection accuracy without any labeled training data.", "REIMS produces a chemical fingerprint in under 3 seconds, compared to hours for traditional methods.", "The Ensemble Transformer (Autobots) combines models at 2, 4, and 8 Transformer layers simultaneously.", "Seafood fraud affects an estimated 30% of commercially sold seafood globally.", "Masked Spectra Modelling (MSM) adapts BERT's masked language modeling to 1D mass spectra.", "The thesis cites 373 papers spanning over 50 years of research, from 1970 to 2025.", "Transfer Learning from species identification to oil contamination detection improves accuracy by +22.67%.", "New Zealand is the world's largest exporter of Hoki \u2014 the premium species in adulteration experiments."];
+        var _dykIdx = 0;
+        function dykNext() {
+          _dykIdx = (_dykIdx + 1) % _dykFacts.length;
+          document.getElementById('dyk-text').textContent = _dykFacts[_dykIdx];
+        }
+        // Auto-rotate every 8 seconds
+        setInterval(dykNext, 8000);
+      </script>
 
       <section class="wiki-section">
         <h2>Abstract</h2>
@@ -119,12 +148,12 @@
     <a href="chapters/chapter-1.html" class="chapter-card">
       <div class="chapter-num">Ch. 1</div>
       <div class="chapter-card-title">Introduction</div>
-      <div class="chapter-meta">59 citations</div>
+      <div class="chapter-meta">60 citations</div>
     </a>
     <a href="chapters/chapter-2.html" class="chapter-card">
       <div class="chapter-num">Ch. 2</div>
       <div class="chapter-card-title">Literature Survey</div>
-      <div class="chapter-meta">106 citations</div>
+      <div class="chapter-meta">119 citations</div>
     </a>
     <a href="chapters/chapter-3.html" class="chapter-card">
       <div class="chapter-num">Ch. 3</div>
@@ -134,22 +163,22 @@
     <a href="chapters/chapter-4.html" class="chapter-card">
       <div class="chapter-num">Ch. 4</div>
       <div class="chapter-card-title">Fish Species and Part Identification</div>
-      <div class="chapter-meta">37 citations</div>
+      <div class="chapter-meta">52 citations</div>
     </a>
     <a href="chapters/chapter-5.html" class="chapter-card">
       <div class="chapter-num">Ch. 5</div>
       <div class="chapter-card-title">Oil Contamination and Cross-Species Adulteration</div>
-      <div class="chapter-meta">30 citations</div>
+      <div class="chapter-meta">33 citations</div>
     </a>
     <a href="chapters/chapter-6.html" class="chapter-card">
       <div class="chapter-num">Ch. 6</div>
       <div class="chapter-card-title">Contrastive Learning for Batch Detection</div>
-      <div class="chapter-meta">15 citations</div>
+      <div class="chapter-meta">37 citations</div>
     </a>
     <a href="chapters/chapter-7.html" class="chapter-card">
       <div class="chapter-num">Ch. 7</div>
       <div class="chapter-card-title">Conclusions</div>
-      <div class="chapter-meta">33 citations</div>
+      <div class="chapter-meta">34 citations</div>
     </a>
         </div>
       </section>
@@ -188,6 +217,24 @@
           <li>First REIMS-based oil contamination detection</li>
           <li>First REIMS-based cross-species adulteration detection</li>
         </ul>
+      </div>
+      <div class="info-box">
+        <h4>Cite This Thesis</h4>
+        <pre class="bibtex-mini">@phdthesis{Wood2025,
+  author = {Jesse Wood},
+  title  = {Machine Learning for Rapid Evaporative Ionization Mass Spectrometry for Marine Biomass Analysis},
+  school = {Victoria University of Wellington},
+  year   = {2025},
+}</pre>
+        <button class="bibtex-copy-btn" id="bibtex-copy-btn"
+          data-bibtex="@phdthesis{Wood2025,
+  author = {Jesse Wood},
+  title  = {Machine Learning for Rapid Evaporative Ionization Mass Spectrometry for Marine Biomass Analysis},
+  school = {Victoria University of Wellington},
+  year   = {2025},
+}">
+          📋 Copy BibTeX
+        </button>
       </div>
     </aside>
   </div>

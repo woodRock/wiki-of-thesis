@@ -1,0 +1,184 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Methods Comparison — ML for REIMS</title>
+  <link rel="stylesheet" href="./css/style.css">
+  <script>
+    // Apply saved theme before render
+    (function(){
+      const t = localStorage.getItem('theme');
+      if(t === 'dark') document.documentElement.classList.add('dark');
+    })();
+  </script>
+  
+</head>
+<body>
+<div id="reading-progress"></div>
+<nav class="site-nav">
+  <div class="nav-inner">
+    <a href="./index.html" class="nav-brand">
+      <img src="./assets/university-logo.png" alt="University Logo" class="nav-logo" onerror="this.style.display='none'">
+      <span class="nav-title">ML for REIMS</span>
+    </a>
+    <div class="nav-links">
+      <a href="./index.html">Home</a>
+      <a href="./chapters/chapter-1.html">Chapters</a>
+      <a href="./papers.html">Papers</a>
+      <a href="./glossary.html">Glossary</a>
+      <a href="./figures.html">Figures</a>
+      <a href="./graph.html">Graph</a>
+      <a href="./authors.html">Authors</a>
+      <a href="./timeline.html">Timeline</a>
+      <a href="./methods.html">Methods</a>
+    </div>
+    <div class="nav-actions">
+      <button id="search-toggle" class="icon-btn" aria-label="Search">🔍</button>
+      <button id="theme-toggle" class="icon-btn" aria-label="Toggle theme">🌙</button>
+      <button id="menu-toggle" class="icon-btn" aria-label="Menu">☰</button>
+    </div>
+  </div>
+  <div id="mobile-menu" class="mobile-menu hidden">
+    <a href="./index.html">Home</a>
+    <a href="./chapters/chapter-1.html">Chapters</a>
+    <a href="./papers.html">All Papers</a>
+    <a href="./glossary.html">Glossary</a>
+    <a href="./figures.html">Figures</a>
+    <a href="./graph.html">Citation Graph</a>
+    <a href="./authors.html">Authors</a>
+    <a href="./timeline.html">Timeline</a>
+    <a href="./methods.html">Methods</a>
+  </div>
+  <div id="search-bar" class="search-bar hidden">
+    <input type="text" id="search-input" placeholder="Search papers, concepts, authors…" autocomplete="off">
+    <div id="search-results" class="search-results"></div>
+  </div>
+</nav>
+<div id="page-wrapper">
+
+<div class="methods-page">
+  <header class="methods-header">
+    <h1>Methods Comparison</h1>
+    <p>Cross-chapter comparison of all analytical tasks, baselines, and best-performing models from the thesis.</p>
+  </header>
+
+  <section class="wiki-section">
+    <h2>Summary Results</h2>
+    <div class="table-wrap">
+    <table class="methods-table">
+      <thead>
+        <tr>
+          <th>Task</th>
+          <th>Baseline (OPLS-DA)</th>
+          <th>Best Deep Learning Model</th>
+          <th>Improvement</th>
+        </tr>
+      </thead>
+      <tbody>
+      <tr>
+        <td><strong>Fish Species</strong></td>
+        <td class="text-muted">OPLS-DA: 96.39%</td>
+        <td class="methods-best">MoE Transformer: 100.00%</td>
+        <td class="gain">+3.61%</td>
+      </tr>
+      <tr>
+        <td><strong>Fish Body Part</strong></td>
+        <td class="text-muted">OPLS-DA: 51.17%</td>
+        <td class="methods-best">Ensemble Transformer: 74.13%</td>
+        <td class="gain">+22.96%</td>
+      </tr>
+      <tr>
+        <td><strong>Oil Contamination</strong></td>
+        <td class="text-muted">OPLS-DA: 26.43%</td>
+        <td class="methods-best">TL MoE Transformer: 49.10%</td>
+        <td class="gain">+22.67%</td>
+      </tr>
+      <tr>
+        <td><strong>Cross-species Adulteration</strong></td>
+        <td class="text-muted">OPLS-DA: 79.96%</td>
+        <td class="methods-best">Pre-trained Transformer: 91.97%</td>
+        <td class="gain">+12.01%</td>
+      </tr>
+      <tr>
+        <td><strong>Batch Detection</strong></td>
+        <td class="text-muted">OPLS-DA: 53.19%</td>
+        <td class="methods-best">SpectroSim (Transformer): 70.80%</td>
+        <td class="gain">+17.61%</td>
+      </tr>
+      </tbody>
+    </table>
+    </div>
+  </section>
+
+  <section class="wiki-section">
+    <h2>Model Details</h2>
+    <div class="method-cards-grid">
+      
+<div class="method-card">
+  <div class="method-card-header">
+    <div class="method-name">MoE Transformer (Gone Phishing)</div>
+    <div class="method-task">Fish Species</div>
+    <div class="method-acc">100.00%</div>
+  </div>
+  <p class="method-desc">Mixture of Experts Transformer replacing FFN layers with gated expert sub-networks. Routes different spectral regions to specialized experts.</p>
+  <a href="chapters/chapter-4.html" class="method-link">See Chapter 4 →</a>
+</div>
+<div class="method-card">
+  <div class="method-card-header">
+    <div class="method-name">Ensemble Transformer (Autobots)</div>
+    <div class="method-task">Fish Body Part</div>
+    <div class="method-acc">74.13%</div>
+  </div>
+  <p class="method-desc">Multi-scale stacked ensemble: three Transformers with 2, 4, and 8 layers act as level-0 classifiers, combined by a meta-learner.</p>
+  <a href="chapters/chapter-4.html" class="method-link">See Chapter 4 →</a>
+</div>
+<div class="method-card">
+  <div class="method-card-header">
+    <div class="method-name">TL MoE Transformer</div>
+    <div class="method-task">Oil Contamination</div>
+    <div class="method-acc">49.10%</div>
+  </div>
+  <p class="method-desc">Transfer Learning applied to MoE Transformer: pre-trained on species identification, fine-tuned for ordinal oil contamination detection.</p>
+  <a href="chapters/chapter-5.html" class="method-link">See Chapter 5 →</a>
+</div>
+<div class="method-card">
+  <div class="method-card-header">
+    <div class="method-name">Pre-trained Transformer</div>
+    <div class="method-task">Cross-species Adulteration</div>
+    <div class="method-acc">91.97%</div>
+  </div>
+  <p class="method-desc">Transformer pre-trained with Masked Spectra Modelling (MSM), then fine-tuned for 3-class adulteration detection (Hoki/Mackerel/mixture).</p>
+  <a href="chapters/chapter-5.html" class="method-link">See Chapter 5 →</a>
+</div>
+<div class="method-card">
+  <div class="method-card-header">
+    <div class="method-name">SpectroSim (Transformer)</div>
+    <div class="method-task">Batch Detection</div>
+    <div class="method-acc">70.80%</div>
+  </div>
+  <p class="method-desc">Self-supervised contrastive framework (SimCLR adaptation) using a Transformer encoder to learn pairwise mass spectra similarity without labels.</p>
+  <a href="chapters/chapter-6.html" class="method-link">See Chapter 6 →</a>
+</div>
+    </div>
+  </section>
+
+  <section class="wiki-section">
+    <h2>Common Methods</h2>
+    <p>All models are evaluated using <strong>Balanced Classification Accuracy (BCA)</strong> to handle class imbalance. The baseline throughout is <strong>OPLS-DA</strong> (Orthogonal Partial Least Squares Discriminant Analysis), the standard chemometrics method. Deep learning architectures are all based on the <strong>Transformer</strong> with various enhancements (MoE, ensembling, transfer learning, contrastive learning).</p>
+    <p>Explainability is provided via <strong>LIME</strong> and <strong>Grad-CAM</strong>, identifying which m/z spectral features drive each prediction.</p>
+  </section>
+</div>
+
+</div>
+<footer class="site-footer">
+  <div class="footer-inner">
+    <p>
+      <strong>Jesse Wood</strong> · PhD Thesis · Victoria University of Wellington · 2025
+    </p>
+    <p class="footer-sub">Machine Learning for Rapid Evaporative Ionization Mass Spectrometry for Marine Biomass Analysis</p>
+  </div>
+</footer>
+<script src="./js/main.js"></script>
+</body>
+</html>

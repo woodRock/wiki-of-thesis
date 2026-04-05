@@ -1,0 +1,370 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Glossary — ML for REIMS</title>
+  <link rel="stylesheet" href="./css/style.css">
+  <script>
+    // Apply saved theme before render
+    (function(){
+      const t = localStorage.getItem('theme');
+      if(t === 'dark') document.documentElement.classList.add('dark');
+    })();
+  </script>
+  
+</head>
+<body>
+<div id="reading-progress"></div>
+<nav class="site-nav">
+  <div class="nav-inner">
+    <a href="./index.html" class="nav-brand">
+      <img src="./assets/university-logo.png" alt="University Logo" class="nav-logo" onerror="this.style.display='none'">
+      <span class="nav-title">ML for REIMS</span>
+    </a>
+    <div class="nav-links">
+      <a href="./index.html">Home</a>
+      <a href="./chapters/chapter-1.html">Chapters</a>
+      <a href="./papers.html">Papers</a>
+      <a href="./glossary.html">Glossary</a>
+      <a href="./figures.html">Figures</a>
+      <a href="./graph.html">Graph</a>
+      <a href="./authors.html">Authors</a>
+      <a href="./timeline.html">Timeline</a>
+      <a href="./methods.html">Methods</a>
+    </div>
+    <div class="nav-actions">
+      <button id="search-toggle" class="icon-btn" aria-label="Search">🔍</button>
+      <button id="theme-toggle" class="icon-btn" aria-label="Toggle theme">🌙</button>
+      <button id="menu-toggle" class="icon-btn" aria-label="Menu">☰</button>
+    </div>
+  </div>
+  <div id="mobile-menu" class="mobile-menu hidden">
+    <a href="./index.html">Home</a>
+    <a href="./chapters/chapter-1.html">Chapters</a>
+    <a href="./papers.html">All Papers</a>
+    <a href="./glossary.html">Glossary</a>
+    <a href="./figures.html">Figures</a>
+    <a href="./graph.html">Citation Graph</a>
+    <a href="./authors.html">Authors</a>
+    <a href="./timeline.html">Timeline</a>
+    <a href="./methods.html">Methods</a>
+  </div>
+  <div id="search-bar" class="search-bar hidden">
+    <input type="text" id="search-input" placeholder="Search papers, concepts, authors…" autocomplete="off">
+    <div id="search-results" class="search-results"></div>
+  </div>
+</nav>
+<div id="page-wrapper">
+
+<div class="glossary-page">
+  <header class="glossary-header">
+    <h1>Glossary</h1>
+    <p>Key terms, methods, and concepts from the thesis on Machine Learning for REIMS Marine Biomass Analysis.</p>
+  </header>
+  <nav class="glossary-alpha-nav"><a class="alpha-link" href="#A">A</a><a class="alpha-link" href="#B">B</a><a class="alpha-link" href="#C">C</a><a class="alpha-link" href="#E">E</a><a class="alpha-link" href="#F">F</a><a class="alpha-link" href="#G">G</a><a class="alpha-link" href="#H">H</a><a class="alpha-link" href="#I">I</a><a class="alpha-link" href="#K">K</a><a class="alpha-link" href="#L">L</a><a class="alpha-link" href="#M">M</a><a class="alpha-link" href="#N">N</a><a class="alpha-link" href="#O">O</a><a class="alpha-link" href="#P">P</a><a class="alpha-link" href="#R">R</a><a class="alpha-link" href="#S">S</a><a class="alpha-link" href="#T">T</a></nav>
+  
+<div class="alpha-section">
+  <h2 id="A">A</h2>
+  
+<div class="glossary-entry" id="autobots">
+  <div class="glossary-entry-term">Autobots</div>
+  <div class="glossary-entry-full">Autobots (Multi-scale Ensemble Transformer)</div>
+  <div class="glossary-entry-def">A stacked voting ensemble of multi-scale Transformers introduced in this thesis — the name is a pun on the Autobots, a team of diverse Transformers. Three independent Transformer models with 2, 4, and 8 layers/heads respectively act as level-0 base classifiers analyzing the spectrum at low, medium, and high resolution. Their outputs are fed into a learned weighted combination meta-model (level-1) that optimally combines each model&#x27;s predictions. Achieves 74.13% accuracy on fish body part identification.</div>
+  <span class="glossary-entry-cat">Novel Contribution</span>
+</div>
+</div>
+<div class="alpha-section">
+  <h2 id="B">B</h2>
+  
+<div class="glossary-entry" id="batch-detection">
+  <div class="glossary-entry-term">Batch Detection</div>
+  
+  <div class="glossary-entry-def">The task of determining whether two fish samples originate from the same processing batch. Enables rapid recalls if contamination is discovered. Formulated as a pairwise classification task using contrastive learning in this thesis.</div>
+  <span class="glossary-entry-cat">Analysis Task</span>
+</div>
+<div class="glossary-entry" id="bca">
+  <div class="glossary-entry-term">BCA</div>
+  <div class="glossary-entry-full">Balanced Classification Accuracy</div>
+  <div class="glossary-entry-def">An accuracy metric that averages per-class recall, compensating for class imbalance. Used as the primary evaluation metric in this thesis to fairly compare models across unbalanced datasets.</div>
+  <span class="glossary-entry-cat">Method</span>
+</div>
+<div class="glossary-entry" id="bert">
+  <div class="glossary-entry-term">BERT</div>
+  <div class="glossary-entry-full">Bidirectional Encoder Representations from Transformers</div>
+  <div class="glossary-entry-def">A pre-training language model using masked language modeling. Its masked-token objective inspired the Masked Spectra Modelling (MSM) technique in this thesis.</div>
+  <span class="glossary-entry-cat">Model</span>
+</div>
+<div class="glossary-entry" id="body-part-identification">
+  <div class="glossary-entry-term">Body Part Identification</div>
+  <div class="glossary-entry-full">Fish Body Part Identification</div>
+  <div class="glossary-entry-def">Classifying which anatomical body part a fish sample originates from (e.g., fillet, frame, offal). A multi-class problem where Ensemble Transformer achieves 74.13% accuracy vs. 51.17% for OPLS-DA.</div>
+  <span class="glossary-entry-cat">Analysis Task</span>
+</div>
+</div>
+<div class="alpha-section">
+  <h2 id="C">C</h2>
+  
+<div class="glossary-entry" id="chemical-fingerprint">
+  <div class="glossary-entry-term">Chemical Fingerprint</div>
+  
+  <div class="glossary-entry-def">The characteristic pattern of molecular ions detected in a mass spectrum, unique to a given biological sample. REIMS produces chemical fingerprints of tissue that encode species, body part, and contamination information.</div>
+  <span class="glossary-entry-cat">Instrumentation</span>
+</div>
+<div class="glossary-entry" id="contrastive-learning">
+  <div class="glossary-entry-term">Contrastive Learning</div>
+  
+  <div class="glossary-entry-def">A self-supervised learning paradigm that trains models to pull representations of similar samples together and push dissimilar samples apart. Used in SpectroSim for batch traceability without requiring labeled batch data.</div>
+  <span class="glossary-entry-cat">Method</span>
+</div>
+<div class="glossary-entry" id="cross-species-adulteration">
+  <div class="glossary-entry-term">Cross-species Adulteration</div>
+  
+  <div class="glossary-entry-def">Food fraud where a high-value fish species (Hoki) is mixed with a cheaper species (Mackerel). Formulated as a 3-class problem: pure Hoki, pure Mackerel, or a 50/50 mixture. Deep learning achieves 91.97% accuracy vs. 79.96% for OPLS-DA.</div>
+  <span class="glossary-entry-cat">Analysis Task</span>
+</div>
+</div>
+<div class="alpha-section">
+  <h2 id="E">E</h2>
+  
+<div class="glossary-entry" id="ensemble-transformer">
+  <div class="glossary-entry-term">Ensemble Transformer</div>
+  
+  <div class="glossary-entry-def">An architecture combining multiple Transformer models trained with different initializations or configurations. Achieves 74.13% body part identification accuracy by aggregating predictions from multiple specialized models.</div>
+  <span class="glossary-entry-cat">Model</span>
+</div>
+</div>
+<div class="alpha-section">
+  <h2 id="F">F</h2>
+  
+<div class="glossary-entry" id="food-fraud">
+  <div class="glossary-entry-term">Food Fraud</div>
+  
+  <div class="glossary-entry-def">Deliberate adulteration, mislabeling, or misrepresentation of food products for economic gain. Seafood fraud is estimated to affect 30% of commercially sold seafood globally, driving the need for rapid verification tools like REIMS.</div>
+  <span class="glossary-entry-cat">Domain</span>
+</div>
+</div>
+<div class="alpha-section">
+  <h2 id="G">G</h2>
+  
+<div class="glossary-entry" id="gone-phishing">
+  <div class="glossary-entry-term">Gone Phishing</div>
+  <div class="glossary-entry-full">Gone Phishing (MoE Transformer)</div>
+  <div class="glossary-entry-def">A novel Mixture of Experts (MoE) Transformer architecture introduced in this thesis for REIMS-based fish fraud detection — the name is a pun on fish and phishing. It replaces the standard feed-forward networks inside each Transformer encoder block with MoE layers: a learned gating mechanism routes each input token to the Top-k most relevant expert sub-networks, whose outputs are combined by a weighted sum. This allows the model to scale capacity without proportionally increasing compute. Achieves 100% accuracy on fish species identification.</div>
+  <span class="glossary-entry-cat">Novel Contribution</span>
+</div>
+<div class="glossary-entry" id="grad-cam">
+  <div class="glossary-entry-term">Grad-CAM</div>
+  <div class="glossary-entry-full">Gradient-weighted Class Activation Mapping</div>
+  <div class="glossary-entry-def">An explainability technique that uses gradients flowing into the final convolutional or attention layer to produce a saliency map. Applied to Transformer models in this thesis to visualize spectral regions important for classification.</div>
+  <span class="glossary-entry-cat">Method</span>
+</div>
+</div>
+<div class="alpha-section">
+  <h2 id="H">H</h2>
+  
+<div class="glossary-entry" id="hoki">
+  <div class="glossary-entry-term">Hoki</div>
+  <div class="glossary-entry-full">Hoki (Macruronus novaezelandiae)</div>
+  <div class="glossary-entry-def">A deep-sea fish species native to New Zealand waters, used as the high-value species in cross-species adulteration experiments. New Zealand is the world&#x27;s largest exporter of Hoki, making it a target for seafood fraud.</div>
+  <span class="glossary-entry-cat">Domain</span>
+</div>
+</div>
+<div class="alpha-section">
+  <h2 id="I">I</h2>
+  
+<div class="glossary-entry" id="iuu-fishing">
+  <div class="glossary-entry-term">IUU Fishing</div>
+  <div class="glossary-entry-full">Illegal, Unreported and Unregulated Fishing</div>
+  <div class="glossary-entry-def">Fishing activities that contravene national and international laws, including fishing without authorization, under-reporting catches, and operating in restricted areas. REIMS-based species identification can help verify the provenance of seafood products.</div>
+  <span class="glossary-entry-cat">Domain</span>
+</div>
+</div>
+<div class="alpha-section">
+  <h2 id="K">K</h2>
+  
+<div class="glossary-entry" id="knn">
+  <div class="glossary-entry-term">KNN</div>
+  <div class="glossary-entry-full">K-Nearest Neighbours</div>
+  <div class="glossary-entry-def">A non-parametric classification algorithm that assigns a label based on the majority class among the k nearest training samples. Used as a baseline classifier in this thesis.</div>
+  <span class="glossary-entry-cat">Model</span>
+</div>
+</div>
+<div class="alpha-section">
+  <h2 id="L">L</h2>
+  
+<div class="glossary-entry" id="lime">
+  <div class="glossary-entry-term">LIME</div>
+  <div class="glossary-entry-full">Local Interpretable Model-agnostic Explanations</div>
+  <div class="glossary-entry-def">An explainability technique that approximates any black-box model locally with an interpretable surrogate. Applied to REIMS models in this thesis to identify which m/z features most influence individual predictions.</div>
+  <span class="glossary-entry-cat">Method</span>
+</div>
+</div>
+<div class="alpha-section">
+  <h2 id="M">M</h2>
+  
+<div class="glossary-entry" id="m-z">
+  <div class="glossary-entry-term">m/z</div>
+  <div class="glossary-entry-full">Mass-to-Charge Ratio</div>
+  <div class="glossary-entry-def">The x-axis of a mass spectrum, representing the ratio of an ion&#x27;s mass to its charge. The REIMS dataset spans 2,080 distinct m/z features from approximately 77.04 to 999.32 m/z, each corresponding to a different molecular ion.</div>
+  <span class="glossary-entry-cat">Instrumentation</span>
+</div>
+<div class="glossary-entry" id="mackerel">
+  <div class="glossary-entry-term">Mackerel</div>
+  <div class="glossary-entry-full">Mackerel (Scomber japonicus)</div>
+  <div class="glossary-entry-def">A pelagic fish species used as the adulterant in cross-species adulteration experiments. Less expensive than Hoki but with a similar appearance when processed, making it a common seafood fraud target.</div>
+  <span class="glossary-entry-cat">Domain</span>
+</div>
+<div class="glossary-entry" id="mae">
+  <div class="glossary-entry-term">MAE</div>
+  <div class="glossary-entry-full">Mean Absolute Error</div>
+  <div class="glossary-entry-def">The average absolute difference between predicted and true values. Used alongside BCA for ordinal classification tasks (oil contamination, adulteration) where the magnitude of classification error matters.</div>
+  <span class="glossary-entry-cat">Method</span>
+</div>
+<div class="glossary-entry" id="marine-biomass">
+  <div class="glossary-entry-term">Marine Biomass</div>
+  
+  <div class="glossary-entry-def">The total mass of all living marine organisms within a given area or ecosystem. In the context of this thesis, refers to the biological material (fish and shellfish) analyzed using REIMS for food quality and traceability applications.</div>
+  <span class="glossary-entry-cat">Domain</span>
+</div>
+<div class="glossary-entry" id="moe">
+  <div class="glossary-entry-term">MoE</div>
+  <div class="glossary-entry-full">Mixture of Experts</div>
+  <div class="glossary-entry-def">A neural network architecture where multiple specialized sub-networks (experts) process different inputs, gated by a learned router. The MoE Transformer achieves 100% species identification accuracy by routing different spectral regions to specialized expert networks.</div>
+  <span class="glossary-entry-cat">Model</span>
+</div>
+<div class="glossary-entry" id="msm">
+  <div class="glossary-entry-term">MSM</div>
+  <div class="glossary-entry-full">Masked Spectra Modelling</div>
+  <div class="glossary-entry-def">A novel self-supervised pre-training technique introduced in this thesis, adapting BERT&#x27;s masked language modeling to sequential REIMS data. Random m/z features are masked and the model learns to reconstruct them, providing a useful initialization for downstream tasks.</div>
+  <span class="glossary-entry-cat">Novel Contribution</span>
+</div>
+</div>
+<div class="alpha-section">
+  <h2 id="N">N</h2>
+  
+<div class="glossary-entry" id="negative-ionization-mode">
+  <div class="glossary-entry-term">Negative Ionization Mode</div>
+  
+  <div class="glossary-entry-def">A mass spectrometry acquisition mode in which negatively charged ions are detected. REIMS in negative ionization mode primarily detects lipid-related compounds (fatty acids, phospholipids) that form the chemical fingerprint of fish tissue.</div>
+  <span class="glossary-entry-cat">Instrumentation</span>
+</div>
+</div>
+<div class="alpha-section">
+  <h2 id="O">O</h2>
+  
+<div class="glossary-entry" id="oil-contamination">
+  <div class="glossary-entry-term">Oil Contamination</div>
+  <div class="glossary-entry-full">Oil Contamination Detection</div>
+  <div class="glossary-entry-def">Detection and quantification of oil (e.g., engine or processing equipment oil) introduced into fish samples. Formulated as a 7-class ordinal classification problem with oil concentrations from 0% to 50% in 10% increments.</div>
+  <span class="glossary-entry-cat">Analysis Task</span>
+</div>
+<div class="glossary-entry" id="opls-da">
+  <div class="glossary-entry-term">OPLS-DA</div>
+  <div class="glossary-entry-full">Orthogonal Partial Least Squares Discriminant Analysis</div>
+  <div class="glossary-entry-def">A supervised chemometrics classification method that separates variation correlated with class labels (predictive) from orthogonal variation. Used as the primary baseline in this thesis, achieving up to 96% accuracy on species identification.</div>
+  <span class="glossary-entry-cat">Method</span>
+</div>
+<div class="glossary-entry" id="ordinal-classification">
+  <div class="glossary-entry-term">Ordinal Classification</div>
+  
+  <div class="glossary-entry-def">Classification where the target classes have a natural ordering (e.g., 0%, 10%, 20% oil concentration). Standard classification ignores this ordering; ordinal methods exploit it. Used for oil contamination detection in this thesis.</div>
+  <span class="glossary-entry-cat">Method</span>
+</div>
+</div>
+<div class="alpha-section">
+  <h2 id="P">P</h2>
+  
+<div class="glossary-entry" id="pca">
+  <div class="glossary-entry-term">PCA</div>
+  <div class="glossary-entry-full">Principal Component Analysis</div>
+  <div class="glossary-entry-def">A linear dimensionality reduction technique that projects data onto axes of maximum variance. Used for visualization and as a preprocessing step, but outperformed by deep learning methods on REIMS classification tasks.</div>
+  <span class="glossary-entry-cat">Method</span>
+</div>
+</div>
+<div class="alpha-section">
+  <h2 id="R">R</h2>
+  
+<div class="glossary-entry" id="reims">
+  <div class="glossary-entry-term">REIMS</div>
+  <div class="glossary-entry-full">Rapid Evaporative Ionization Mass Spectrometry</div>
+  <div class="glossary-entry-def">A direct-to-analysis technique that allows near-instantaneous chemical analysis of a sample with minimal to no preparation. A heated blade vaporizes tissue, and the resulting aerosol is directed into a mass spectrometer, producing a chemical fingerprint in seconds.</div>
+  <span class="glossary-entry-cat">Instrumentation</span>
+</div>
+</div>
+<div class="alpha-section">
+  <h2 id="S">S</h2>
+  
+<div class="glossary-entry" id="self-supervised-learning">
+  <div class="glossary-entry-term">Self-supervised Learning</div>
+  
+  <div class="glossary-entry-def">A machine learning paradigm that generates supervisory signals from the data itself, without human-labeled annotations. Used in this thesis for MSM pre-training and SpectroSim contrastive learning on REIMS spectra.</div>
+  <span class="glossary-entry-cat">Method</span>
+</div>
+<div class="glossary-entry" id="simclr">
+  <div class="glossary-entry-term">SimCLR</div>
+  <div class="glossary-entry-full">Simple Contrastive Learning of Representations</div>
+  <div class="glossary-entry-def">A contrastive learning framework by Chen et al. (2020) that learns representations by maximizing agreement between differently augmented views of the same sample. SpectroSim adapts this framework for mass spectra.</div>
+  <span class="glossary-entry-cat">Method</span>
+</div>
+<div class="glossary-entry" id="species-identification">
+  <div class="glossary-entry-term">Species Identification</div>
+  <div class="glossary-entry-full">Fish Species Identification</div>
+  <div class="glossary-entry-def">Classifying a REIMS spectrum to determine the fish species. A 2-class problem (Hoki vs. Mackerel) in this thesis, where MoE Transformer achieves 100% accuracy vs. 96.39% for OPLS-DA.</div>
+  <span class="glossary-entry-cat">Analysis Task</span>
+</div>
+<div class="glossary-entry" id="species-substitution">
+  <div class="glossary-entry-term">Species Substitution</div>
+  
+  <div class="glossary-entry-def">A form of food fraud where a premium fish species is replaced with a cheaper alternative. Detected in this thesis using REIMS-based classification, achieving up to 100% accuracy with Transformer models.</div>
+  <span class="glossary-entry-cat">Domain</span>
+</div>
+<div class="glossary-entry" id="spectrosim">
+  <div class="glossary-entry-term">SpectroSim</div>
+  
+  <div class="glossary-entry-def">A novel contrastive learning framework introduced in this thesis for label-free batch traceability. Uses a Transformer encoder within the SimCLR framework to learn pairwise similarity between mass spectra, achieving 70.8% batch detection accuracy without labeled data.</div>
+  <span class="glossary-entry-cat">Novel Contribution</span>
+</div>
+<div class="glossary-entry" id="svm">
+  <div class="glossary-entry-term">SVM</div>
+  <div class="glossary-entry-full">Support Vector Machine</div>
+  <div class="glossary-entry-def">A supervised learning algorithm that finds the optimal hyperplane separating classes in a high-dimensional feature space. Used as a baseline classifier in this thesis.</div>
+  <span class="glossary-entry-cat">Model</span>
+</div>
+</div>
+<div class="alpha-section">
+  <h2 id="T">T</h2>
+  
+<div class="glossary-entry" id="tic">
+  <div class="glossary-entry-term">TIC</div>
+  <div class="glossary-entry-full">Total Ion Current</div>
+  <div class="glossary-entry-def">The sum of all detected ion intensities across all m/z values in a single mass spectrum. TIC normalization divides each feature by the total ion current to remove inter-sample variation in overall signal intensity.</div>
+  <span class="glossary-entry-cat">Instrumentation</span>
+</div>
+<div class="glossary-entry" id="transfer-learning">
+  <div class="glossary-entry-term">Transfer Learning</div>
+  
+  <div class="glossary-entry-def">A machine learning approach where a model pre-trained on one task or dataset is fine-tuned on a different but related task. In this thesis, models trained on species identification are adapted to oil contamination detection, improving accuracy by up to 22.67%.</div>
+  <span class="glossary-entry-cat">Method</span>
+</div>
+<div class="glossary-entry" id="transformer">
+  <div class="glossary-entry-term">Transformer</div>
+  <div class="glossary-entry-full">Transformer Neural Network</div>
+  <div class="glossary-entry-def">A deep learning architecture based on self-attention mechanisms, introduced by Vaswani et al. (2017). Processes all elements of a sequence in parallel, capturing long-range dependencies. Applied to REIMS spectra as sequences of m/z values in this thesis.</div>
+  <span class="glossary-entry-cat">Model</span>
+</div>
+</div>
+</div>
+
+</div>
+<footer class="site-footer">
+  <div class="footer-inner">
+    <p>
+      <strong>Jesse Wood</strong> · PhD Thesis · Victoria University of Wellington · 2025
+    </p>
+    <p class="footer-sub">Machine Learning for Rapid Evaporative Ionization Mass Spectrometry for Marine Biomass Analysis</p>
+  </div>
+</footer>
+<script src="./js/main.js"></script>
+</body>
+</html>

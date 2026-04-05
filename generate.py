@@ -19,6 +19,194 @@ SS_BATCH_URL = "https://api.semanticscholar.org/graph/v1/paper/batch"
 SS_SEARCH_URL = "https://api.semanticscholar.org/graph/v1/paper/search"
 SS_FIELDS = "title,authors,year,abstract,citationCount,venue,externalIds,openAccessPdf"
 
+GLOSSARY = {
+    "REIMS": {
+        "full": "Rapid Evaporative Ionization Mass Spectrometry",
+        "definition": "A direct-to-analysis technique that allows near-instantaneous chemical analysis of a sample with minimal to no preparation. A heated blade vaporizes tissue, and the resulting aerosol is directed into a mass spectrometer, producing a chemical fingerprint in seconds.",
+        "category": "instrument",
+    },
+    "m/z": {
+        "full": "Mass-to-Charge Ratio",
+        "definition": "The x-axis of a mass spectrum, representing the ratio of an ion's mass to its charge. The REIMS dataset spans 2,080 distinct m/z features from approximately 77.04 to 999.32 m/z, each corresponding to a different molecular ion.",
+        "category": "instrument",
+    },
+    "TIC": {
+        "full": "Total Ion Current",
+        "definition": "The sum of all detected ion intensities across all m/z values in a single mass spectrum. TIC normalization divides each feature by the total ion current to remove inter-sample variation in overall signal intensity.",
+        "category": "instrument",
+    },
+    "OPLS-DA": {
+        "full": "Orthogonal Partial Least Squares Discriminant Analysis",
+        "definition": "A supervised chemometrics classification method that separates variation correlated with class labels (predictive) from orthogonal variation. Used as the primary baseline in this thesis, achieving up to 96% accuracy on species identification.",
+        "category": "method",
+    },
+    "Batch Detection": {
+        "full": "Batch Detection",
+        "definition": "The task of determining whether two fish samples originate from the same processing batch. Enables rapid recalls if contamination is discovered. Formulated as a pairwise classification task using contrastive learning in this thesis.",
+        "category": "task",
+    },
+    "Cross-species Adulteration": {
+        "full": "Cross-species Adulteration",
+        "definition": "Food fraud where a high-value fish species (Hoki) is mixed with a cheaper species (Mackerel). Formulated as a 3-class problem: pure Hoki, pure Mackerel, or a 50/50 mixture. Deep learning achieves 91.97% accuracy vs. 79.96% for OPLS-DA.",
+        "category": "task",
+    },
+    "Oil Contamination": {
+        "full": "Oil Contamination Detection",
+        "definition": "Detection and quantification of oil (e.g., engine or processing equipment oil) introduced into fish samples. Formulated as a 7-class ordinal classification problem with oil concentrations from 0% to 50% in 10% increments.",
+        "category": "task",
+    },
+    "Species Identification": {
+        "full": "Fish Species Identification",
+        "definition": "Classifying a REIMS spectrum to determine the fish species. A 2-class problem (Hoki vs. Mackerel) in this thesis, where MoE Transformer achieves 100% accuracy vs. 96.39% for OPLS-DA.",
+        "category": "task",
+    },
+    "Body Part Identification": {
+        "full": "Fish Body Part Identification",
+        "definition": "Classifying which anatomical body part a fish sample originates from (e.g., fillet, frame, offal). A multi-class problem where Ensemble Transformer achieves 74.13% accuracy vs. 51.17% for OPLS-DA.",
+        "category": "task",
+    },
+    "Marine Biomass": {
+        "full": "Marine Biomass",
+        "definition": "The total mass of all living marine organisms within a given area or ecosystem. In the context of this thesis, refers to the biological material (fish and shellfish) analyzed using REIMS for food quality and traceability applications.",
+        "category": "domain",
+    },
+    "Transformer": {
+        "full": "Transformer Neural Network",
+        "definition": "A deep learning architecture based on self-attention mechanisms, introduced by Vaswani et al. (2017). Processes all elements of a sequence in parallel, capturing long-range dependencies. Applied to REIMS spectra as sequences of m/z values in this thesis.",
+        "category": "model",
+    },
+    "MoE": {
+        "full": "Mixture of Experts",
+        "definition": "A neural network architecture where multiple specialized sub-networks (experts) process different inputs, gated by a learned router. The MoE Transformer achieves 100% species identification accuracy by routing different spectral regions to specialized expert networks.",
+        "category": "model",
+    },
+    "SpectroSim": {
+        "full": "SpectroSim",
+        "definition": "A novel contrastive learning framework introduced in this thesis for label-free batch traceability. Uses a Transformer encoder within the SimCLR framework to learn pairwise similarity between mass spectra, achieving 70.8% batch detection accuracy without labeled data.",
+        "category": "contribution",
+    },
+    "MSM": {
+        "full": "Masked Spectra Modelling",
+        "definition": "A novel self-supervised pre-training technique introduced in this thesis, adapting BERT's masked language modeling to sequential REIMS data. Random m/z features are masked and the model learns to reconstruct them, providing a useful initialization for downstream tasks.",
+        "category": "contribution",
+    },
+    "Gone Phishing": {
+        "full": "Gone Phishing (MoE Transformer)",
+        "definition": "A novel Mixture of Experts (MoE) Transformer architecture introduced in this thesis for REIMS-based fish fraud detection — the name is a pun on fish and phishing. It replaces the standard feed-forward networks inside each Transformer encoder block with MoE layers: a learned gating mechanism routes each input token to the Top-k most relevant expert sub-networks, whose outputs are combined by a weighted sum. This allows the model to scale capacity without proportionally increasing compute. Achieves 100% accuracy on fish species identification.",
+        "category": "contribution",
+    },
+    "Autobots": {
+        "full": "Autobots (Multi-scale Ensemble Transformer)",
+        "definition": "A stacked voting ensemble of multi-scale Transformers introduced in this thesis — the name is a pun on the Autobots, a team of diverse Transformers. Three independent Transformer models with 2, 4, and 8 layers/heads respectively act as level-0 base classifiers analyzing the spectrum at low, medium, and high resolution. Their outputs are fed into a learned weighted combination meta-model (level-1) that optimally combines each model's predictions. Achieves 74.13% accuracy on fish body part identification.",
+        "category": "contribution",
+    },
+    "Ensemble Transformer": {
+        "full": "Ensemble Transformer",
+        "definition": "An architecture combining multiple Transformer models trained with different initializations or configurations. Achieves 74.13% body part identification accuracy by aggregating predictions from multiple specialized models.",
+        "category": "model",
+    },
+    "LIME": {
+        "full": "Local Interpretable Model-agnostic Explanations",
+        "definition": "An explainability technique that approximates any black-box model locally with an interpretable surrogate. Applied to REIMS models in this thesis to identify which m/z features most influence individual predictions.",
+        "category": "method",
+    },
+    "Grad-CAM": {
+        "full": "Gradient-weighted Class Activation Mapping",
+        "definition": "An explainability technique that uses gradients flowing into the final convolutional or attention layer to produce a saliency map. Applied to Transformer models in this thesis to visualize spectral regions important for classification.",
+        "category": "method",
+    },
+    "Transfer Learning": {
+        "full": "Transfer Learning",
+        "definition": "A machine learning approach where a model pre-trained on one task or dataset is fine-tuned on a different but related task. In this thesis, models trained on species identification are adapted to oil contamination detection, improving accuracy by up to 22.67%.",
+        "category": "method",
+    },
+    "Contrastive Learning": {
+        "full": "Contrastive Learning",
+        "definition": "A self-supervised learning paradigm that trains models to pull representations of similar samples together and push dissimilar samples apart. Used in SpectroSim for batch traceability without requiring labeled batch data.",
+        "category": "method",
+    },
+    "SimCLR": {
+        "full": "Simple Contrastive Learning of Representations",
+        "definition": "A contrastive learning framework by Chen et al. (2020) that learns representations by maximizing agreement between differently augmented views of the same sample. SpectroSim adapts this framework for mass spectra.",
+        "category": "method",
+    },
+    "BERT": {
+        "full": "Bidirectional Encoder Representations from Transformers",
+        "definition": "A pre-training language model using masked language modeling. Its masked-token objective inspired the Masked Spectra Modelling (MSM) technique in this thesis.",
+        "category": "model",
+    },
+    "Self-supervised Learning": {
+        "full": "Self-supervised Learning",
+        "definition": "A machine learning paradigm that generates supervisory signals from the data itself, without human-labeled annotations. Used in this thesis for MSM pre-training and SpectroSim contrastive learning on REIMS spectra.",
+        "category": "method",
+    },
+    "Hoki": {
+        "full": "Hoki (Macruronus novaezelandiae)",
+        "definition": "A deep-sea fish species native to New Zealand waters, used as the high-value species in cross-species adulteration experiments. New Zealand is the world's largest exporter of Hoki, making it a target for seafood fraud.",
+        "category": "domain",
+    },
+    "Mackerel": {
+        "full": "Mackerel (Scomber japonicus)",
+        "definition": "A pelagic fish species used as the adulterant in cross-species adulteration experiments. Less expensive than Hoki but with a similar appearance when processed, making it a common seafood fraud target.",
+        "category": "domain",
+    },
+    "Food Fraud": {
+        "full": "Food Fraud",
+        "definition": "Deliberate adulteration, mislabeling, or misrepresentation of food products for economic gain. Seafood fraud is estimated to affect 30% of commercially sold seafood globally, driving the need for rapid verification tools like REIMS.",
+        "category": "domain",
+    },
+    "Species Substitution": {
+        "full": "Species Substitution",
+        "definition": "A form of food fraud where a premium fish species is replaced with a cheaper alternative. Detected in this thesis using REIMS-based classification, achieving up to 100% accuracy with Transformer models.",
+        "category": "domain",
+    },
+    "IUU Fishing": {
+        "full": "Illegal, Unreported and Unregulated Fishing",
+        "definition": "Fishing activities that contravene national and international laws, including fishing without authorization, under-reporting catches, and operating in restricted areas. REIMS-based species identification can help verify the provenance of seafood products.",
+        "category": "domain",
+    },
+    "Chemical Fingerprint": {
+        "full": "Chemical Fingerprint",
+        "definition": "The characteristic pattern of molecular ions detected in a mass spectrum, unique to a given biological sample. REIMS produces chemical fingerprints of tissue that encode species, body part, and contamination information.",
+        "category": "instrument",
+    },
+    "Ordinal Classification": {
+        "full": "Ordinal Classification",
+        "definition": "Classification where the target classes have a natural ordering (e.g., 0%, 10%, 20% oil concentration). Standard classification ignores this ordering; ordinal methods exploit it. Used for oil contamination detection in this thesis.",
+        "category": "method",
+    },
+    "BCA": {
+        "full": "Balanced Classification Accuracy",
+        "definition": "An accuracy metric that averages per-class recall, compensating for class imbalance. Used as the primary evaluation metric in this thesis to fairly compare models across unbalanced datasets.",
+        "category": "method",
+    },
+    "MAE": {
+        "full": "Mean Absolute Error",
+        "definition": "The average absolute difference between predicted and true values. Used alongside BCA for ordinal classification tasks (oil contamination, adulteration) where the magnitude of classification error matters.",
+        "category": "method",
+    },
+    "Negative Ionization Mode": {
+        "full": "Negative Ionization Mode",
+        "definition": "A mass spectrometry acquisition mode in which negatively charged ions are detected. REIMS in negative ionization mode primarily detects lipid-related compounds (fatty acids, phospholipids) that form the chemical fingerprint of fish tissue.",
+        "category": "instrument",
+    },
+    "PCA": {
+        "full": "Principal Component Analysis",
+        "definition": "A linear dimensionality reduction technique that projects data onto axes of maximum variance. Used for visualization and as a preprocessing step, but outperformed by deep learning methods on REIMS classification tasks.",
+        "category": "method",
+    },
+    "SVM": {
+        "full": "Support Vector Machine",
+        "definition": "A supervised learning algorithm that finds the optimal hyperplane separating classes in a high-dimensional feature space. Used as a baseline classifier in this thesis.",
+        "category": "model",
+    },
+    "KNN": {
+        "full": "K-Nearest Neighbours",
+        "definition": "A non-parametric classification algorithm that assigns a label based on the majority class among the k nearest training samples. Used as a baseline classifier in this thesis.",
+        "category": "model",
+    },
+}
+
 CHAPTERS = [
     ("chapter-0", "Acknowledgements"),
     ("chapter-1", "Introduction"),
@@ -355,6 +543,7 @@ class LatexConverter:
         self.chapter_slug = chapter_slug
         self.citations_used: Set[str] = set()
         self.toc: List[Tuple[int, str, str]] = []  # (level, title, id)
+        self.figures: List[dict] = []  # {src, caption, chapter_slug}
 
     def convert(self, latex: str) -> str:
         t = self._preprocess(latex)
@@ -453,6 +642,8 @@ class LatexConverter:
         # PDF figures are converted to PNG at build time
         if img_name.lower().endswith('.pdf'):
             img_name = os.path.splitext(img_name)[0] + '.png'
+        # Collect figure for gallery
+        self.figures.append({'src': img_name, 'caption': caption, 'chapter_slug': self.chapter_slug})
         # Single-line <img> — no multi-line attributes that confuse _paragraphs
         return f'<figure class="thesis-figure"><img src="../assets/{html.escape(img_name)}" alt="{alt}" loading="lazy" class="thesis-img"><figcaption>{caption}</figcaption></figure>\n'
 
@@ -784,7 +975,7 @@ class LatexConverter:
             title = html.escape(e.get('title', key)[:80])
             label = f"{surname}, {year}" if surname != 'Unknown' and year else key
             return (f'<a href="../papers/{html.escape(key)}.html" '
-                    f'class="cite" title="{title}">[{html.escape(label)}]</a>')
+                    f'class="cite" data-key="{html.escape(key)}" title="{title}">[{html.escape(label)}]</a>')
 
         def cite_group(m):
             keys = [k.strip() for k in m.group(1).split(',')]
@@ -800,7 +991,7 @@ class LatexConverter:
                 year = e.get('year', '')
                 title = html.escape(e.get('title', key)[:80])
                 display = f"{surname} ({year})" if surname != 'Unknown' and year else key
-                parts.append(f'<a href="../papers/{html.escape(key)}.html" class="cite" title="{title}">{html.escape(display)}</a>')
+                parts.append(f'<a href="../papers/{html.escape(key)}.html" class="cite" data-key="{html.escape(key)}" title="{title}">{html.escape(display)}</a>')
             return ', '.join(parts)
 
         t = re.sub(r'\\citep\{([^}]+)\}', cite_group, t)
@@ -841,6 +1032,61 @@ class LatexConverter:
         return '\n'.join(out)
 
 
+# ── Helper: compute co-citations ──────────────────────────────────────────────
+
+def compute_co_citations(chapter_citations: Dict[str, Set[str]]) -> Dict[str, List[Tuple[str, int]]]:
+    """For each paper key, return sorted list of (co_key, chapter_count) tuples."""
+    from collections import defaultdict
+    co: Dict[str, Dict[str, int]] = defaultdict(lambda: defaultdict(int))
+    for ch_slug, keys in chapter_citations.items():
+        keys_list = list(keys)
+        for i, k1 in enumerate(keys_list):
+            for k2 in keys_list[i+1:]:
+                co[k1][k2] += 1
+                co[k2][k1] += 1
+    result = {}
+    for key, partners in co.items():
+        result[key] = sorted(partners.items(), key=lambda x: x[1], reverse=True)
+    return result
+
+
+def build_papers_meta_js(bib: Dict, ss: Dict) -> str:
+    """Return a <script> block embedding PAPERS_META for citation hover cards."""
+    meta = {}
+    for key, entry in bib.items():
+        ss_d = ss.get(key)
+        if ss_d:
+            authors_list = [a.get('name', '') for a in ss_d.get('authors', [])]
+            authors_str = ', '.join(authors_list[:4])
+            if len(authors_list) > 4:
+                authors_str += ' et al.'
+            meta[key] = {
+                'title': ss_d.get('title', entry.get('title', key))[:120],
+                'authors': authors_str[:100],
+                'year': entry.get('year', ''),
+                'venue': (ss_d.get('venue', '') or '')[:60],
+                'cc': ss_d.get('citationCount'),
+                'abstract': (ss_d.get('abstract', '') or '')[:280],
+            }
+        else:
+            meta[key] = {
+                'title': entry.get('title', key)[:120],
+                'authors': format_authors(entry.get('author', ''), 3)[:100],
+                'year': entry.get('year', ''),
+                'venue': (entry.get('journal', '') or entry.get('booktitle', '') or '')[:60],
+                'cc': None,
+                'abstract': '',
+            }
+    return f'<script>window.PAPERS_META = {json.dumps(meta, ensure_ascii=False)};</script>'
+
+
+def build_glossary_js() -> str:
+    """Return a <script> block embedding GLOSSARY_DATA for hover cards."""
+    data = {k: {'full': v['full'], 'definition': v['definition'], 'category': v['category']}
+            for k, v in GLOSSARY.items()}
+    return f'<script>window.GLOSSARY_DATA = {json.dumps(data, ensure_ascii=False)};</script>'
+
+
 # ── HTML Templates ─────────────────────────────────────────────────────────────
 
 def page_shell(title: str, content: str, extra_head: str = "", root: str = "..") -> str:
@@ -862,6 +1108,7 @@ def page_shell(title: str, content: str, extra_head: str = "", root: str = "..")
   {extra_head}
 </head>
 <body>
+<div id="reading-progress"></div>
 {_navbar(root)}
 <div id="page-wrapper">
 {content}
@@ -883,6 +1130,12 @@ def _navbar(root: str) -> str:
       <a href="{root}/index.html">Home</a>
       <a href="{root}/chapters/chapter-1.html">Chapters</a>
       <a href="{root}/papers.html">Papers</a>
+      <a href="{root}/glossary.html">Glossary</a>
+      <a href="{root}/figures.html">Figures</a>
+      <a href="{root}/graph.html">Graph</a>
+      <a href="{root}/authors.html">Authors</a>
+      <a href="{root}/timeline.html">Timeline</a>
+      <a href="{root}/methods.html">Methods</a>
     </div>
     <div class="nav-actions">
       <button id="search-toggle" class="icon-btn" aria-label="Search">🔍</button>
@@ -894,6 +1147,12 @@ def _navbar(root: str) -> str:
     <a href="{root}/index.html">Home</a>
     <a href="{root}/chapters/chapter-1.html">Chapters</a>
     <a href="{root}/papers.html">All Papers</a>
+    <a href="{root}/glossary.html">Glossary</a>
+    <a href="{root}/figures.html">Figures</a>
+    <a href="{root}/graph.html">Citation Graph</a>
+    <a href="{root}/authors.html">Authors</a>
+    <a href="{root}/timeline.html">Timeline</a>
+    <a href="{root}/methods.html">Methods</a>
   </div>
   <div id="search-bar" class="search-bar hidden">
     <input type="text" id="search-input" placeholder="Search papers, concepts, authors…" autocomplete="off">
@@ -958,6 +1217,22 @@ def build_index(bib: Dict, ss: Dict, chapter_citations: Dict[str, Set[str]]) -> 
     method_tags = ''.join(f'<span class="tag">{html.escape(t)}</span>' for t in m['key_methods'])
     topic_tags = ''.join(f'<span class="tag tag-blue">{html.escape(t)}</span>' for t in m['key_topics'])
 
+    # Did You Know facts
+    dyk_facts = [
+        "Gone Phishing (MoE Transformer) achieves 100% accuracy on fish species identification — a perfect score.",
+        "The thesis analyzes 2,080 distinct m/z features spanning 77.04 to 999.32 m/z per spectrum.",
+        "SpectroSim achieves 70.8% batch detection accuracy without any labeled training data.",
+        "REIMS produces a chemical fingerprint in under 3 seconds, compared to hours for traditional methods.",
+        "The Ensemble Transformer (Autobots) combines models at 2, 4, and 8 Transformer layers simultaneously.",
+        "Seafood fraud affects an estimated 30% of commercially sold seafood globally.",
+        "Masked Spectra Modelling (MSM) adapts BERT's masked language modeling to 1D mass spectra.",
+        "The thesis cites 373 papers spanning over 50 years of research, from 1970 to 2025.",
+        "Transfer Learning from species identification to oil contamination detection improves accuracy by +22.67%.",
+        "New Zealand is the world's largest exporter of Hoki — the premium species in adulteration experiments.",
+    ]
+    dyk_items = ''.join(f'<div class="dyk-fact" style="display:none">{html.escape(f)}</div>' for f in dyk_facts)
+    dyk_first = html.escape(dyk_facts[0])
+
     content = f"""
 <div class="hero">
   <div class="hero-inner">
@@ -971,6 +1246,22 @@ def build_index(bib: Dict, ss: Dict, chapter_citations: Dict[str, Set[str]]) -> 
 <div class="main-content">
   <div class="content-cols">
     <main class="content-main">
+
+      <div class="did-you-know" id="dyk-box">
+        <strong>Did you know?</strong>
+        <span id="dyk-text">{dyk_first}</span>
+        <button class="dyk-next" onclick="dykNext()" aria-label="Next fact">&#8594;</button>
+      </div>
+      <script>
+        var _dykFacts = {json.dumps(dyk_facts)};
+        var _dykIdx = 0;
+        function dykNext() {{
+          _dykIdx = (_dykIdx + 1) % _dykFacts.length;
+          document.getElementById('dyk-text').textContent = _dykFacts[_dykIdx];
+        }}
+        // Auto-rotate every 8 seconds
+        setInterval(dykNext, 8000);
+      </script>
 
       <section class="wiki-section">
         <h2>Abstract</h2>
@@ -1034,6 +1325,19 @@ def build_index(bib: Dict, ss: Dict, chapter_citations: Dict[str, Set[str]]) -> 
           <li>First REIMS-based cross-species adulteration detection</li>
         </ul>
       </div>
+      <div class="info-box">
+        <h4>Cite This Thesis</h4>
+        <pre class="bibtex-mini">@phdthesis{{Wood2025,
+  author = {{Jesse Wood}},
+  title  = {{{m['title']}}},
+  school = {{{m['university']}}},
+  year   = {{{m['year']}}},
+}}</pre>
+        <button class="bibtex-copy-btn" id="bibtex-copy-btn"
+          data-bibtex="@phdthesis{{Wood2025,\n  author = {{Jesse Wood}},\n  title  = {{{m['title']}}},\n  school = {{{m['university']}}},\n  year   = {{{m['year']}}},\n}}">
+          📋 Copy BibTeX
+        </button>
+      </div>
     </aside>
   </div>
 </div>
@@ -1041,9 +1345,63 @@ def build_index(bib: Dict, ss: Dict, chapter_citations: Dict[str, Set[str]]) -> 
     return page_shell(f"{m['title']}", content, root=".")
 
 
+CHAPTER_HATNOTES = {
+    "chapter-1": 'Introduction to the thesis. For methodology, see <a href="chapter-3.html">Chapter 3: Datasets and Processing</a>.',
+    "chapter-2": 'Survey of prior work. For novel methods proposed in this thesis, see <a href="chapter-4.html">Chapter 4</a>.',
+    "chapter-3": 'Covers REIMS datasets and preprocessing. For models trained on these datasets, see <a href="chapter-4.html">Chapter 4</a>.',
+    "chapter-4": 'Covers fish species and body part identification. For contamination detection, see <a href="chapter-5.html">Chapter 5</a>.',
+    "chapter-5": 'Covers oil contamination and adulteration. For batch traceability, see <a href="chapter-6.html">Chapter 6</a>.',
+    "chapter-6": 'Covers self-supervised batch detection (SpectroSim). For prior supervised tasks, see <a href="chapter-4.html">Chapter 4</a>.',
+    "chapter-7": 'Thesis conclusions and future work. For full results, see <a href="chapter-4.html">Ch. 4</a>, <a href="chapter-5.html">Ch. 5</a>, and <a href="chapter-6.html">Ch. 6</a>.',
+}
+
+CHAPTER_SEE_ALSO = {
+    "chapter-1": [("chapter-2", "Literature Survey"), ("chapter-7", "Conclusions")],
+    "chapter-2": [("chapter-1", "Introduction"), ("chapter-4", "Fish Species & Part Identification")],
+    "chapter-3": [("chapter-4", "Fish Species & Part Identification"), ("chapter-5", "Oil Contamination")],
+    "chapter-4": [("chapter-3", "Datasets and Processing"), ("chapter-5", "Oil Contamination & Adulteration")],
+    "chapter-5": [("chapter-4", "Fish Species & Part Identification"), ("chapter-6", "Contrastive Learning")],
+    "chapter-6": [("chapter-5", "Oil Contamination & Adulteration"), ("chapter-7", "Conclusions")],
+    "chapter-7": [("chapter-4", "Species & Part ID"), ("chapter-5", "Contamination"), ("chapter-6", "Batch Detection")],
+}
+
+
+def _build_navbox() -> str:
+    """Build the Wikipedia-style navbox for chapter pages."""
+    task_links = ' · '.join([
+        '<a href="../chapters/chapter-4.html">Species ID</a>',
+        '<a href="../chapters/chapter-4.html">Body Part ID</a>',
+        '<a href="../chapters/chapter-5.html">Oil Contamination</a>',
+        '<a href="../chapters/chapter-5.html">Adulteration</a>',
+        '<a href="../chapters/chapter-6.html">Batch Detection</a>',
+    ])
+
+    model_links = ' · '.join([
+        '<a href="../glossary.html#gone-phishing">Gone Phishing</a>',
+        '<a href="../glossary.html#autobots">Autobots</a>',
+        '<a href="../glossary.html#spectrosim">SpectroSim</a>',
+        '<a href="../glossary.html#msm">MSM</a>',
+    ])
+
+    chapter_links = ' · '.join(
+        f'<a href="{slug}.html">Ch.{slug.replace("chapter-","")}: {html.escape(title[:20])}</a>'
+        for slug, title in CHAPTERS
+    )
+
+    return f"""<details class="navbox" open>
+  <summary>This Thesis</summary>
+  <div class="navbox-body">
+    <div class="navbox-group"><strong>Tasks</strong>: {task_links}</div>
+    <div class="navbox-group"><strong>Novel Models</strong>: {model_links}</div>
+    <div class="navbox-group"><strong>Chapters</strong>: {chapter_links}</div>
+  </div>
+</details>"""
+
+
 def build_chapter(slug: str, title: str, latex: str, bib: Dict,
-                  ss: Dict, all_citations: Dict[str, Set[str]]) -> str:
-    """Generate a chapter page."""
+                  ss: Dict, all_citations: Dict[str, Set[str]],
+                  papers_meta_js: str = "") -> Tuple[str, List[dict]]:
+    """Generate a chapter page. Returns (html, figures_list)."""
     idx = [i for i, (s, _) in enumerate(CHAPTERS) if s == slug][0]
     converter = LatexConverter(bib, slug)
     # Tell the converter where to write table PNG images
@@ -1079,6 +1437,28 @@ def build_chapter(slug: str, title: str, latex: str, bib: Dict,
     toc = toc_html(converter.toc)
     num = slug.replace('chapter-', '')
 
+    # Reading time estimate (~200 words per minute)
+    plain_text = re.sub(r'<[^>]+>', ' ', body_html)
+    word_count = len(plain_text.split())
+    reading_min = max(1, round(word_count / 200))
+
+    # Hatnote
+    hatnote_html = ''
+    if slug in CHAPTER_HATNOTES:
+        hatnote_html = f'<div class="hatnote">{CHAPTER_HATNOTES[slug]}</div>'
+
+    # See also
+    see_also_html = ''
+    if slug in CHAPTER_SEE_ALSO:
+        links = ' · '.join(
+            f'<a href="{s}.html">{html.escape(t)}</a>'
+            for s, t in CHAPTER_SEE_ALSO[slug]
+        )
+        see_also_html = f'<div class="see-also"><strong>See also:</strong> {links}</div>'
+
+    # Navbox
+    navbox_html = _build_navbox()
+
     mathjax = """<script>
   window.MathJax = {
     tex: {
@@ -1112,11 +1492,16 @@ def build_chapter(slug: str, title: str, latex: str, bib: Dict,
     <header class="chapter-header">
       <div class="chapter-label">Chapter {html.escape(num)}</div>
       <h1>{html.escape(title)}</h1>
+      <div class="reading-time">~{reading_min} min read · {len(sorted_cites)} references</div>
     </header>
+
+    {hatnote_html}
 
     <article class="chapter-content">
       {body_html}
     </article>
+
+    {see_also_html}
 
     <section class="chapter-references">
       <h2>References ({len(sorted_cites)})</h2>
@@ -1125,6 +1510,8 @@ def build_chapter(slug: str, title: str, latex: str, bib: Dict,
       </ol>
     </section>
 
+    {navbox_html}
+
     <div class="chapter-nav-bottom">
       {prev_link}
       {next_link}
@@ -1132,11 +1519,37 @@ def build_chapter(slug: str, title: str, latex: str, bib: Dict,
   </main>
 </div>
 """
-    return page_shell(f"{title} — ML for REIMS", content, extra_head=mathjax)
+    extra_head = mathjax + "\n" + papers_meta_js + "\n" + build_glossary_js()
+    return page_shell(f"{title} — ML for REIMS", content, extra_head=extra_head), converter.figures
+
+
+def _build_co_cited_html(key: str, co_cited: List[Tuple[str, int]], bib: Dict) -> str:
+    """Build HTML for the cited-together section on a paper page."""
+    if not co_cited or not bib:
+        return ''
+    items = co_cited[:6]  # Top 6
+    li_items = ''
+    for co_key, count in items:
+        e = bib.get(co_key, {})
+        co_title = html.escape(e.get('title', co_key)[:80])
+        surname = html.escape(get_first_author_surname(e.get('author', '')))
+        year = html.escape(e.get('year', ''))
+        ch_label = f"{count} chapter{'s' if count != 1 else ''}"
+        li_items += (f'<li>'
+                     f'<a href="{html.escape(co_key)}.html" class="co-cite-link">{co_title}</a>'
+                     f'<span class="co-cite-meta">{surname} {year}</span>'
+                     f'<span class="co-cite-count">{ch_label}</span>'
+                     f'</li>\n')
+    return (f'<div class="cited-together-block">'
+            f'<h3>Frequently Cited Together</h3>'
+            f'<ul class="cited-together-list">{li_items}</ul>'
+            f'</div>')
 
 
 def build_paper(key: str, entry: Dict, ss_data: Optional[dict],
-                cited_in: Dict[str, str]) -> str:
+                cited_in: Dict[str, str], bib: Dict = None,
+                co_cited: List[Tuple[str, int]] = None,
+                papers_meta_js: str = "") -> str:
     """Generate a paper detail page."""
     title = ss_data.get('title', entry.get('title', key)) if ss_data else entry.get('title', key)
     year = entry.get('year', '')
@@ -1197,10 +1610,17 @@ def build_paper(key: str, entry: Dict, ss_data: Optional[dict],
     cc_block = f'<span class="cite-count">Cited {cc:,} times</span>' if isinstance(cc, int) else ''
     links_block = ' '.join(ext_links)
 
+    # Stub notice: shown when no abstract or SS data available
+    stub_notice = ''
+    if not abstract and not ss_data:
+        stub_notice = '<div class="stub-notice">This paper entry has limited metadata. Abstract and citation data could not be retrieved automatically.</div>'
+
     content = f"""
 <div class="paper-layout">
   <main class="paper-main">
     <div class="breadcrumb"><a href="../index.html">Home</a> / <a href="../papers.html">Papers</a> / {html.escape(key)}</div>
+
+    {stub_notice}
 
     <article class="paper-article">
       <header class="paper-header">
@@ -1218,6 +1638,8 @@ def build_paper(key: str, entry: Dict, ss_data: Optional[dict],
 
       {f'<div class="cited-in-block"><h3>Cited in this thesis</h3><div class="cite-chips">{cite_chips}</div></div>' if cite_chips else ''}
 
+      {_build_co_cited_html(key, co_cited, bib) if co_cited else ''}
+
       <details class="bibtex-block">
         <summary>BibTeX</summary>
         <pre><code>{html.escape(bibtex_str)}</code></pre>
@@ -1226,7 +1648,7 @@ def build_paper(key: str, entry: Dict, ss_data: Optional[dict],
   </main>
 </div>
 """
-    return page_shell(f"{title[:60]}… — ML for REIMS", content)
+    return page_shell(f"{title[:60]}… — ML for REIMS", content, extra_head=papers_meta_js)
 
 
 def build_papers_index(bib: Dict, ss: Dict, chapter_citations: Dict[str, Set[str]]) -> str:
@@ -1292,6 +1714,535 @@ def build_papers_index(bib: Dict, ss: Dict, chapter_citations: Dict[str, Set[str
 </div>
 """
     return page_shell("All References — ML for REIMS", content, root=".")
+
+
+def build_glossary() -> str:
+    """Generate the glossary page."""
+    def term_slug(t: str) -> str:
+        return re.sub(r'[^a-z0-9]+', '-', t.lower()).strip('-')
+
+    # Group by first letter
+    from collections import defaultdict
+    by_letter: Dict[str, list] = defaultdict(list)
+    for term, data in sorted(GLOSSARY.items(), key=lambda x: x[0].upper()):
+        letter = term[0].upper()
+        by_letter[letter].append((term, data))
+
+    alpha_links = ''.join(
+        f'<a class="alpha-link" href="#{L}">{L}</a>'
+        for L in sorted(by_letter.keys())
+    )
+
+    category_labels = {
+        'instrument': 'Instrumentation',
+        'method': 'Method',
+        'model': 'Model',
+        'task': 'Analysis Task',
+        'domain': 'Domain',
+        'contribution': 'Novel Contribution',
+    }
+
+    sections_html = ''
+    for letter in sorted(by_letter.keys()):
+        entries_html = ''
+        for term, data in by_letter[letter]:
+            slug = term_slug(term)
+            cat = category_labels.get(data['category'], data['category'])
+            entries_html += f"""
+<div class="glossary-entry" id="{html.escape(slug)}">
+  <div class="glossary-entry-term">{html.escape(term)}</div>
+  {f'<div class="glossary-entry-full">{html.escape(data["full"])}</div>' if data["full"] != term else ''}
+  <div class="glossary-entry-def">{html.escape(data["definition"])}</div>
+  <span class="glossary-entry-cat">{html.escape(cat)}</span>
+</div>"""
+        sections_html += f"""
+<div class="alpha-section">
+  <h2 id="{letter}">{letter}</h2>
+  {entries_html}
+</div>"""
+
+    content = f"""
+<div class="glossary-page">
+  <header class="glossary-header">
+    <h1>Glossary</h1>
+    <p>Key terms, methods, and concepts from the thesis on Machine Learning for REIMS Marine Biomass Analysis.</p>
+  </header>
+  <nav class="glossary-alpha-nav">{alpha_links}</nav>
+  {sections_html}
+</div>
+"""
+    return page_shell("Glossary — ML for REIMS", content, root=".")
+
+
+def build_figure_gallery(all_figures: List[dict]) -> str:
+    """Generate the figure gallery page."""
+    # Chapter title lookup
+    ch_titles = dict(CHAPTERS)
+
+    # Filter buttons
+    filter_btns = '<button class="gallery-filter-btn active" data-ch="all">All</button>'
+    seen_chapters = []
+    for fig in all_figures:
+        cs = fig['chapter_slug']
+        if cs not in seen_chapters:
+            seen_chapters.append(cs)
+            ct = ch_titles.get(cs, cs)
+            filter_btns += f'<button class="gallery-filter-btn" data-ch="{html.escape(cs)}">{html.escape(ct)}</button>'
+
+    items_html = ''
+    for fig in all_figures:
+        cs = fig['chapter_slug']
+        ct = ch_titles.get(cs, cs)
+        ch_num = cs.replace('chapter-', '')
+        cap = fig['caption']
+        src = fig['src']
+        cap_plain = re.sub(r'<[^>]+>', '', cap)[:120]
+        items_html += f"""
+<div class="gallery-item" data-ch="{html.escape(cs)}">
+  <a href="chapters/{html.escape(cs)}.html">
+    <img src="assets/{html.escape(src)}" alt="{html.escape(cap_plain)}" loading="lazy" onerror="this.closest('.gallery-item').style.display='none'">
+  </a>
+  <div class="gallery-item-caption">
+    <span class="gallery-item-chapter">Ch. {html.escape(ch_num)}: {html.escape(ct[:30])}</span><br>
+    {cap_plain}
+  </div>
+</div>"""
+
+    content = f"""
+<div class="gallery-page">
+  <header class="gallery-header">
+    <h1>Figure Gallery</h1>
+    <p>{len(all_figures)} figures from the thesis, filterable by chapter.</p>
+  </header>
+  <div class="gallery-filter-bar" id="gallery-filters">
+    {filter_btns}
+  </div>
+  <div class="gallery-grid" id="gallery-grid">
+    {items_html}
+  </div>
+</div>
+"""
+    return page_shell("Figure Gallery — ML for REIMS", content, root=".")
+
+
+# ── New Build Functions ────────────────────────────────────────────────────────
+
+def build_search_index(bib: Dict, ss: Dict, chapter_citations: Dict[str, Set[str]],
+                       chapter_latex: Dict[str, str]) -> None:
+    """Write site/search-index.json with papers, chapters, and glossary entries."""
+    index = []
+
+    # Papers
+    for key, entry in bib.items():
+        ss_d = ss.get(key)
+        title = (ss_d.get('title') if ss_d else None) or entry.get('title', key)
+        authors_str = ''
+        if ss_d and ss_d.get('authors'):
+            authors_str = ', '.join(a.get('name', '') for a in ss_d['authors'][:4])
+        else:
+            authors_str = format_authors(entry.get('author', ''), 3)
+        abstract = (ss_d.get('abstract') or '') if ss_d else ''
+        year = entry.get('year', '')
+        index.append({
+            'type': 'paper',
+            'title': title[:200],
+            'text': (abstract[:400] if abstract else ''),
+            'url': f'papers/{key}.html',
+            'meta': f'{authors_str} · {year}'.strip(' ·'),
+        })
+
+    # Chapters
+    for slug, title in CHAPTERS:
+        latex = chapter_latex.get(slug, '')
+        # Strip LaTeX to plain text for search
+        plain = re.sub(r'\\[a-zA-Z]+\{([^}]*)\}', r'\1', latex)
+        plain = re.sub(r'\\[a-zA-Z]+', ' ', plain)
+        plain = re.sub(r'[{}%]', ' ', plain)
+        plain = re.sub(r'\s+', ' ', plain).strip()
+        num = slug.replace('chapter-', '')
+        index.append({
+            'type': 'chapter',
+            'title': f'Chapter {num}: {title}',
+            'text': plain[:600],
+            'url': f'chapters/{slug}.html',
+            'meta': f'Chapter {num}',
+        })
+
+    # Glossary
+    for term, data in GLOSSARY.items():
+        index.append({
+            'type': 'glossary',
+            'title': term,
+            'text': data['definition'],
+            'url': f'glossary.html#{re.sub(r"[^a-z0-9]+", "-", term.lower()).strip("-")}',
+            'meta': data.get('full', term),
+        })
+
+    out_path = SITE_DIR / 'search-index.json'
+    out_path.write_text(json.dumps(index, ensure_ascii=False, separators=(',', ':')))
+    print(f"  search-index.json written ({len(index)} entries)")
+
+
+def build_citation_graph(bib: Dict, ss: Dict, chapter_citations: Dict[str, Set[str]]) -> str:
+    """Generate citation network graph page using D3.js v7."""
+    # Collect all cited keys
+    all_cited: Set[str] = set()
+    for keys in chapter_citations.values():
+        all_cited.update(keys)
+
+    # Determine primary chapter for each paper (chapter where it's cited most)
+    key_chapter_count: Dict[str, Dict[str, int]] = {}
+    for ch_slug, keys in chapter_citations.items():
+        for k in keys:
+            key_chapter_count.setdefault(k, {})[ch_slug] = key_chapter_count.get(k, {}).get(ch_slug, 0) + 1
+
+    chapter_colors = {
+        'chapter-1': '#4e79a7',
+        'chapter-2': '#f28e2b',
+        'chapter-3': '#e15759',
+        'chapter-4': '#76b7b2',
+        'chapter-5': '#59a14f',
+        'chapter-6': '#edc948',
+        'chapter-7': '#b07aa1',
+        'chapter-0': '#ff9da7',
+    }
+
+    nodes = []
+    for k in all_cited:
+        e = bib.get(k, {})
+        ss_d = ss.get(k)
+        title = (ss_d.get('title') if ss_d else None) or e.get('title', k)
+        year = e.get('year', '')
+        cc = (ss_d.get('citationCount') or 0) if ss_d else 0
+        # Primary chapter
+        ch_counts = key_chapter_count.get(k, {})
+        primary_ch = max(ch_counts, key=ch_counts.get) if ch_counts else 'chapter-1'
+        nodes.append({
+            'id': k,
+            'title': title[:80],
+            'year': year,
+            'cc': cc,
+            'chapter': primary_ch,
+            'color': chapter_colors.get(primary_ch, '#999'),
+            'url': f'papers/{k}.html',
+        })
+
+    # Edges: co-citations with count >= 2
+    co = compute_co_citations(chapter_citations)
+    seen_edges = set()
+    edges = []
+    for k1, partners in co.items():
+        if k1 not in all_cited:
+            continue
+        for k2, count in partners:
+            if count < 2:
+                continue
+            if k2 not in all_cited:
+                continue
+            edge_key = tuple(sorted([k1, k2]))
+            if edge_key in seen_edges:
+                continue
+            seen_edges.add(edge_key)
+            edges.append({'source': k1, 'target': k2, 'count': count})
+
+    graph_data = json.dumps({'nodes': nodes, 'edges': edges}, ensure_ascii=False)
+
+    # Legend HTML
+    legend_items = ''.join(
+        f'<div class="graph-legend-item"><span class="graph-legend-dot" style="background:{color}"></span>{slug.replace("chapter-","Ch.")}</div>'
+        for slug, color in chapter_colors.items()
+        if slug != 'chapter-0'
+    )
+
+    content = f"""
+<div class="graph-page">
+  <div class="graph-header">
+    <h1>Citation Network Graph</h1>
+    <p>Force-directed graph of {len(nodes)} cited papers and {len(edges)} co-citation edges (count ≥ 2). Node size = citation count (log scale). Color = primary chapter. Hover for details, click to open paper.</p>
+    <div class="graph-legend">{legend_items}</div>
+  </div>
+  <div id="graph-container"></div>
+</div>
+<script>window.GRAPH_DATA = {graph_data};</script>
+<script src="https://cdn.jsdelivr.net/npm/d3@7/dist/d3.min.js"></script>
+<script>
+(function() {{
+  const data = window.GRAPH_DATA;
+  const container = document.getElementById('graph-container');
+  const W = container.clientWidth || window.innerWidth;
+  const H = Math.max(600, window.innerHeight - 200);
+
+  const svg = d3.select('#graph-container').append('svg')
+    .attr('width', '100%').attr('height', H)
+    .style('display','block');
+
+  const g = svg.append('g');
+
+  // Zoom/pan
+  svg.call(d3.zoom().scaleExtent([0.1, 8]).on('zoom', e => g.attr('transform', e.transform)));
+
+  // Radius scale: log(cc+1), min 4 max 20
+  const maxCC = d3.max(data.nodes, d => d.cc) || 1;
+  const rScale = d3.scaleLog().domain([1, maxCC + 1]).range([4, 20]).clamp(true);
+  const radius = d => rScale(d.cc + 1);
+
+  const simulation = d3.forceSimulation(data.nodes)
+    .force('link', d3.forceLink(data.edges).id(d => d.id).distance(60).strength(0.3))
+    .force('charge', d3.forceManyBody().strength(-80))
+    .force('center', d3.forceCenter(W / 2, H / 2))
+    .force('collision', d3.forceCollide().radius(d => radius(d) + 2));
+
+  const link = g.append('g').attr('stroke', '#ccc').attr('stroke-opacity', 0.5)
+    .selectAll('line').data(data.edges).join('line')
+    .attr('stroke-width', d => Math.min(3, d.count * 0.5));
+
+  const node = g.append('g').selectAll('circle').data(data.nodes).join('circle')
+    .attr('r', radius)
+    .attr('fill', d => d.color)
+    .attr('stroke', '#fff').attr('stroke-width', 1.5)
+    .style('cursor', 'pointer')
+    .call(d3.drag()
+      .on('start', (e,d) => {{ if (!e.active) simulation.alphaTarget(0.3).restart(); d.fx=d.x; d.fy=d.y; }})
+      .on('drag',  (e,d) => {{ d.fx=e.x; d.fy=e.y; }})
+      .on('end',   (e,d) => {{ if (!e.active) simulation.alphaTarget(0); d.fx=null; d.fy=null; }}));
+
+  node.on('click', (e, d) => {{ window.location.href = d.url; }});
+
+  // Tooltip
+  const tip = d3.select('body').append('div').attr('class','graph-tooltip').style('opacity',0);
+  node.on('mouseenter', (e, d) => {{
+    tip.html(`<strong>${{d.title}}</strong><br>${{d.year}} · ${{d.cc.toLocaleString()}} citations`)
+       .style('left', (e.pageX+12)+'px').style('top',(e.pageY-28)+'px').style('opacity',1);
+  }}).on('mouseleave', () => tip.style('opacity',0));
+
+  simulation.on('tick', () => {{
+    link.attr('x1', d=>d.source.x).attr('y1',d=>d.source.y)
+        .attr('x2', d=>d.target.x).attr('y2',d=>d.target.y);
+    node.attr('cx', d=>d.x).attr('cy',d=>d.y);
+  }});
+}})();
+</script>
+"""
+    return page_shell("Citation Network Graph — ML for REIMS", content, root=".")
+
+
+def build_author_index(bib: Dict, ss: Dict) -> str:
+    """Generate author index page listing all unique authors sorted by paper count."""
+    from collections import defaultdict
+    author_papers: Dict[str, List[str]] = defaultdict(list)
+
+    for key, entry in bib.items():
+        author_field = entry.get('author', '')
+        # Try SS authors first
+        ss_d = ss.get(key)
+        if ss_d and ss_d.get('authors'):
+            for a in ss_d['authors']:
+                name = a.get('name', '').strip()
+                if name:
+                    author_papers[name].append(key)
+        elif author_field:
+            for a in author_field.split(' and '):
+                a = a.strip()
+                if ',' in a:
+                    parts = a.split(',', 1)
+                    name = f"{parts[1].strip()} {parts[0].strip()}"
+                else:
+                    name = a
+                if name:
+                    author_papers[name].append(key)
+
+    # Sort by paper count desc, then name
+    sorted_authors = sorted(author_papers.items(), key=lambda x: (-len(x[1]), x[0]))
+
+    cards_html = ''
+    for author, keys in sorted_authors[:500]:  # limit to top 500
+        count = len(keys)
+        papers_links = ' '.join(
+            f'<a href="papers/{k}.html" class="mini-chip" title="{html.escape(bib.get(k,{}).get("title","")[:60])}">{html.escape(k)}</a>'
+            for k in keys[:6]
+        )
+        more = f'<span class="mini-chip text-muted">+{count-6} more</span>' if count > 6 else ''
+        cards_html += f"""
+<div class="author-card">
+  <div class="author-name">{html.escape(author)}</div>
+  <div class="author-count">{count} paper{'s' if count != 1 else ''}</div>
+  <div class="author-papers">{papers_links}{more}</div>
+</div>"""
+
+    content = f"""
+<div class="authors-page">
+  <header class="authors-header">
+    <h1>Author Index</h1>
+    <p>{len(sorted_authors)} unique authors from {len(bib)} bibliography entries, sorted by paper count.</p>
+    <input type="text" id="author-filter" placeholder="Filter authors…" class="filter-input" autocomplete="off">
+  </header>
+  <div class="authors-grid" id="authors-grid">
+    {cards_html}
+  </div>
+</div>
+<script>
+const af = document.getElementById('author-filter');
+const ag = document.getElementById('authors-grid');
+if (af && ag) {{
+  af.addEventListener('input', () => {{
+    const q = af.value.toLowerCase();
+    ag.querySelectorAll('.author-card').forEach(card => {{
+      card.style.display = card.querySelector('.author-name').textContent.toLowerCase().includes(q) ? '' : 'none';
+    }});
+  }});
+}}
+</script>
+"""
+    return page_shell("Author Index — ML for REIMS", content, root=".")
+
+
+def build_timeline(bib: Dict, ss: Dict, chapter_citations: Dict[str, Set[str]]) -> str:
+    """Generate timeline page grouping papers by decade/year."""
+    from collections import defaultdict
+
+    # Only include cited papers
+    all_cited: Set[str] = set()
+    for keys in chapter_citations.values():
+        all_cited.update(keys)
+
+    by_year: Dict[str, List[str]] = defaultdict(list)
+    for key in all_cited:
+        e = bib.get(key, {})
+        year = e.get('year', 'Unknown')
+        by_year[year].append(key)
+
+    # Sort years
+    def year_sort_key(y):
+        try: return int(y)
+        except: return 9999
+
+    sorted_years = sorted(by_year.keys(), key=year_sort_key)
+
+    # Group into decades
+    decades: Dict[str, Dict[str, List[str]]] = defaultdict(dict)
+    for year in sorted_years:
+        try:
+            decade = f"{int(year)//10*10}s"
+        except:
+            decade = "Unknown"
+        decades[decade][year] = by_year[year]
+
+    timeline_html = ''
+    for decade in sorted(decades.keys(), key=lambda d: (9999 if d == 'Unknown' else int(d[:4]))):
+        year_items = ''
+        for year, keys in sorted(decades[decade].items(), key=lambda x: year_sort_key(x[0])):
+            paper_items = ''
+            for key in sorted(keys, key=lambda k: bib.get(k, {}).get('title', k)):
+                e = bib.get(key, {})
+                ss_d = ss.get(key)
+                title = (ss_d.get('title') if ss_d else None) or e.get('title', key)
+                authors = format_authors(e.get('author', ''), 2)
+                cc = (ss_d.get('citationCount') or 0) if ss_d else 0
+                cc_txt = f' · {cc:,} cites' if cc else ''
+                paper_items += f'<li class="timeline-item"><a href="papers/{html.escape(key)}.html">{html.escape(title[:100])}</a><span class="timeline-meta">{html.escape(authors)}{cc_txt}</span></li>'
+
+            year_items += f'<div class="timeline-year" id="year-{html.escape(year)}"><div class="timeline-year-label">{html.escape(year)}</div><ul class="timeline-papers">{paper_items}</ul></div>'
+
+        timeline_html += f'<div class="timeline-decade"><h2 class="decade-label">{html.escape(decade)}</h2>{year_items}</div>'
+
+    content = f"""
+<div class="timeline-page">
+  <header class="timeline-header">
+    <h1>Publication Timeline</h1>
+    <p>{len(all_cited)} cited papers spanning from {sorted_years[0] if sorted_years else '?'} to {sorted_years[-1] if sorted_years else '?'}.</p>
+  </header>
+  {timeline_html}
+</div>
+"""
+    return page_shell("Publication Timeline — ML for REIMS", content, root=".")
+
+
+def build_methods_page() -> str:
+    """Generate the methods comparison page with thesis results."""
+    m = THESIS_META
+
+    rows = ''
+    for task, baseline, best, gain in m['results']:
+        rows += f"""
+      <tr>
+        <td><strong>{html.escape(task)}</strong></td>
+        <td class="text-muted">{html.escape(baseline)}</td>
+        <td class="methods-best">{html.escape(best)}</td>
+        <td class="gain">{html.escape(gain)}</td>
+      </tr>"""
+
+    method_details = [
+        ("MoE Transformer (Gone Phishing)", "Fish Species", "100.00%",
+         "Mixture of Experts Transformer replacing FFN layers with gated expert sub-networks. Routes different spectral regions to specialized experts.",
+         "chapter-4"),
+        ("Ensemble Transformer (Autobots)", "Fish Body Part", "74.13%",
+         "Multi-scale stacked ensemble: three Transformers with 2, 4, and 8 layers act as level-0 classifiers, combined by a meta-learner.",
+         "chapter-4"),
+        ("TL MoE Transformer", "Oil Contamination", "49.10%",
+         "Transfer Learning applied to MoE Transformer: pre-trained on species identification, fine-tuned for ordinal oil contamination detection.",
+         "chapter-5"),
+        ("Pre-trained Transformer", "Cross-species Adulteration", "91.97%",
+         "Transformer pre-trained with Masked Spectra Modelling (MSM), then fine-tuned for 3-class adulteration detection (Hoki/Mackerel/mixture).",
+         "chapter-5"),
+        ("SpectroSim (Transformer)", "Batch Detection", "70.80%",
+         "Self-supervised contrastive framework (SimCLR adaptation) using a Transformer encoder to learn pairwise mass spectra similarity without labels.",
+         "chapter-6"),
+    ]
+
+    detail_cards = ''
+    for name, task, acc, desc, chapter in method_details:
+        ch_num = chapter.replace('chapter-', '')
+        detail_cards += f"""
+<div class="method-card">
+  <div class="method-card-header">
+    <div class="method-name">{html.escape(name)}</div>
+    <div class="method-task">{html.escape(task)}</div>
+    <div class="method-acc">{html.escape(acc)}</div>
+  </div>
+  <p class="method-desc">{html.escape(desc)}</p>
+  <a href="chapters/{html.escape(chapter)}.html" class="method-link">See Chapter {html.escape(ch_num)} →</a>
+</div>"""
+
+    content = f"""
+<div class="methods-page">
+  <header class="methods-header">
+    <h1>Methods Comparison</h1>
+    <p>Cross-chapter comparison of all analytical tasks, baselines, and best-performing models from the thesis.</p>
+  </header>
+
+  <section class="wiki-section">
+    <h2>Summary Results</h2>
+    <div class="table-wrap">
+    <table class="methods-table">
+      <thead>
+        <tr>
+          <th>Task</th>
+          <th>Baseline (OPLS-DA)</th>
+          <th>Best Deep Learning Model</th>
+          <th>Improvement</th>
+        </tr>
+      </thead>
+      <tbody>{rows}
+      </tbody>
+    </table>
+    </div>
+  </section>
+
+  <section class="wiki-section">
+    <h2>Model Details</h2>
+    <div class="method-cards-grid">
+      {detail_cards}
+    </div>
+  </section>
+
+  <section class="wiki-section">
+    <h2>Common Methods</h2>
+    <p>All models are evaluated using <strong>Balanced Classification Accuracy (BCA)</strong> to handle class imbalance. The baseline throughout is <strong>OPLS-DA</strong> (Orthogonal Partial Least Squares Discriminant Analysis), the standard chemometrics method. Deep learning architectures are all based on the <strong>Transformer</strong> with various enhancements (MoE, ensembling, transfer learning, contrastive learning).</p>
+    <p>Explainability is provided via <strong>LIME</strong> and <strong>Grad-CAM</strong>, identifying which m/z spectral features drive each prediction.</p>
+  </section>
+</div>
+"""
+    return page_shell("Methods Comparison — ML for REIMS", content, root=".")
 
 
 # ── CSS ────────────────────────────────────────────────────────────────────────
@@ -2112,6 +3063,519 @@ a:hover { text-decoration: underline; color: var(--accent-hover); }
   .papers-grid { grid-template-columns: 1fr; }
   .paper-layout { padding: 1.5rem 0.75rem; }
 }
+
+/* ── Reading Progress Bar ─────────────────────────────────── */
+#reading-progress {
+  position: fixed;
+  top: 0;
+  left: 0;
+  height: 3px;
+  background: var(--accent);
+  z-index: 9999;
+  width: 0%;
+  transition: width 0.08s linear;
+  pointer-events: none;
+}
+
+/* ── Citation Hover Card ──────────────────────────────────── */
+.cite-card {
+  position: fixed;
+  background: var(--bg-card);
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+  box-shadow: var(--shadow-md);
+  padding: 0.9rem 1rem;
+  max-width: 360px;
+  min-width: 240px;
+  z-index: 1000;
+  font-size: 0.84rem;
+  pointer-events: none;
+  opacity: 0;
+  transition: opacity 0.15s;
+  line-height: 1.5;
+}
+.cite-card.visible { opacity: 1; pointer-events: auto; }
+.cite-card-title { font-weight: 700; color: var(--text); margin-bottom: 0.3rem; line-height: 1.4; }
+.cite-card-authors { color: var(--text-muted); font-size: 0.79rem; margin-bottom: 0.2rem; }
+.cite-card-meta { display: flex; gap: 0.5rem; flex-wrap: wrap; font-size: 0.77rem; color: var(--text-muted); margin-bottom: 0.35rem; }
+.cite-card-abstract { font-size: 0.79rem; color: var(--text-muted); line-height: 1.5;
+  display: -webkit-box; -webkit-line-clamp: 3; -webkit-box-orient: vertical; overflow: hidden; }
+.cite-card-cc { background: var(--accent-light); color: var(--accent); padding: 0.1rem 0.35rem; border-radius: 3px; font-weight: 600; }
+
+/* ── Glossary Term Hover ──────────────────────────────────── */
+.glossary-term {
+  border-bottom: 1px dotted var(--accent);
+  cursor: help;
+  color: inherit;
+  text-decoration: none;
+}
+.glossary-term:hover { color: var(--accent); text-decoration: none; }
+
+.glossary-card {
+  position: fixed;
+  background: var(--bg-card);
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+  box-shadow: var(--shadow-md);
+  padding: 0.9rem 1rem;
+  max-width: 340px;
+  min-width: 220px;
+  z-index: 1001;
+  font-size: 0.84rem;
+  pointer-events: none;
+  opacity: 0;
+  transition: opacity 0.15s;
+  line-height: 1.5;
+}
+.glossary-card.visible { opacity: 1; pointer-events: auto; }
+.glossary-card-term { font-weight: 700; font-size: 0.9rem; color: var(--accent); margin-bottom: 0.1rem; }
+.glossary-card-full { font-size: 0.77rem; color: var(--text-muted); font-style: italic; margin-bottom: 0.35rem; }
+.glossary-card-def { font-size: 0.81rem; color: var(--text); line-height: 1.5;
+  display: -webkit-box; -webkit-line-clamp: 4; -webkit-box-orient: vertical; overflow: hidden; }
+.glossary-card-link { font-size: 0.77rem; color: var(--accent); margin-top: 0.4rem; display: block; }
+
+/* ── Glossary Page ────────────────────────────────────────── */
+.glossary-page { max-width: 860px; margin: 0 auto; padding: 2rem 1rem 3rem; }
+.glossary-header { margin-bottom: 1.5rem; }
+.glossary-header h1 { font-size: 2rem; font-weight: 800; margin-bottom: 0.4rem; }
+.glossary-header p { color: var(--text-muted); }
+.glossary-alpha-nav { display: flex; flex-wrap: wrap; gap: 0.25rem; margin-bottom: 2rem; }
+.alpha-link {
+  display: inline-block;
+  padding: 0.2rem 0.5rem;
+  background: var(--bg-alt);
+  border: 1px solid var(--border);
+  border-radius: 3px;
+  font-size: 0.82rem;
+  color: var(--text-muted);
+  font-weight: 600;
+  text-decoration: none;
+}
+.alpha-link:hover { background: var(--accent-light); border-color: var(--accent); color: var(--accent); text-decoration: none; }
+.alpha-section { margin-bottom: 2rem; }
+.alpha-section > h2 {
+  font-size: 1.4rem;
+  font-weight: 800;
+  color: var(--accent);
+  border-bottom: 2px solid var(--border);
+  padding-bottom: 0.3rem;
+  margin-bottom: 1rem;
+}
+.glossary-entry { margin-bottom: 1.25rem; padding-bottom: 1.25rem; border-bottom: 1px solid var(--border); }
+.glossary-entry:last-child { border-bottom: none; }
+.glossary-entry-term { font-size: 1rem; font-weight: 700; color: var(--text); }
+.glossary-entry-full { font-size: 0.83rem; color: var(--text-muted); font-style: italic; margin: 0.1rem 0 0.4rem; }
+.glossary-entry-def { font-size: 0.92rem; color: var(--text); line-height: 1.65; }
+.glossary-entry-cat {
+  display: inline-block;
+  margin-top: 0.35rem;
+  padding: 0.1rem 0.4rem;
+  background: var(--bg-alt);
+  border: 1px solid var(--border);
+  border-radius: 3px;
+  font-size: 0.72rem;
+  color: var(--text-muted);
+}
+
+/* ── Figure Gallery ───────────────────────────────────────── */
+.gallery-page { max-width: 1200px; margin: 0 auto; padding: 2rem 1rem 3rem; }
+.gallery-header { margin-bottom: 1.5rem; }
+.gallery-header h1 { font-size: 2rem; font-weight: 800; margin-bottom: 0.4rem; }
+.gallery-header p { color: var(--text-muted); }
+.gallery-filter-bar { display: flex; flex-wrap: wrap; gap: 0.4rem; margin-bottom: 1.5rem; }
+.gallery-filter-btn {
+  padding: 0.3rem 0.85rem;
+  background: var(--bg-alt);
+  border: 1px solid var(--border);
+  border-radius: 20px;
+  font-size: 0.82rem;
+  color: var(--text-muted);
+  cursor: pointer;
+  transition: background 0.15s, color 0.15s;
+}
+.gallery-filter-btn.active, .gallery-filter-btn:hover {
+  background: var(--accent);
+  border-color: var(--accent);
+  color: #fff;
+}
+.gallery-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(260px, 1fr));
+  gap: 1rem;
+}
+.gallery-item {
+  background: var(--bg-card);
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+  overflow: hidden;
+  transition: box-shadow 0.2s, transform 0.15s;
+}
+.gallery-item:hover { box-shadow: var(--shadow-md); transform: translateY(-2px); }
+.gallery-item a { display: block; }
+.gallery-item img {
+  width: 100%;
+  height: 175px;
+  object-fit: contain;
+  background: var(--bg-alt);
+  padding: 0.5rem;
+}
+.gallery-item-caption {
+  padding: 0.55rem 0.75rem;
+  font-size: 0.79rem;
+  color: var(--text-muted);
+  line-height: 1.4;
+  border-top: 1px solid var(--border);
+}
+.gallery-item-chapter {
+  display: inline-block;
+  padding: 0.1rem 0.35rem;
+  background: var(--accent-light);
+  color: var(--accent);
+  border-radius: 3px;
+  font-size: 0.7rem;
+  font-weight: 600;
+  margin-bottom: 0.2rem;
+}
+
+/* ── Cited Together ───────────────────────────────────────── */
+.cited-together-block { margin: 1.5rem 0; }
+.cited-together-block h3 { font-size: 1rem; font-weight: 700; margin-bottom: 0.5rem; }
+.cited-together-list { list-style: none; font-size: 0.87rem; }
+.cited-together-list li {
+  display: flex;
+  align-items: baseline;
+  gap: 0.5rem;
+  flex-wrap: wrap;
+  padding: 0.35rem 0;
+  border-bottom: 1px solid var(--border);
+}
+.cited-together-list li:last-child { border-bottom: none; }
+.co-cite-link { color: var(--accent); flex: 1; min-width: 0; }
+.co-cite-meta { color: var(--text-muted); font-size: 0.78rem; white-space: nowrap; }
+.co-cite-count {
+  background: var(--bg-alt);
+  border: 1px solid var(--border);
+  border-radius: 3px;
+  padding: 0.1rem 0.35rem;
+  font-size: 0.74rem;
+  color: var(--text-muted);
+  white-space: nowrap;
+}
+
+/* ── BibTeX Copy Button ───────────────────────────────────── */
+.bibtex-mini {
+  font-family: var(--font-mono);
+  font-size: 0.72rem;
+  background: var(--bg);
+  border: 1px solid var(--border);
+  border-radius: 4px;
+  padding: 0.6rem;
+  white-space: pre;
+  overflow-x: auto;
+  margin-bottom: 0.5rem;
+  color: var(--text-muted);
+}
+.bibtex-copy-btn {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.35rem;
+  padding: 0.35rem 0.85rem;
+  background: var(--accent);
+  color: #fff;
+  border: none;
+  border-radius: 4px;
+  font-size: 0.82rem;
+  font-weight: 600;
+  cursor: pointer;
+  transition: background 0.15s;
+  width: 100%;
+  justify-content: center;
+}
+.bibtex-copy-btn:hover { background: var(--accent-hover); }
+.bibtex-copy-btn.copied { background: var(--green); }
+
+/* ── Hatnote ──────────────────────────────────────────────── */
+.hatnote {
+  font-style: italic;
+  font-size: 0.88rem;
+  color: var(--text-muted);
+  background: var(--bg-alt);
+  border-left: 3px solid var(--accent);
+  padding: 0.5rem 0.9rem;
+  border-radius: 0 4px 4px 0;
+  margin-bottom: 1.25rem;
+}
+.hatnote a { color: var(--accent); }
+
+/* ── Reading Time ─────────────────────────────────────────── */
+.reading-time {
+  font-size: 0.78rem;
+  color: var(--text-muted);
+  margin-top: 0.4rem;
+}
+
+/* ── See Also ─────────────────────────────────────────────── */
+.see-also {
+  font-size: 0.88rem;
+  background: var(--bg-alt);
+  border: 1px solid var(--border);
+  border-radius: 4px;
+  padding: 0.55rem 0.9rem;
+  margin: 1.5rem 0;
+  color: var(--text-muted);
+}
+.see-also a { color: var(--accent); }
+
+/* ── Did You Know ─────────────────────────────────────────── */
+.did-you-know {
+  background: var(--accent-light);
+  border: 1px solid rgba(26,115,232,0.25);
+  border-radius: var(--radius);
+  padding: 0.75rem 1rem;
+  margin-bottom: 1.5rem;
+  font-size: 0.9rem;
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+}
+.did-you-know strong { color: var(--accent); white-space: nowrap; }
+.did-you-know span { flex: 1; }
+.dyk-next {
+  background: none;
+  border: 1px solid var(--accent);
+  color: var(--accent);
+  border-radius: 50%;
+  width: 28px;
+  height: 28px;
+  cursor: pointer;
+  font-size: 1rem;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+  transition: background 0.15s;
+}
+.dyk-next:hover { background: var(--accent); color: #fff; }
+
+/* ── Navbox ───────────────────────────────────────────────── */
+.navbox {
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+  margin: 2rem 0 1rem;
+  background: var(--bg-alt);
+  font-size: 0.85rem;
+}
+.navbox > summary {
+  padding: 0.5rem 0.9rem;
+  cursor: pointer;
+  font-weight: 700;
+  font-size: 0.82rem;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+  color: var(--text-muted);
+  user-select: none;
+}
+.navbox-body {
+  padding: 0.5rem 0.9rem 0.75rem;
+  border-top: 1px solid var(--border);
+}
+.navbox-group {
+  margin: 0.3rem 0;
+  line-height: 1.6;
+}
+.navbox-group a { color: var(--accent); font-size: 0.83rem; }
+
+/* ── Stub Notice ─────────────────────────────────────────── */
+.stub-notice {
+  font-style: italic;
+  font-size: 0.85rem;
+  color: var(--text-muted);
+  background: var(--bg-alt);
+  border: 1px dashed var(--border);
+  border-radius: 4px;
+  padding: 0.5rem 0.9rem;
+  margin-bottom: 1.25rem;
+}
+
+/* ── Back to Top ─────────────────────────────────────────── */
+#back-to-top {
+  position: fixed;
+  bottom: 1.5rem;
+  right: 1.5rem;
+  background: var(--accent);
+  color: #fff;
+  border: none;
+  border-radius: 50%;
+  width: 42px;
+  height: 42px;
+  font-size: 1.1rem;
+  cursor: pointer;
+  box-shadow: var(--shadow-md);
+  display: none;
+  align-items: center;
+  justify-content: center;
+  z-index: 500;
+  transition: background 0.15s, opacity 0.2s;
+}
+#back-to-top:hover { background: var(--accent-hover); }
+#back-to-top.visible { display: flex; }
+
+/* ── Heading Anchor ──────────────────────────────────────── */
+.heading-anchor {
+  margin-left: 0.4rem;
+  opacity: 0;
+  font-size: 0.75em;
+  color: var(--text-muted);
+  cursor: pointer;
+  user-select: none;
+  transition: opacity 0.15s;
+  text-decoration: none;
+}
+h2:hover .heading-anchor,
+h3:hover .heading-anchor,
+h4:hover .heading-anchor { opacity: 1; }
+
+/* ── Search Result Groups ────────────────────────────────── */
+.search-result-group {
+  padding: 0.25rem 1rem;
+  font-size: 0.72rem;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.07em;
+  color: var(--text-muted);
+  background: var(--bg-alt);
+  border-bottom: 1px solid var(--border);
+}
+
+/* ── Graph Page ──────────────────────────────────────────── */
+.graph-page { display: flex; flex-direction: column; height: calc(100vh - 56px); }
+.graph-header {
+  padding: 1rem 1.5rem 0.75rem;
+  border-bottom: 1px solid var(--border);
+  flex-shrink: 0;
+}
+.graph-header h1 { font-size: 1.4rem; font-weight: 800; margin-bottom: 0.25rem; }
+.graph-header p { font-size: 0.85rem; color: var(--text-muted); margin-bottom: 0.5rem; }
+.graph-legend { display: flex; flex-wrap: wrap; gap: 0.5rem; font-size: 0.78rem; }
+.graph-legend-item { display: flex; align-items: center; gap: 0.3rem; color: var(--text-muted); }
+.graph-legend-dot { width: 10px; height: 10px; border-radius: 50%; display: inline-block; }
+#graph-container { flex: 1; overflow: hidden; background: var(--bg-alt); }
+.graph-tooltip {
+  position: absolute;
+  background: var(--bg-card);
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+  padding: 0.5rem 0.75rem;
+  font-size: 0.82rem;
+  pointer-events: none;
+  max-width: 280px;
+  box-shadow: var(--shadow-md);
+  z-index: 9999;
+  color: var(--text);
+}
+
+/* ── Authors Page ────────────────────────────────────────── */
+.authors-page { max-width: 1200px; margin: 0 auto; padding: 2rem 1rem 3rem; }
+.authors-header { margin-bottom: 2rem; }
+.authors-header h1 { font-size: 2rem; font-weight: 800; margin-bottom: 0.4rem; }
+.authors-header p { color: var(--text-muted); margin-bottom: 1rem; }
+.authors-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+  gap: 0.75rem;
+}
+.author-card {
+  background: var(--bg-card);
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+  padding: 0.85rem 1rem;
+  transition: box-shadow 0.2s;
+}
+.author-card:hover { box-shadow: var(--shadow-md); }
+.author-name { font-weight: 700; font-size: 0.92rem; margin-bottom: 0.2rem; }
+.author-count { font-size: 0.78rem; color: var(--text-muted); margin-bottom: 0.4rem; }
+.author-papers { display: flex; flex-wrap: wrap; gap: 0.25rem; }
+
+/* ── Timeline Page ───────────────────────────────────────── */
+.timeline-page { max-width: 900px; margin: 0 auto; padding: 2rem 1rem 3rem; }
+.timeline-header { margin-bottom: 2rem; }
+.timeline-header h1 { font-size: 2rem; font-weight: 800; margin-bottom: 0.4rem; }
+.timeline-header p { color: var(--text-muted); }
+.timeline-decade { margin-bottom: 2.5rem; }
+.decade-label {
+  font-size: 1.3rem;
+  font-weight: 800;
+  color: var(--accent);
+  border-bottom: 2px solid var(--border);
+  padding-bottom: 0.3rem;
+  margin-bottom: 1rem;
+}
+.timeline-year { margin-bottom: 1.25rem; }
+.timeline-year-label {
+  font-size: 0.82rem;
+  font-weight: 700;
+  color: var(--text-muted);
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+  margin-bottom: 0.4rem;
+}
+.timeline-papers { list-style: none; }
+.timeline-item {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: baseline;
+  gap: 0.5rem;
+  padding: 0.3rem 0;
+  border-bottom: 1px solid var(--border);
+  font-size: 0.88rem;
+}
+.timeline-item:last-child { border-bottom: none; }
+.timeline-item a { color: var(--accent); flex: 1; }
+.timeline-meta { font-size: 0.78rem; color: var(--text-muted); white-space: nowrap; }
+
+/* ── Methods Page ────────────────────────────────────────── */
+.methods-page { max-width: 1000px; margin: 0 auto; padding: 2rem 1rem 3rem; }
+.methods-header { margin-bottom: 2rem; }
+.methods-header h1 { font-size: 2rem; font-weight: 800; margin-bottom: 0.4rem; }
+.methods-header p { color: var(--text-muted); }
+.methods-table {
+  width: 100%;
+  border-collapse: collapse;
+  font-size: 0.9rem;
+}
+.methods-table th {
+  background: var(--bg-alt);
+  border: 1px solid var(--border);
+  padding: 0.6rem 0.75rem;
+  text-align: left;
+  font-weight: 700;
+}
+.methods-table td {
+  border: 1px solid var(--border);
+  padding: 0.55rem 0.75rem;
+  vertical-align: middle;
+}
+.methods-table tr:nth-child(even) td { background: var(--bg-alt); }
+.methods-best { font-weight: 700; color: var(--text); }
+.method-cards-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+  gap: 1rem;
+}
+.method-card {
+  background: var(--bg-card);
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+  padding: 1rem 1.1rem;
+  transition: box-shadow 0.2s;
+}
+.method-card:hover { box-shadow: var(--shadow-md); }
+.method-card-header { margin-bottom: 0.6rem; }
+.method-name { font-weight: 700; font-size: 0.95rem; }
+.method-task { font-size: 0.8rem; color: var(--text-muted); }
+.method-acc { font-size: 1.1rem; font-weight: 800; color: var(--green); margin: 0.2rem 0; }
+.method-desc { font-size: 0.85rem; color: var(--text-muted); line-height: 1.55; margin-bottom: 0.75rem; }
+.method-link { font-size: 0.83rem; color: var(--accent); font-weight: 600; }
 """
 
 # ── JavaScript ─────────────────────────────────────────────────────────────────
@@ -2158,6 +3622,15 @@ if (menuBtn && mobileMenu) {
 const searchToggle = document.getElementById('search-toggle');
 const searchBar = document.getElementById('search-bar');
 const searchInput = document.getElementById('search-input');
+function openSearch() {
+  if (searchBar) {
+    searchBar.classList.remove('hidden');
+    if (searchInput) searchInput.focus();
+  }
+}
+function closeSearch() {
+  if (searchBar) searchBar.classList.add('hidden');
+}
 if (searchToggle && searchBar) {
   searchToggle.addEventListener('click', () => {
     searchBar.classList.toggle('hidden');
@@ -2188,41 +3661,80 @@ if (filterInput && papersGrid) {
   });
 }
 
-// Global search (nav search bar)
-if (searchInput) {
-  // Build search index from all paper cards if on papers page
-  let paperIndex = [];
-  const allCards = document.querySelectorAll('.paper-card');
-  allCards.forEach(card => {
-    paperIndex.push({
-      title: card.dataset.title || '',
-      author: card.dataset.author || '',
-      year: card.dataset.year || '',
-      href: card.querySelector('a')?.href || ''
-    });
-  });
+// Global search — lazy-loaded from search-index.json
+(function() {
+  let searchIndex = null;
+  let searchLoading = false;
 
   const resultsDiv = document.getElementById('search-results');
-  searchInput.addEventListener('input', () => {
-    if (!resultsDiv) return;
-    const q = searchInput.value.toLowerCase().trim();
-    if (!q) { resultsDiv.innerHTML = ''; return; }
+  if (!searchInput || !resultsDiv) return;
 
-    // Simple search
-    const matches = paperIndex.filter(p =>
-      p.title.includes(q) || p.author.includes(q) || p.year.includes(q)
-    ).slice(0, 8);
+  function getIndexUrl() {
+    const p = window.location.pathname;
+    if (p.includes('/chapters/') || p.includes('/papers/')) {
+      return '../search-index.json';
+    }
+    return 'search-index.json';
+  }
+
+  function loadIndex() {
+    if (searchIndex || searchLoading) return;
+    searchLoading = true;
+    fetch(getIndexUrl())
+      .then(r => r.json())
+      .then(data => { searchIndex = data; })
+      .catch(() => { searchIndex = []; });
+  }
+
+  // Start loading when search opens
+  searchToggle && searchToggle.addEventListener('click', loadIndex);
+
+  function renderResults(q) {
+    if (!resultsDiv) return;
+    if (!q) { resultsDiv.innerHTML = ''; return; }
+    if (!searchIndex) {
+      resultsDiv.innerHTML = '<div class="search-result-item"><div class="sri-meta">Loading…</div></div>';
+      return;
+    }
+    const ql = q.toLowerCase();
+    const matches = searchIndex.filter(item =>
+      (item.title || '').toLowerCase().includes(ql) ||
+      (item.text || '').toLowerCase().includes(ql) ||
+      (item.meta || '').toLowerCase().includes(ql)
+    );
 
     if (!matches.length) {
       resultsDiv.innerHTML = '<div class="search-result-item"><div class="sri-meta">No results found</div></div>';
-    } else {
-      resultsDiv.innerHTML = matches.map(p =>
-        `<div class="search-result-item" onclick="window.location='${p.href}'">
-          <div class="sri-title">${p.title.slice(0,80)}</div>
-          <div class="sri-meta">${p.author} · ${p.year}</div>
+      return;
+    }
+
+    // Group by type
+    const groups = { paper: [], chapter: [], glossary: [] };
+    matches.forEach(item => {
+      const g = groups[item.type] || groups.paper;
+      if (g.length < 4) g.push(item);
+    });
+
+    const typeLabels = { paper: 'Papers', chapter: 'Chapters', glossary: 'Glossary' };
+    let html = '';
+    for (const [type, items] of Object.entries(groups)) {
+      if (!items.length) continue;
+      html += `<div class="search-result-group">${typeLabels[type]}</div>`;
+      const root = (window.location.pathname.includes('/chapters/') || window.location.pathname.includes('/papers/')) ? '../' : '';
+      html += items.map(item =>
+        `<div class="search-result-item" onclick="window.location='${root}${item.url}'">
+          <div class="sri-title">${escHtml((item.title||'').slice(0,90))}</div>
+          <div class="sri-meta">${escHtml((item.meta||'').slice(0,80))}</div>
         </div>`
       ).join('');
     }
+    resultsDiv.innerHTML = html;
+  }
+
+  searchInput.addEventListener('input', () => {
+    const q = searchInput.value.trim();
+    if (!searchIndex && q) { loadIndex(); setTimeout(() => renderResults(q), 400); return; }
+    renderResults(q);
   });
 
   document.addEventListener('click', e => {
@@ -2230,7 +3742,7 @@ if (searchInput) {
       searchBar?.classList.add('hidden');
     }
   });
-}
+})();
 
 // Active TOC highlighting
 const observer = new IntersectionObserver((entries) => {
@@ -2245,6 +3757,300 @@ const observer = new IntersectionObserver((entries) => {
 }, { rootMargin: '-20% 0px -70% 0px' });
 
 document.querySelectorAll('h2[id], h3[id], h4[id]').forEach(h => observer.observe(h));
+
+// ── Reading Progress Bar ──────────────────────────────────────────────
+const progressBar = document.getElementById('reading-progress');
+if (progressBar) {
+  window.addEventListener('scroll', () => {
+    const doc = document.documentElement;
+    const scrollTop = doc.scrollTop || document.body.scrollTop;
+    const scrollHeight = doc.scrollHeight - doc.clientHeight;
+    progressBar.style.width = scrollHeight > 0 ? (scrollTop / scrollHeight * 100).toFixed(2) + '%' : '0%';
+  }, { passive: true });
+}
+
+// ── Shared helpers ────────────────────────────────────────────────────
+function escHtml(str) {
+  const d = document.createElement('div');
+  d.appendChild(document.createTextNode(str || ''));
+  return d.innerHTML;
+}
+function termSlug(t) {
+  return t.toLowerCase().replace(/[^a-z0-9]+/g, '-').replace(/^-|-$/g, '');
+}
+function getRootPath() {
+  const p = window.location.pathname;
+  return (p.includes('/chapters/') || p.includes('/papers/')) ? '../' : '';
+}
+
+// ── Citation Hover Cards ──────────────────────────────────────────────
+(function() {
+  const meta = window.PAPERS_META;
+  if (!meta) return;
+
+  const card = document.createElement('div');
+  card.className = 'cite-card';
+  document.body.appendChild(card);
+  let citeTimer;
+
+  // Keep card alive while mouse is over it
+  card.addEventListener('mouseenter', () => clearTimeout(citeTimer));
+  card.addEventListener('mouseleave', () => {
+    citeTimer = setTimeout(() => card.classList.remove('visible'), 200);
+  });
+
+  function positionCard(card, el, maxW) {
+    const rect = el.getBoundingClientRect();
+    const vw = window.innerWidth;
+    const vh = window.innerHeight;
+    let left = rect.left;
+    // Use viewport-relative top since card is position:fixed
+    let top = rect.bottom + 6;
+    if (left + maxW > vw - 8) left = Math.max(8, vw - maxW - 8);
+    if (left < 8) left = 8;
+    // Flip above if would go off-screen bottom
+    if (top + 180 > vh) top = rect.top - 180 - 6;
+    card.style.left = left + 'px';
+    card.style.top = top + 'px';
+  }
+
+  document.querySelectorAll('.cite[data-key]').forEach(el => {
+    el.addEventListener('mouseenter', () => {
+      clearTimeout(citeTimer);
+      const d = meta[el.dataset.key];
+      if (!d) return;
+      const cc = typeof d.cc === 'number' ? `<span class="cite-card-cc">${d.cc.toLocaleString()} citations</span>` : '';
+      card.innerHTML = `
+        <div class="cite-card-title">${escHtml((d.title||'').slice(0,120))}</div>
+        <div class="cite-card-authors">${escHtml((d.authors||'').slice(0,100))}</div>
+        <div class="cite-card-meta">
+          ${d.year ? `<span>${escHtml(d.year)}</span>` : ''}
+          ${d.venue ? `<span>${escHtml(d.venue.slice(0,60))}</span>` : ''}
+          ${cc}
+        </div>
+        ${d.abstract ? `<div class="cite-card-abstract">${escHtml(d.abstract.slice(0,280))}</div>` : ''}`;
+      positionCard(card, el, 360);
+      card.classList.add('visible');
+    });
+    el.addEventListener('mouseleave', () => {
+      citeTimer = setTimeout(() => card.classList.remove('visible'), 200);
+    });
+  });
+})();
+
+// ── Glossary Hover Cards & Term Annotation ───────────────────────────
+var showGlossaryCard, hideGlossaryCardFn;
+(function() {
+  const glossary = window.GLOSSARY_DATA;
+  if (!glossary) return;
+
+  const card = document.createElement('div');
+  card.className = 'glossary-card';
+  document.body.appendChild(card);
+  let gTimer;
+
+  // Keep card alive while mouse is over it
+  card.addEventListener('mouseenter', () => clearTimeout(gTimer));
+  card.addEventListener('mouseleave', () => {
+    gTimer = setTimeout(() => card.classList.remove('visible'), 200);
+  });
+
+  showGlossaryCard = function(el) {
+    clearTimeout(gTimer);
+    const term = el.dataset.term;
+    const d = glossary[term];
+    if (!d) return;
+    card.innerHTML = `
+      <div class="glossary-card-term">${escHtml(term)}</div>
+      ${d.full && d.full !== term ? `<div class="glossary-card-full">${escHtml(d.full)}</div>` : ''}
+      <div class="glossary-card-def">${escHtml(d.definition.slice(0,260))}</div>
+      <a class="glossary-card-link" href="${getRootPath()}glossary.html#${termSlug(term)}">View in Glossary →</a>`;
+    // position: fixed — coords are viewport-relative, no scrollY
+    const rect = el.getBoundingClientRect();
+    const vw = window.innerWidth, vh = window.innerHeight;
+    let left = rect.left;
+    let top  = rect.bottom + 6;
+    if (left + 340 > vw - 8) left = Math.max(8, vw - 340 - 8);
+    if (left < 8) left = 8;
+    if (top + 180 > vh) top = rect.top - 180 - 6;
+    card.style.left = left + 'px';
+    card.style.top  = top  + 'px';
+    card.classList.add('visible');
+  };
+
+  hideGlossaryCardFn = function() {
+    gTimer = setTimeout(() => card.classList.remove('visible'), 200);
+  };
+
+  function makeGlossarySpan(matchedText, term) {
+    const span = document.createElement('span');
+    span.className = 'glossary-term';
+    span.dataset.term = term;
+    span.textContent = matchedText;
+    span.addEventListener('mouseenter', () => showGlossaryCard(span));
+    span.addEventListener('mouseleave', hideGlossaryCardFn);
+    return span;
+  }
+
+  // Annotate ALL occurrences of every glossary term in chapter content
+  const content = document.querySelector('.chapter-content');
+  if (content) {
+    // Sort longest first so "Cross-species Adulteration" matches before "Adulteration"
+    const terms = Object.keys(glossary).sort((a, b) => b.length - a.length);
+
+    function collectTextNodes(root) {
+      const walker = document.createTreeWalker(root, NodeFilter.SHOW_TEXT, {
+        acceptNode(node) {
+          const p = node.parentElement;
+          if (!p) return NodeFilter.FILTER_REJECT;
+          const tag = p.tagName.toLowerCase();
+          if (['code','pre','script','style','a'].includes(tag)) return NodeFilter.FILTER_REJECT;
+          if (p.classList.contains('cite') || p.classList.contains('glossary-term') ||
+              p.classList.contains('math')) return NodeFilter.FILTER_REJECT;
+          return NodeFilter.FILTER_ACCEPT;
+        }
+      });
+      const nodes = [];
+      let n;
+      while ((n = walker.nextNode())) nodes.push(n);
+      return nodes;
+    }
+
+    for (const term of terms) {
+      const escaped = term.replace(/[.*+?^${}()|[\]\\]/g, '\\$&');
+      // Match term not preceded/followed by word chars (handles hyphens in terms like OPLS-DA)
+      const re = new RegExp('(?<![\\w])' + escaped + '(?![\\w])', 'g');
+
+      // Re-collect text nodes each pass (previous annotations change the DOM)
+      const textNodes = collectTextNodes(content);
+
+      for (const tn of textNodes) {
+        const text = tn.nodeValue;
+        const matches = [...text.matchAll(re)];
+        if (!matches.length) continue;
+
+        const frag = document.createDocumentFragment();
+        let cursor = 0;
+        for (const m of matches) {
+          if (m.index > cursor) frag.appendChild(document.createTextNode(text.slice(cursor, m.index)));
+          frag.appendChild(makeGlossarySpan(m[0], term));
+          cursor = m.index + m[0].length;
+        }
+        if (cursor < text.length) frag.appendChild(document.createTextNode(text.slice(cursor)));
+        tn.parentNode.replaceChild(frag, tn);
+      }
+    }
+  }
+})();
+
+// ── BibTeX Copy Button ────────────────────────────────────────────────
+const copyBtn = document.getElementById('bibtex-copy-btn');
+if (copyBtn) {
+  copyBtn.addEventListener('click', () => {
+    const bibtex = copyBtn.dataset.bibtex;
+    const reset = () => {
+      setTimeout(() => {
+        copyBtn.textContent = '📋 Copy BibTeX';
+        copyBtn.classList.remove('copied');
+      }, 2000);
+    };
+    if (navigator.clipboard) {
+      navigator.clipboard.writeText(bibtex).then(() => {
+        copyBtn.textContent = '✓ Copied!';
+        copyBtn.classList.add('copied');
+        reset();
+      }).catch(() => fallbackCopy(bibtex, copyBtn, reset));
+    } else {
+      fallbackCopy(bibtex, copyBtn, reset);
+    }
+  });
+}
+function fallbackCopy(text, btn, reset) {
+  const ta = document.createElement('textarea');
+  ta.value = text;
+  ta.style.position = 'fixed'; ta.style.opacity = '0';
+  document.body.appendChild(ta);
+  ta.select();
+  try { document.execCommand('copy'); } catch(e) {}
+  document.body.removeChild(ta);
+  btn.textContent = '✓ Copied!';
+  btn.classList.add('copied');
+  reset();
+}
+
+// ── Figure Gallery Filter ─────────────────────────────────────────────
+const galleryFilters = document.getElementById('gallery-filters');
+const galleryGrid = document.getElementById('gallery-grid');
+if (galleryFilters && galleryGrid) {
+  galleryFilters.addEventListener('click', e => {
+    const btn = e.target.closest('.gallery-filter-btn');
+    if (!btn) return;
+    galleryFilters.querySelectorAll('.gallery-filter-btn').forEach(b => b.classList.remove('active'));
+    btn.classList.add('active');
+    const ch = btn.dataset.ch;
+    galleryGrid.querySelectorAll('.gallery-item').forEach(item => {
+      item.style.display = (ch === 'all' || item.dataset.ch === ch) ? '' : 'none';
+    });
+  });
+}
+
+// ── Back to Top Button ────────────────────────────────────────────────
+(function() {
+  const btn = document.createElement('button');
+  btn.id = 'back-to-top';
+  btn.innerHTML = '&#8679;';
+  btn.title = 'Back to top';
+  document.body.appendChild(btn);
+  window.addEventListener('scroll', () => {
+    btn.classList.toggle('visible', window.scrollY > 300);
+  }, { passive: true });
+  btn.addEventListener('click', () => window.scrollTo({ top: 0, behavior: 'smooth' }));
+})();
+
+// ── Keyboard Shortcuts ────────────────────────────────────────────────
+document.addEventListener('keydown', e => {
+  // Ignore when typing in inputs
+  const tag = document.activeElement?.tagName;
+  if (tag === 'INPUT' || tag === 'TEXTAREA') {
+    if (e.key === 'Escape') { document.activeElement.blur(); closeSearch(); }
+    return;
+  }
+  if (e.key === '/' && !e.ctrlKey && !e.metaKey) {
+    e.preventDefault();
+    openSearch();
+    return;
+  }
+  if (e.key === 'Escape') { closeSearch(); return; }
+  // Left/right arrows → prev/next chapter
+  if (e.key === 'ArrowLeft') {
+    const prev = document.querySelector('.nav-btn[href*="chapter"]:first-of-type, .chapter-nav-bottom .nav-btn:first-child');
+    if (prev && prev.textContent.includes('←')) prev.click();
+  }
+  if (e.key === 'ArrowRight') {
+    const btns = document.querySelectorAll('.nav-btn');
+    btns.forEach(b => { if (b.textContent.includes('→')) b.click(); });
+  }
+});
+
+// ── Anchor Copy Links ─────────────────────────────────────────────────
+(function() {
+  document.querySelectorAll('h2[id], h3[id], h4[id]').forEach(h => {
+    const anchor = document.createElement('span');
+    anchor.className = 'heading-anchor';
+    anchor.innerHTML = '&#182;';
+    anchor.title = 'Copy link to this section';
+    anchor.addEventListener('click', () => {
+      const url = window.location.origin + window.location.pathname + '#' + h.id;
+      if (navigator.clipboard) {
+        navigator.clipboard.writeText(url).catch(() => {});
+      }
+      // Brief visual feedback
+      anchor.innerHTML = '&#10003;';
+      setTimeout(() => { anchor.innerHTML = '&#182;'; }, 1500);
+    });
+    h.appendChild(anchor);
+  });
+})();
 """
 
 # ── Main Build ─────────────────────────────────────────────────────────────────
@@ -2315,17 +4121,24 @@ def main():
     (SITE_DIR / "js" / "main.js").write_text(JS)
     print("  CSS and JS written")
 
+    # Pre-build shared JS snippets
+    papers_meta_js = build_papers_meta_js(bib, ss_data)
+    glossary_js = build_glossary_js()
+
     # Homepage
     (SITE_DIR / "index.html").write_text(
         build_index(bib, ss_data, chapter_citations))
     print("  index.html done")
 
-    # Chapters
+    # Chapters — also collect all figures for gallery
+    all_figures: List[dict] = []
     for slug, title in CHAPTERS:
         latex = chapter_latex.get(slug, "")
-        html_out = build_chapter(slug, title, latex, bib, ss_data, chapter_citations)
+        html_out, figs = build_chapter(slug, title, latex, bib, ss_data,
+                                       chapter_citations, papers_meta_js)
         (SITE_DIR / "chapters" / f"{slug}.html").write_text(html_out)
-        print(f"  chapters/{slug}.html done")
+        all_figures.extend(figs)
+        print(f"  chapters/{slug}.html done ({len(figs)} figures)")
 
     # Build reverse map for paper pages: key → {ch_slug: ch_title}
     paper_chapter_map: Dict[str, Dict[str, str]] = {}
@@ -2333,12 +4146,18 @@ def main():
         for key in chapter_citations.get(ch_slug, set()):
             paper_chapter_map.setdefault(key, {})[ch_slug] = ch_title
 
+    # Compute co-citations
+    co_citations = compute_co_citations(chapter_citations)
+
     # Paper pages
     print("  Generating paper pages...")
-    for i, (key, entry) in enumerate(bib.items()):
+    for key, entry in bib.items():
         ss = ss_data.get(key)
         cited_in = paper_chapter_map.get(key, {})
-        html_out = build_paper(key, entry, ss, cited_in)
+        co_cited = co_citations.get(key, [])
+        html_out = build_paper(key, entry, ss, cited_in,
+                               bib=bib, co_cited=co_cited,
+                               papers_meta_js=papers_meta_js)
         (SITE_DIR / "papers" / f"{key}.html").write_text(html_out)
     print(f"  {len(bib)} paper pages done")
 
@@ -2346,6 +4165,36 @@ def main():
     (SITE_DIR / "papers.html").write_text(
         build_papers_index(bib, ss_data, chapter_citations))
     print("  papers.html done")
+
+    # Glossary
+    (SITE_DIR / "glossary.html").write_text(build_glossary())
+    print("  glossary.html done")
+
+    # Figure gallery
+    (SITE_DIR / "figures.html").write_text(build_figure_gallery(all_figures))
+    print(f"  figures.html done ({len(all_figures)} figures)")
+
+    # Search index
+    build_search_index(bib, ss_data, chapter_citations, chapter_latex)
+
+    # Citation graph
+    (SITE_DIR / "graph.html").write_text(
+        build_citation_graph(bib, ss_data, chapter_citations))
+    print("  graph.html done")
+
+    # Author index
+    (SITE_DIR / "authors.html").write_text(
+        build_author_index(bib, ss_data))
+    print("  authors.html done")
+
+    # Timeline
+    (SITE_DIR / "timeline.html").write_text(
+        build_timeline(bib, ss_data, chapter_citations))
+    print("  timeline.html done")
+
+    # Methods comparison
+    (SITE_DIR / "methods.html").write_text(build_methods_page())
+    print("  methods.html done")
 
     print(f"\n✅ Site built at: {SITE_DIR}")
     print(f"   Open: {SITE_DIR / 'index.html'}")
