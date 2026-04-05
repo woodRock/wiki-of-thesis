@@ -602,17 +602,19 @@ class LatexConverter:
         # Itemize
         t = re.sub(r'\\begin\{itemize\}(.*?)\\end\{itemize\}',
                    self._itemize, t, flags=re.DOTALL)
-        # Display math — process \begin{equation} and \begin{align} first,
-        # then protect those results before running the bare \[...\] pattern
-        # to avoid double-wrapping.
+        # Display math — collapse to single line so _paragraphs() won't split
+        # the \[...\] delimiters across lines and inject <p> tags inside them.
+        def _math_div(content: str) -> str:
+            return '<div class="math-display">\\[' + content.replace('\n', ' ').strip() + '\\]</div>'
+
         t = re.sub(r'\\begin\{equation\*?\}(.*?)\\end\{equation\*?\}',
-                   r'<div class="math-display">\\[\1\\]</div>', t, flags=re.DOTALL)
+                   lambda m: _math_div(m.group(1)), t, flags=re.DOTALL)
         t = re.sub(r'\\begin\{align\*?\}(.*?)\\end\{align\*?\}',
-                   lambda m: f'<div class="math-display">\\[\\begin{{aligned}}{m.group(1)}\\end{{aligned}}\\]</div>',
+                   lambda m: _math_div(r'\begin{aligned}' + m.group(1) + r'\end{aligned}'),
                    t, flags=re.DOTALL)
         # $$...$$ display math (LaTeX / common web notation)
         t = re.sub(r'\$\$(.*?)\$\$',
-                   r'<div class="math-display">\\[\1\\]</div>', t, flags=re.DOTALL)
+                   lambda m: _math_div(m.group(1)), t, flags=re.DOTALL)
         # Protect already-wrapped display math before matching bare \[...\]
         _dm_store: Dict[str, str] = {}
         def _dm_protect(m):
@@ -621,7 +623,7 @@ class LatexConverter:
             return k
         t = re.sub(r'<div class="math-display">.*?</div>', _dm_protect, t, flags=re.DOTALL)
         t = re.sub(r'\\\[(.*?)\\\]',
-                   r'<div class="math-display">\\[\1\\]</div>', t, flags=re.DOTALL)
+                   lambda m: _math_div(m.group(1)), t, flags=re.DOTALL)
         # Restore protected blocks
         for k, v in _dm_store.items():
             t = t.replace(k, v)
