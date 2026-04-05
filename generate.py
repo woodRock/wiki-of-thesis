@@ -9,6 +9,11 @@ import os, re, json, time, shutil, requests, html, sys
 from pathlib import Path
 from typing import Dict, List, Optional, Tuple, Set
 
+try:
+    import yaml
+except ImportError:
+    sys.exit("ERROR: pyyaml is required. Install with: pip install pyyaml")
+
 # ── Configuration ──────────────────────────────────────────────────────────────
 BASE_DIR   = Path(__file__).parent.resolve()
 THESIS_DIR = BASE_DIR / "thesis-src"
@@ -19,246 +24,61 @@ SS_BATCH_URL = "https://api.semanticscholar.org/graph/v1/paper/batch"
 SS_SEARCH_URL = "https://api.semanticscholar.org/graph/v1/paper/search"
 SS_FIELDS = "title,authors,year,abstract,citationCount,venue,externalIds,openAccessPdf"
 
+# ── Load thesis.yml ────────────────────────────────────────────────────────────
+_CONFIG_FILE = BASE_DIR / "thesis.yml"
+if not _CONFIG_FILE.exists():
+    sys.exit(f"ERROR: thesis.yml not found at {_CONFIG_FILE}\n"
+             "Create it by copying thesis.yml.example and filling in your details.")
+
+with open(_CONFIG_FILE, encoding="utf-8") as _f:
+    _CFG = yaml.safe_load(_f)
+
+# ── Thesis config derived from thesis.yml ─────────────────────────────────────
+
+# Normalise glossary: strip trailing whitespace from YAML block scalars
 GLOSSARY = {
-    "REIMS": {
-        "full": "Rapid Evaporative Ionization Mass Spectrometry",
-        "definition": "A direct-to-analysis technique that allows near-instantaneous chemical analysis of a sample with minimal to no preparation. A heated blade vaporizes tissue, and the resulting aerosol is directed into a mass spectrometer, producing a chemical fingerprint in seconds.",
-        "category": "instrument",
-    },
-    "m/z": {
-        "full": "Mass-to-Charge Ratio",
-        "definition": "The x-axis of a mass spectrum, representing the ratio of an ion's mass to its charge. The REIMS dataset spans 2,080 distinct m/z features from approximately 77.04 to 999.32 m/z, each corresponding to a different molecular ion.",
-        "category": "instrument",
-    },
-    "TIC": {
-        "full": "Total Ion Current",
-        "definition": "The sum of all detected ion intensities across all m/z values in a single mass spectrum. TIC normalization divides each feature by the total ion current to remove inter-sample variation in overall signal intensity.",
-        "category": "instrument",
-    },
-    "OPLS-DA": {
-        "full": "Orthogonal Partial Least Squares Discriminant Analysis",
-        "definition": "A supervised chemometrics classification method that separates variation correlated with class labels (predictive) from orthogonal variation. Used as the primary baseline in this thesis, achieving up to 96% accuracy on species identification.",
-        "category": "method",
-    },
-    "Batch Detection": {
-        "full": "Batch Detection",
-        "definition": "The task of determining whether two fish samples originate from the same processing batch. Enables rapid recalls if contamination is discovered. Formulated as a pairwise classification task using contrastive learning in this thesis.",
-        "category": "task",
-    },
-    "Cross-species Adulteration": {
-        "full": "Cross-species Adulteration",
-        "definition": "Food fraud where a high-value fish species (Hoki) is mixed with a cheaper species (Mackerel). Formulated as a 3-class problem: pure Hoki, pure Mackerel, or a 50/50 mixture. Deep learning achieves 91.97% accuracy vs. 79.96% for OPLS-DA.",
-        "category": "task",
-    },
-    "Oil Contamination": {
-        "full": "Oil Contamination Detection",
-        "definition": "Detection and quantification of oil (e.g., engine or processing equipment oil) introduced into fish samples. Formulated as a 7-class ordinal classification problem with oil concentrations from 0% to 50% in 10% increments.",
-        "category": "task",
-    },
-    "Species Identification": {
-        "full": "Fish Species Identification",
-        "definition": "Classifying a REIMS spectrum to determine the fish species. A 2-class problem (Hoki vs. Mackerel) in this thesis, where MoE Transformer achieves 100% accuracy vs. 96.39% for OPLS-DA.",
-        "category": "task",
-    },
-    "Body Part Identification": {
-        "full": "Fish Body Part Identification",
-        "definition": "Classifying which anatomical body part a fish sample originates from (e.g., fillet, frame, offal). A multi-class problem where Ensemble Transformer achieves 74.13% accuracy vs. 51.17% for OPLS-DA.",
-        "category": "task",
-    },
-    "Marine Biomass": {
-        "full": "Marine Biomass",
-        "definition": "The total mass of all living marine organisms within a given area or ecosystem. In the context of this thesis, refers to the biological material (fish and shellfish) analyzed using REIMS for food quality and traceability applications.",
-        "category": "domain",
-    },
-    "Transformer": {
-        "full": "Transformer Neural Network",
-        "definition": "A deep learning architecture based on self-attention mechanisms, introduced by Vaswani et al. (2017). Processes all elements of a sequence in parallel, capturing long-range dependencies. Applied to REIMS spectra as sequences of m/z values in this thesis.",
-        "category": "model",
-    },
-    "MoE": {
-        "full": "Mixture of Experts",
-        "definition": "A neural network architecture where multiple specialized sub-networks (experts) process different inputs, gated by a learned router. The MoE Transformer achieves 100% species identification accuracy by routing different spectral regions to specialized expert networks.",
-        "category": "model",
-    },
-    "SpectroSim": {
-        "full": "SpectroSim",
-        "definition": "A novel contrastive learning framework introduced in this thesis for label-free batch traceability. Uses a Transformer encoder within the SimCLR framework to learn pairwise similarity between mass spectra, achieving 70.8% batch detection accuracy without labeled data.",
-        "category": "contribution",
-    },
-    "MSM": {
-        "full": "Masked Spectra Modelling",
-        "definition": "A novel self-supervised pre-training technique introduced in this thesis, adapting BERT's masked language modeling to sequential REIMS data. Random m/z features are masked and the model learns to reconstruct them, providing a useful initialization for downstream tasks.",
-        "category": "contribution",
-    },
-    "Gone Phishing": {
-        "full": "Gone Phishing (MoE Transformer)",
-        "definition": "A novel Mixture of Experts (MoE) Transformer architecture introduced in this thesis for REIMS-based fish fraud detection — the name is a pun on fish and phishing. It replaces the standard feed-forward networks inside each Transformer encoder block with MoE layers: a learned gating mechanism routes each input token to the Top-k most relevant expert sub-networks, whose outputs are combined by a weighted sum. This allows the model to scale capacity without proportionally increasing compute. Achieves 100% accuracy on fish species identification.",
-        "category": "contribution",
-    },
-    "Autobots": {
-        "full": "Autobots (Multi-scale Ensemble Transformer)",
-        "definition": "A stacked voting ensemble of multi-scale Transformers introduced in this thesis — the name is a pun on the Autobots, a team of diverse Transformers. Three independent Transformer models with 2, 4, and 8 layers/heads respectively act as level-0 base classifiers analyzing the spectrum at low, medium, and high resolution. Their outputs are fed into a learned weighted combination meta-model (level-1) that optimally combines each model's predictions. Achieves 74.13% accuracy on fish body part identification.",
-        "category": "contribution",
-    },
-    "Ensemble Transformer": {
-        "full": "Ensemble Transformer",
-        "definition": "An architecture combining multiple Transformer models trained with different initializations or configurations. Achieves 74.13% body part identification accuracy by aggregating predictions from multiple specialized models.",
-        "category": "model",
-    },
-    "LIME": {
-        "full": "Local Interpretable Model-agnostic Explanations",
-        "definition": "An explainability technique that approximates any black-box model locally with an interpretable surrogate. Applied to REIMS models in this thesis to identify which m/z features most influence individual predictions.",
-        "category": "method",
-    },
-    "Grad-CAM": {
-        "full": "Gradient-weighted Class Activation Mapping",
-        "definition": "An explainability technique that uses gradients flowing into the final convolutional or attention layer to produce a saliency map. Applied to Transformer models in this thesis to visualize spectral regions important for classification.",
-        "category": "method",
-    },
-    "Transfer Learning": {
-        "full": "Transfer Learning",
-        "definition": "A machine learning approach where a model pre-trained on one task or dataset is fine-tuned on a different but related task. In this thesis, models trained on species identification are adapted to oil contamination detection, improving accuracy by up to 22.67%.",
-        "category": "method",
-    },
-    "Contrastive Learning": {
-        "full": "Contrastive Learning",
-        "definition": "A self-supervised learning paradigm that trains models to pull representations of similar samples together and push dissimilar samples apart. Used in SpectroSim for batch traceability without requiring labeled batch data.",
-        "category": "method",
-    },
-    "SimCLR": {
-        "full": "Simple Contrastive Learning of Representations",
-        "definition": "A contrastive learning framework by Chen et al. (2020) that learns representations by maximizing agreement between differently augmented views of the same sample. SpectroSim adapts this framework for mass spectra.",
-        "category": "method",
-    },
-    "BERT": {
-        "full": "Bidirectional Encoder Representations from Transformers",
-        "definition": "A pre-training language model using masked language modeling. Its masked-token objective inspired the Masked Spectra Modelling (MSM) technique in this thesis.",
-        "category": "model",
-    },
-    "Self-supervised Learning": {
-        "full": "Self-supervised Learning",
-        "definition": "A machine learning paradigm that generates supervisory signals from the data itself, without human-labeled annotations. Used in this thesis for MSM pre-training and SpectroSim contrastive learning on REIMS spectra.",
-        "category": "method",
-    },
-    "Hoki": {
-        "full": "Hoki (Macruronus novaezelandiae)",
-        "definition": "A deep-sea fish species native to New Zealand waters, used as the high-value species in cross-species adulteration experiments. New Zealand is the world's largest exporter of Hoki, making it a target for seafood fraud.",
-        "category": "domain",
-    },
-    "Mackerel": {
-        "full": "Mackerel (Scomber japonicus)",
-        "definition": "A pelagic fish species used as the adulterant in cross-species adulteration experiments. Less expensive than Hoki but with a similar appearance when processed, making it a common seafood fraud target.",
-        "category": "domain",
-    },
-    "Food Fraud": {
-        "full": "Food Fraud",
-        "definition": "Deliberate adulteration, mislabeling, or misrepresentation of food products for economic gain. Seafood fraud is estimated to affect 30% of commercially sold seafood globally, driving the need for rapid verification tools like REIMS.",
-        "category": "domain",
-    },
-    "Species Substitution": {
-        "full": "Species Substitution",
-        "definition": "A form of food fraud where a premium fish species is replaced with a cheaper alternative. Detected in this thesis using REIMS-based classification, achieving up to 100% accuracy with Transformer models.",
-        "category": "domain",
-    },
-    "IUU Fishing": {
-        "full": "Illegal, Unreported and Unregulated Fishing",
-        "definition": "Fishing activities that contravene national and international laws, including fishing without authorization, under-reporting catches, and operating in restricted areas. REIMS-based species identification can help verify the provenance of seafood products.",
-        "category": "domain",
-    },
-    "Chemical Fingerprint": {
-        "full": "Chemical Fingerprint",
-        "definition": "The characteristic pattern of molecular ions detected in a mass spectrum, unique to a given biological sample. REIMS produces chemical fingerprints of tissue that encode species, body part, and contamination information.",
-        "category": "instrument",
-    },
-    "Ordinal Classification": {
-        "full": "Ordinal Classification",
-        "definition": "Classification where the target classes have a natural ordering (e.g., 0%, 10%, 20% oil concentration). Standard classification ignores this ordering; ordinal methods exploit it. Used for oil contamination detection in this thesis.",
-        "category": "method",
-    },
-    "BCA": {
-        "full": "Balanced Classification Accuracy",
-        "definition": "An accuracy metric that averages per-class recall, compensating for class imbalance. Used as the primary evaluation metric in this thesis to fairly compare models across unbalanced datasets.",
-        "category": "method",
-    },
-    "MAE": {
-        "full": "Mean Absolute Error",
-        "definition": "The average absolute difference between predicted and true values. Used alongside BCA for ordinal classification tasks (oil contamination, adulteration) where the magnitude of classification error matters.",
-        "category": "method",
-    },
-    "Negative Ionization Mode": {
-        "full": "Negative Ionization Mode",
-        "definition": "A mass spectrometry acquisition mode in which negatively charged ions are detected. REIMS in negative ionization mode primarily detects lipid-related compounds (fatty acids, phospholipids) that form the chemical fingerprint of fish tissue.",
-        "category": "instrument",
-    },
-    "PCA": {
-        "full": "Principal Component Analysis",
-        "definition": "A linear dimensionality reduction technique that projects data onto axes of maximum variance. Used for visualization and as a preprocessing step, but outperformed by deep learning methods on REIMS classification tasks.",
-        "category": "method",
-    },
-    "SVM": {
-        "full": "Support Vector Machine",
-        "definition": "A supervised learning algorithm that finds the optimal hyperplane separating classes in a high-dimensional feature space. Used as a baseline classifier in this thesis.",
-        "category": "model",
-    },
-    "KNN": {
-        "full": "K-Nearest Neighbours",
-        "definition": "A non-parametric classification algorithm that assigns a label based on the majority class among the k nearest training samples. Used as a baseline classifier in this thesis.",
-        "category": "model",
-    },
+    term: {
+        'full': data.get('full', term),
+        'definition': (data.get('definition') or '').strip(),
+        'category': data.get('category', ''),
+    }
+    for term, data in (_CFG.get('glossary') or {}).items()
 }
 
-CHAPTERS = [
-    ("chapter-0", "Acknowledgements"),
-    ("chapter-1", "Introduction"),
-    ("chapter-2", "Literature Survey"),
-    ("chapter-3", "Datasets and Processing"),
-    ("chapter-4", "Fish Species and Part Identification"),
-    ("chapter-5", "Oil Contamination and Cross-Species Adulteration"),
-    ("chapter-6", "Contrastive Learning for Batch Detection"),
-    ("chapter-7", "Conclusions"),
+CHAPTERS: List[Tuple[str, str]] = [
+    (ch['slug'], ch['title']) for ch in (_CFG.get('chapters') or [])
 ]
 
-THESIS_META = {
-    "title": "Machine Learning for Rapid Evaporative Ionization Mass Spectrometry for Marine Biomass Analysis",
-    "author": "Jesse Wood",
-    "university": "Victoria University of Wellington",
-    "year": "2025",
-    "subject": "Artificial Intelligence",
-    "degree": "Doctor of Philosophy in Artificial Intelligence",
-    "course_code": "AIML 694",
-    "school": "Te Whiri Kawe | Centre for Data Science and Artificial Intelligence",
-    "supervisors": [
-        "Dr. Bach Nguyen",
-        "Prof. Bing Xue",
-        "Prof. Mengjie Zhang",
-        "Dr. Daniel Killeen",
-    ],
-    "duration": "3.5 years",
-    "experiments": "3,000+",
-    "tasks": 5,
-    "abstract": (
-        "This thesis advances seafood processing by applying deep learning to Rapid Evaporative "
-        "Ionization Mass Spectrometry (REIMS) data, enabling automated and accurate marine biomass analysis. "
-        "It addresses critical industry challenges including species identification to combat mislabeling fraud, "
-        "body part classification for by-product utilization, oil contamination detection, cross-species "
-        "adulteration detection, and batch traceability. Key contributions include Transformer and Mixture of "
-        "Experts (MoE) architectures achieving up to 100% accuracy in species identification, SpectroSim — a "
-        "self-supervised contrastive learning framework for label-free batch traceability (70.8% accuracy) — "
-        "and explainable AI integration via LIME and Grad-CAM for interpretable predictions."
-    ),
-    "key_methods": ["Transformer", "Mixture of Experts", "Transfer Learning", "Contrastive Learning",
-                    "LIME", "Grad-CAM", "Masked Spectra Modelling", "OPLS-DA"],
-    "key_topics": ["REIMS", "Marine Biomass", "Species Identification", "Food Fraud Detection",
-                   "Oil Contamination", "Batch Traceability", "Explainable AI"],
-    "results": [
-        ("Fish Species", "OPLS-DA: 96.39%", "MoE Transformer: 100.00%", "+3.61%"),
-        ("Fish Body Part", "OPLS-DA: 51.17%", "Ensemble Transformer: 74.13%", "+22.96%"),
-        ("Oil Contamination", "OPLS-DA: 26.43%", "TL MoE Transformer: 49.10%", "+22.67%"),
-        ("Cross-species Adulteration", "OPLS-DA: 79.96%", "Pre-trained Transformer: 91.97%", "+12.01%"),
-        ("Batch Detection", "OPLS-DA: 53.19%", "SpectroSim (Transformer): 70.80%", "+17.61%"),
+CHAPTER_HATNOTES: Dict[str, str] = {
+    ch['slug']: ch['hatnote']
+    for ch in (_CFG.get('chapters') or [])
+    if ch.get('hatnote')
+}
+
+CHAPTER_SEE_ALSO: Dict[str, List[Tuple[str, str]]] = {
+    ch['slug']: [tuple(pair) for pair in ch['see_also']]
+    for ch in (_CFG.get('chapters') or [])
+    if ch.get('see_also')
+}
+
+THESIS_META: Dict = {
+    **{k: _CFG[k] for k in (
+        'title', 'author', 'university', 'year', 'subject',
+        'degree', 'course_code', 'school', 'supervisors',
+        'duration', 'experiments', 'tasks', 'abstract',
+        'key_methods', 'key_topics',
+    ) if k in _CFG},
+    'results': [
+        (r['task'], r['baseline'], r['best'], r['gain'])
+        for r in (_CFG.get('results') or [])
     ],
 }
 
+_DID_YOU_KNOW: List[str] = _CFG.get('did_you_know') or []
+_CONTRIBUTIONS: List[str] = _CFG.get('contributions') or []
+_QUICK_LINKS: List[Dict] = _CFG.get('quick_links') or []
+_NAVBOX_CFG: Dict = _CFG.get('navbox') or {}
+_NAVBOX_TITLE: str = _CFG.get('navbox_title', 'This Thesis')
 
 # ── BibTeX Parser ──────────────────────────────────────────────────────────────
 
@@ -1318,18 +1138,7 @@ def build_index(bib: Dict, ss: Dict, chapter_citations: Dict[str, Set[str]],
     topic_tags = ''.join(f'<span class="tag tag-blue">{html.escape(t)}</span>' for t in m['key_topics'])
 
     # Did You Know facts
-    dyk_facts = [
-        "Gone Phishing (MoE Transformer) achieves 100% accuracy on fish species identification — a perfect score.",
-        "The thesis analyzes 2,080 distinct m/z features spanning 77.04 to 999.32 m/z per spectrum.",
-        "SpectroSim achieves 70.8% batch detection accuracy without any labeled training data.",
-        "REIMS produces a chemical fingerprint in under 3 seconds, compared to hours for traditional methods.",
-        "The Ensemble Transformer (Autobots) combines models at 2, 4, and 8 Transformer layers simultaneously.",
-        "Seafood fraud affects an estimated 30% of commercially sold seafood globally.",
-        "Masked Spectra Modelling (MSM) adapts BERT's masked language modeling to 1D mass spectra.",
-        "The thesis cites 373 papers spanning over 50 years of research, from 1970 to 2025.",
-        "Transfer Learning from species identification to oil contamination detection improves accuracy by +22.67%.",
-        "New Zealand is the world's largest exporter of Hoki — the premium species in adulteration experiments.",
-    ]
+    dyk_facts = _DID_YOU_KNOW or ["No facts configured — add did_you_know entries to thesis.yml."]
     dyk_items = ''.join(f'<div class="dyk-fact" style="display:none">{html.escape(f)}</div>' for f in dyk_facts)
     dyk_first = html.escape(dyk_facts[0])
 
@@ -1427,22 +1236,13 @@ def build_index(bib: Dict, ss: Dict, chapter_citations: Dict[str, Set[str]],
       <div class="info-box">
         <h4>Quick Links</h4>
         <ul class="quick-links">
-          <li><a href="chapters/chapter-1.html">→ Introduction</a></li>
-          <li><a href="chapters/chapter-2.html">→ Literature Survey</a></li>
-          <li><a href="chapters/chapter-4.html">→ Species Identification</a></li>
-          <li><a href="chapters/chapter-5.html">→ Contamination Detection</a></li>
-          <li><a href="chapters/chapter-6.html">→ Batch Traceability</a></li>
-          <li><a href="papers.html">→ All 374 Papers</a></li>
+          {''.join(f'<li><a href="{html.escape(lnk["url"])}">→ {html.escape(lnk["label"])}</a></li>' for lnk in _QUICK_LINKS)}
         </ul>
       </div>
       <div class="info-box">
         <h4>Novel Contributions</h4>
         <ul class="contrib-list">
-          <li>First Transformer application to REIMS biomass analysis</li>
-          <li>First MoE Transformer for REIMS data</li>
-          <li>SpectroSim: self-supervised batch traceability</li>
-          <li>First REIMS-based oil contamination detection</li>
-          <li>First REIMS-based cross-species adulteration detection in marine biomass</li>
+          {''.join(f'<li>{html.escape(c)}</li>' for c in _CONTRIBUTIONS)}
         </ul>
       </div>
       <div class="info-box">
@@ -1465,55 +1265,26 @@ def build_index(bib: Dict, ss: Dict, chapter_citations: Dict[str, Set[str]],
     return page_shell(f"{m['title']}", content, root=".")
 
 
-CHAPTER_HATNOTES = {
-    "chapter-1": 'Introduction to the thesis. For methodology, see <a href="chapter-3.html">Chapter 3: Datasets and Processing</a>.',
-    "chapter-2": 'Survey of prior work. For novel methods proposed in this thesis, see <a href="chapter-4.html">Chapter 4</a>.',
-    "chapter-3": 'Covers REIMS datasets and preprocessing. For models trained on these datasets, see <a href="chapter-4.html">Chapter 4</a>.',
-    "chapter-4": 'Covers fish species and body part identification. For contamination detection, see <a href="chapter-5.html">Chapter 5</a>.',
-    "chapter-5": 'Covers oil contamination and adulteration. For batch traceability, see <a href="chapter-6.html">Chapter 6</a>.',
-    "chapter-6": 'Covers self-supervised batch detection (SpectroSim). For prior supervised tasks, see <a href="chapter-4.html">Chapter 4</a>.',
-    "chapter-7": 'Thesis conclusions and future work. For full results, see <a href="chapter-4.html">Ch. 4</a>, <a href="chapter-5.html">Ch. 5</a>, and <a href="chapter-6.html">Ch. 6</a>.',
-}
-
-CHAPTER_SEE_ALSO = {
-    "chapter-1": [("chapter-2", "Literature Survey"), ("chapter-7", "Conclusions")],
-    "chapter-2": [("chapter-1", "Introduction"), ("chapter-4", "Fish Species & Part Identification")],
-    "chapter-3": [("chapter-4", "Fish Species & Part Identification"), ("chapter-5", "Oil Contamination")],
-    "chapter-4": [("chapter-3", "Datasets and Processing"), ("chapter-5", "Oil Contamination & Adulteration")],
-    "chapter-5": [("chapter-4", "Fish Species & Part Identification"), ("chapter-6", "Contrastive Learning")],
-    "chapter-6": [("chapter-5", "Oil Contamination & Adulteration"), ("chapter-7", "Conclusions")],
-    "chapter-7": [("chapter-4", "Species & Part ID"), ("chapter-5", "Contamination"), ("chapter-6", "Batch Detection")],
-}
-
-
 def _build_navbox() -> str:
-    """Build the Wikipedia-style navbox for chapter pages."""
-    task_links = ' · '.join([
-        '<a href="../chapters/chapter-4.html">Species ID</a>',
-        '<a href="../chapters/chapter-4.html">Body Part ID</a>',
-        '<a href="../chapters/chapter-5.html">Oil Contamination</a>',
-        '<a href="../chapters/chapter-5.html">Adulteration</a>',
-        '<a href="../chapters/chapter-6.html">Batch Detection</a>',
-    ])
-
-    model_links = ' · '.join([
-        '<a href="../glossary.html#gone-phishing">Gone Phishing</a>',
-        '<a href="../glossary.html#autobots">Autobots</a>',
-        '<a href="../glossary.html#spectrosim">SpectroSim</a>',
-        '<a href="../glossary.html#msm">MSM</a>',
-    ])
+    """Build the Wikipedia-style navbox for chapter pages, driven by thesis.yml."""
+    groups_html = ''
+    for group_name, items in _NAVBOX_CFG.items():
+        links = ' · '.join(
+            f'<a href="../{html.escape(item["url"])}">{html.escape(item["label"])}</a>'
+            for item in items
+        )
+        groups_html += f'<div class="navbox-group"><strong>{html.escape(group_name)}</strong>: {links}</div>\n'
 
     chapter_links = ' · '.join(
         f'<a href="{slug}.html">Ch.{slug.replace("chapter-","")}: {html.escape(title[:20])}</a>'
         for slug, title in CHAPTERS
     )
+    groups_html += f'<div class="navbox-group"><strong>Chapters</strong>: {chapter_links}</div>'
 
     return f"""<details class="navbox" open>
-  <summary>This Thesis</summary>
+  <summary>{html.escape(_NAVBOX_TITLE)}</summary>
   <div class="navbox-body">
-    <div class="navbox-group"><strong>Tasks</strong>: {task_links}</div>
-    <div class="navbox-group"><strong>Novel Models</strong>: {model_links}</div>
-    <div class="navbox-group"><strong>Chapters</strong>: {chapter_links}</div>
+    {groups_html}
   </div>
 </details>"""
 

@@ -1,0 +1,502 @@
+# ──────────────────────────────────────────────────────────────────────────────
+# thesis.yml — Configuration for the Thesis Wiki Generator
+#
+# Edit this file to customise your thesis wiki. The generator (generate.py)
+# reads everything from here so you never need to touch Python code.
+#
+# Required: title, author, university, year, chapters
+# Everything else is optional but recommended.
+# ──────────────────────────────────────────────────────────────────────────────
+
+# ── Core Metadata ─────────────────────────────────────────────────────────────
+title: "Machine Learning for Rapid Evaporative Ionization Mass Spectrometry for Marine Biomass Analysis"
+author: Jesse Wood
+university: Victoria University of Wellington
+year: "2025"
+subject: Artificial Intelligence
+degree: Doctor of Philosophy in Artificial Intelligence
+course_code: AIML 694
+school: "Te Whiri Kawe | Centre for Data Science and Artificial Intelligence"
+duration: 3.5 years
+experiments: "3,000+"
+tasks: 5
+
+supervisors:
+  - Dr. Bach Nguyen
+  - Prof. Bing Xue
+  - Prof. Mengjie Zhang
+  - Dr. Daniel Killeen
+
+abstract: >
+  This thesis advances seafood processing by applying deep learning to Rapid Evaporative
+  Ionization Mass Spectrometry (REIMS) data, enabling automated and accurate marine biomass analysis.
+  It addresses critical industry challenges including species identification to combat mislabeling fraud,
+  body part classification for by-product utilization, oil contamination detection, cross-species
+  adulteration detection, and batch traceability. Key contributions include Transformer and Mixture of
+  Experts (MoE) architectures achieving up to 100% accuracy in species identification, SpectroSim — a
+  self-supervised contrastive learning framework for label-free batch traceability (70.8% accuracy) —
+  and explainable AI integration via LIME and Grad-CAM for interpretable predictions.
+
+# ── Chapters ──────────────────────────────────────────────────────────────────
+# slug must match the folder name under thesis-src/ (e.g. chapter-1 → thesis-src/chapter-1/main.tex)
+# hatnote: short contextual note shown at the top of the chapter page (HTML allowed)
+# see_also: list of [slug, label] pairs shown at the bottom of the chapter page
+chapters:
+  - slug: chapter-0
+    title: Acknowledgements
+
+  - slug: chapter-1
+    title: Introduction
+    hatnote: 'Introduction to the thesis. For methodology, see <a href="chapter-3.html">Chapter 3: Datasets and Processing</a>.'
+    see_also:
+      - [chapter-2, Literature Survey]
+      - [chapter-7, Conclusions]
+
+  - slug: chapter-2
+    title: Literature Survey
+    hatnote: 'Survey of prior work. For novel methods proposed in this thesis, see <a href="chapter-4.html">Chapter 4</a>.'
+    see_also:
+      - [chapter-1, Introduction]
+      - [chapter-4, Fish Species & Part Identification]
+
+  - slug: chapter-3
+    title: Datasets and Processing
+    hatnote: 'Covers REIMS datasets and preprocessing. For models trained on these datasets, see <a href="chapter-4.html">Chapter 4</a>.'
+    see_also:
+      - [chapter-4, Fish Species & Part Identification]
+      - [chapter-5, Oil Contamination]
+
+  - slug: chapter-4
+    title: Fish Species and Part Identification
+    hatnote: 'Covers fish species and body part identification. For contamination detection, see <a href="chapter-5.html">Chapter 5</a>.'
+    see_also:
+      - [chapter-3, Datasets and Processing]
+      - [chapter-5, Oil Contamination & Adulteration]
+
+  - slug: chapter-5
+    title: Oil Contamination and Cross-Species Adulteration
+    hatnote: 'Covers oil contamination and adulteration. For batch traceability, see <a href="chapter-6.html">Chapter 6</a>.'
+    see_also:
+      - [chapter-4, Fish Species & Part Identification]
+      - [chapter-6, Contrastive Learning]
+
+  - slug: chapter-6
+    title: Contrastive Learning for Batch Detection
+    hatnote: 'Covers self-supervised batch detection (SpectroSim). For prior supervised tasks, see <a href="chapter-4.html">Chapter 4</a>.'
+    see_also:
+      - [chapter-5, Oil Contamination & Adulteration]
+      - [chapter-7, Conclusions]
+
+  - slug: chapter-7
+    title: Conclusions
+    hatnote: 'Thesis conclusions and future work. For full results, see <a href="chapter-4.html">Ch. 4</a>, <a href="chapter-5.html">Ch. 5</a>, and <a href="chapter-6.html">Ch. 6</a>.'
+    see_also:
+      - [chapter-4, Species & Part ID]
+      - [chapter-5, Contamination]
+      - [chapter-6, Batch Detection]
+
+# ── Key Results Table ─────────────────────────────────────────────────────────
+results:
+  - task: Fish Species
+    baseline: "OPLS-DA: 96.39%"
+    best: "MoE Transformer: 100.00%"
+    gain: "+3.61%"
+  - task: Fish Body Part
+    baseline: "OPLS-DA: 51.17%"
+    best: "Ensemble Transformer: 74.13%"
+    gain: "+22.96%"
+  - task: Oil Contamination
+    baseline: "OPLS-DA: 26.43%"
+    best: "TL MoE Transformer: 49.10%"
+    gain: "+22.67%"
+  - task: Cross-species Adulteration
+    baseline: "OPLS-DA: 79.96%"
+    best: "Pre-trained Transformer: 91.97%"
+    gain: "+12.01%"
+  - task: Batch Detection
+    baseline: "OPLS-DA: 53.19%"
+    best: "SpectroSim (Transformer): 70.80%"
+    gain: "+17.61%"
+
+# ── Method & Topic Tags (shown on home page) ──────────────────────────────────
+key_methods:
+  - Transformer
+  - Mixture of Experts
+  - Transfer Learning
+  - Contrastive Learning
+  - LIME
+  - Grad-CAM
+  - Masked Spectra Modelling
+  - OPLS-DA
+
+key_topics:
+  - REIMS
+  - Marine Biomass
+  - Species Identification
+  - Food Fraud Detection
+  - Oil Contamination
+  - Batch Traceability
+  - Explainable AI
+
+# ── Novel Contributions (sidebar on home page) ────────────────────────────────
+contributions:
+  - First Transformer application to REIMS biomass analysis
+  - First MoE Transformer for REIMS data
+  - "SpectroSim: self-supervised batch traceability"
+  - First REIMS-based oil contamination detection
+  - First REIMS-based cross-species adulteration detection in marine biomass
+
+# ── Did You Know (rotating facts on home page) ────────────────────────────────
+did_you_know:
+  - "Gone Phishing (MoE Transformer) achieves 100% accuracy on fish species identification — a perfect score."
+  - "The thesis analyzes 2,080 distinct m/z features spanning 77.04 to 999.32 m/z per spectrum."
+  - "SpectroSim achieves 70.8% batch detection accuracy without any labeled training data."
+  - "REIMS produces a chemical fingerprint in under 3 seconds, compared to hours for traditional methods."
+  - "The Ensemble Transformer (Autobots) combines models at 2, 4, and 8 Transformer layers simultaneously."
+  - "Seafood fraud affects an estimated 30% of commercially sold seafood globally."
+  - "Masked Spectra Modelling (MSM) adapts BERT's masked language modeling to 1D mass spectra."
+  - "The thesis cites 373 papers spanning over 50 years of research, from 1970 to 2025."
+  - "Transfer Learning from species identification to oil contamination detection improves accuracy by +22.67%."
+  - "New Zealand is the world's largest exporter of Hoki — the premium species in adulteration experiments."
+
+# ── Quick Links (sidebar on home page) ───────────────────────────────────────
+quick_links:
+  - label: Introduction
+    url: chapters/chapter-1.html
+  - label: Literature Survey
+    url: chapters/chapter-2.html
+  - label: Species Identification
+    url: chapters/chapter-4.html
+  - label: Contamination Detection
+    url: chapters/chapter-5.html
+  - label: Batch Traceability
+    url: chapters/chapter-6.html
+  - label: All Papers
+    url: papers.html
+
+# ── Navbox (footer navigation on chapter pages) ───────────────────────────────
+navbox_title: This Thesis
+navbox:
+  Tasks:
+    - label: Species ID
+      url: chapters/chapter-4.html
+    - label: Body Part ID
+      url: chapters/chapter-4.html
+    - label: Oil Contamination
+      url: chapters/chapter-5.html
+    - label: Adulteration
+      url: chapters/chapter-5.html
+    - label: Batch Detection
+      url: chapters/chapter-6.html
+  Novel Models:
+    - label: Gone Phishing
+      url: glossary.html#gone-phishing
+    - label: Autobots
+      url: glossary.html#autobots
+    - label: SpectroSim
+      url: glossary.html#spectrosim
+    - label: MSM
+      url: glossary.html#msm
+
+# ── Glossary ──────────────────────────────────────────────────────────────────
+# category options: instrument, method, model, task, domain, contribution
+glossary:
+  REIMS:
+    full: Rapid Evaporative Ionization Mass Spectrometry
+    category: instrument
+    definition: >
+      A direct-to-analysis technique that allows near-instantaneous chemical analysis of a sample
+      with minimal to no preparation. A heated blade vaporizes tissue, and the resulting aerosol is
+      directed into a mass spectrometer, producing a chemical fingerprint in seconds.
+
+  m/z:
+    full: Mass-to-Charge Ratio
+    category: instrument
+    definition: >
+      The x-axis of a mass spectrum, representing the ratio of an ion's mass to its charge.
+      The REIMS dataset spans 2,080 distinct m/z features from approximately 77.04 to 999.32 m/z,
+      each corresponding to a different molecular ion.
+
+  TIC:
+    full: Total Ion Current
+    category: instrument
+    definition: >
+      The sum of all detected ion intensities across all m/z values in a single mass spectrum.
+      TIC normalization divides each feature by the total ion current to remove inter-sample
+      variation in overall signal intensity.
+
+  OPLS-DA:
+    full: Orthogonal Partial Least Squares Discriminant Analysis
+    category: method
+    definition: >
+      A supervised chemometrics classification method that separates variation correlated with
+      class labels (predictive) from orthogonal variation. Used as the primary baseline in this
+      thesis, achieving up to 96% accuracy on species identification.
+
+  Batch Detection:
+    full: Batch Detection
+    category: task
+    definition: >
+      The task of determining whether two fish samples originate from the same processing batch.
+      Enables rapid recalls if contamination is discovered. Formulated as a pairwise classification
+      task using contrastive learning in this thesis.
+
+  Cross-species Adulteration:
+    full: Cross-species Adulteration
+    category: task
+    definition: >
+      Food fraud where a high-value fish species (Hoki) is mixed with a cheaper species (Mackerel).
+      Formulated as a 3-class problem: pure Hoki, pure Mackerel, or a 50/50 mixture. Deep learning
+      achieves 91.97% accuracy vs. 79.96% for OPLS-DA.
+
+  Oil Contamination:
+    full: Oil Contamination Detection
+    category: task
+    definition: >
+      Detection and quantification of oil (e.g., engine or processing equipment oil) introduced
+      into fish samples. Formulated as a 7-class ordinal classification problem with oil
+      concentrations from 0% to 50% in 10% increments.
+
+  Species Identification:
+    full: Fish Species Identification
+    category: task
+    definition: >
+      Classifying a REIMS spectrum to determine the fish species. A 2-class problem
+      (Hoki vs. Mackerel) in this thesis, where MoE Transformer achieves 100% accuracy
+      vs. 96.39% for OPLS-DA.
+
+  Body Part Identification:
+    full: Fish Body Part Identification
+    category: task
+    definition: >
+      Classifying which anatomical body part a fish sample originates from (e.g., fillet, frame,
+      offal). A multi-class problem where Ensemble Transformer achieves 74.13% accuracy vs.
+      51.17% for OPLS-DA.
+
+  Marine Biomass:
+    full: Marine Biomass
+    category: domain
+    definition: >
+      The total mass of all living marine organisms within a given area or ecosystem. In the
+      context of this thesis, refers to the biological material (fish and shellfish) analyzed
+      using REIMS for food quality and traceability applications.
+
+  Transformer:
+    full: Transformer Neural Network
+    category: model
+    definition: >
+      A deep learning architecture based on self-attention mechanisms, introduced by Vaswani et al.
+      (2017). Processes all elements of a sequence in parallel, capturing long-range dependencies.
+      Applied to REIMS spectra as sequences of m/z values in this thesis.
+
+  MoE:
+    full: Mixture of Experts
+    category: model
+    definition: >
+      A neural network architecture where multiple specialized sub-networks (experts) process
+      different inputs, gated by a learned router. The MoE Transformer achieves 100% species
+      identification accuracy by routing different spectral regions to specialized expert networks.
+
+  SpectroSim:
+    full: SpectroSim
+    category: contribution
+    definition: >
+      A novel contrastive learning framework introduced in this thesis for label-free batch
+      traceability. Uses a Transformer encoder within the SimCLR framework to learn pairwise
+      similarity between mass spectra, achieving 70.8% batch detection accuracy without labeled data.
+
+  MSM:
+    full: Masked Spectra Modelling
+    category: contribution
+    definition: >
+      A novel self-supervised pre-training technique introduced in this thesis, adapting BERT's
+      masked language modeling to sequential REIMS data. Random m/z features are masked and the
+      model learns to reconstruct them, providing a useful initialization for downstream tasks.
+
+  Gone Phishing:
+    full: Gone Phishing (MoE Transformer)
+    category: contribution
+    definition: >
+      A novel Mixture of Experts (MoE) Transformer architecture introduced in this thesis for
+      REIMS-based fish fraud detection — the name is a pun on fish and phishing. It replaces the
+      standard feed-forward networks inside each Transformer encoder block with MoE layers: a
+      learned gating mechanism routes each input token to the Top-k most relevant expert
+      sub-networks, whose outputs are combined by a weighted sum. This allows the model to scale
+      capacity without proportionally increasing compute. Achieves 100% accuracy on fish species
+      identification.
+
+  Autobots:
+    full: Autobots (Multi-scale Ensemble Transformer)
+    category: contribution
+    definition: >
+      A stacked voting ensemble of multi-scale Transformers introduced in this thesis — the name
+      is a pun on the Autobots, a team of diverse Transformers. Three independent Transformer
+      models with 2, 4, and 8 layers/heads respectively act as level-0 base classifiers analyzing
+      the spectrum at low, medium, and high resolution. Their outputs are fed into a learned
+      weighted combination meta-model (level-1) that optimally combines each model's predictions.
+      Achieves 74.13% accuracy on fish body part identification.
+
+  Ensemble Transformer:
+    full: Ensemble Transformer
+    category: model
+    definition: >
+      An architecture combining multiple Transformer models trained with different initializations
+      or configurations. Achieves 74.13% body part identification accuracy by aggregating
+      predictions from multiple specialized models.
+
+  LIME:
+    full: Local Interpretable Model-agnostic Explanations
+    category: method
+    definition: >
+      An explainability technique that approximates any black-box model locally with an
+      interpretable surrogate. Applied to REIMS models in this thesis to identify which m/z
+      features most influence individual predictions.
+
+  Grad-CAM:
+    full: Gradient-weighted Class Activation Mapping
+    category: method
+    definition: >
+      An explainability technique that uses gradients flowing into the final convolutional or
+      attention layer to produce a saliency map. Applied to Transformer models in this thesis to
+      visualize spectral regions important for classification.
+
+  Transfer Learning:
+    full: Transfer Learning
+    category: method
+    definition: >
+      A machine learning approach where a model pre-trained on one task or dataset is fine-tuned
+      on a different but related task. In this thesis, models trained on species identification
+      are adapted to oil contamination detection, improving accuracy by up to 22.67%.
+
+  Contrastive Learning:
+    full: Contrastive Learning
+    category: method
+    definition: >
+      A self-supervised learning paradigm that trains models to pull representations of similar
+      samples together and push dissimilar samples apart. Used in SpectroSim for batch
+      traceability without requiring labeled batch data.
+
+  SimCLR:
+    full: Simple Contrastive Learning of Representations
+    category: method
+    definition: >
+      A contrastive learning framework by Chen et al. (2020) that learns representations by
+      maximizing agreement between differently augmented views of the same sample. SpectroSim
+      adapts this framework for mass spectra.
+
+  BERT:
+    full: Bidirectional Encoder Representations from Transformers
+    category: model
+    definition: >
+      A pre-training language model using masked language modeling. Its masked-token objective
+      inspired the Masked Spectra Modelling (MSM) technique in this thesis.
+
+  Self-supervised Learning:
+    full: Self-supervised Learning
+    category: method
+    definition: >
+      A machine learning paradigm that generates supervisory signals from the data itself, without
+      human-labeled annotations. Used in this thesis for MSM pre-training and SpectroSim
+      contrastive learning on REIMS spectra.
+
+  Hoki:
+    full: "Hoki (Macruronus novaezelandiae)"
+    category: domain
+    definition: >
+      A deep-sea fish species native to New Zealand waters, used as the high-value species in
+      cross-species adulteration experiments. New Zealand is the world's largest exporter of Hoki,
+      making it a target for seafood fraud.
+
+  Mackerel:
+    full: "Mackerel (Scomber japonicus)"
+    category: domain
+    definition: >
+      A pelagic fish species used as the adulterant in cross-species adulteration experiments.
+      Less expensive than Hoki but with a similar appearance when processed, making it a common
+      seafood fraud target.
+
+  Food Fraud:
+    full: Food Fraud
+    category: domain
+    definition: >
+      Deliberate adulteration, mislabeling, or misrepresentation of food products for economic
+      gain. Seafood fraud is estimated to affect 30% of commercially sold seafood globally,
+      driving the need for rapid verification tools like REIMS.
+
+  Species Substitution:
+    full: Species Substitution
+    category: domain
+    definition: >
+      A form of food fraud where a premium fish species is replaced with a cheaper alternative.
+      Detected in this thesis using REIMS-based classification, achieving up to 100% accuracy
+      with Transformer models.
+
+  IUU Fishing:
+    full: Illegal, Unreported and Unregulated Fishing
+    category: domain
+    definition: >
+      Fishing activities that contravene national and international laws, including fishing without
+      authorization, under-reporting catches, and operating in restricted areas. REIMS-based
+      species identification can help verify the provenance of seafood products.
+
+  Chemical Fingerprint:
+    full: Chemical Fingerprint
+    category: instrument
+    definition: >
+      The characteristic pattern of molecular ions detected in a mass spectrum, unique to a given
+      biological sample. REIMS produces chemical fingerprints of tissue that encode species, body
+      part, and contamination information.
+
+  Ordinal Classification:
+    full: Ordinal Classification
+    category: method
+    definition: >
+      Classification where the target classes have a natural ordering (e.g., 0%, 10%, 20% oil
+      concentration). Standard classification ignores this ordering; ordinal methods exploit it.
+      Used for oil contamination detection in this thesis.
+
+  BCA:
+    full: Balanced Classification Accuracy
+    category: method
+    definition: >
+      An accuracy metric that averages per-class recall, compensating for class imbalance. Used
+      as the primary evaluation metric in this thesis to fairly compare models across unbalanced
+      datasets.
+
+  MAE:
+    full: Mean Absolute Error
+    category: method
+    definition: >
+      The average absolute difference between predicted and true values. Used alongside BCA for
+      ordinal classification tasks (oil contamination, adulteration) where the magnitude of
+      classification error matters.
+
+  Negative Ionization Mode:
+    full: Negative Ionization Mode
+    category: instrument
+    definition: >
+      A mass spectrometry acquisition mode in which negatively charged ions are detected. REIMS
+      in negative ionization mode primarily detects lipid-related compounds (fatty acids,
+      phospholipids) that form the chemical fingerprint of fish tissue.
+
+  PCA:
+    full: Principal Component Analysis
+    category: method
+    definition: >
+      A linear dimensionality reduction technique that projects data onto axes of maximum
+      variance. Used for visualization and as a preprocessing step, but outperformed by deep
+      learning methods on REIMS classification tasks.
+
+  SVM:
+    full: Support Vector Machine
+    category: model
+    definition: >
+      A supervised learning algorithm that finds the optimal hyperplane separating classes in a
+      high-dimensional feature space. Used as a baseline classifier in this thesis.
+
+  KNN:
+    full: K-Nearest Neighbours
+    category: model
+    definition: >
+      A non-parametric classification algorithm that assigns a label based on the majority class
+      among the k nearest training samples. Used as a baseline classifier in this thesis.
