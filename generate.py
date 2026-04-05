@@ -10,11 +10,11 @@ from pathlib import Path
 from typing import Dict, List, Optional, Tuple, Set
 
 # ── Configuration ──────────────────────────────────────────────────────────────
-BASE_DIR   = Path("/Users/woodj/Desktop/wiki-of-thesis")
+BASE_DIR   = Path(__file__).parent.resolve()
 THESIS_DIR = BASE_DIR / "thesis-src"
 SITE_DIR   = BASE_DIR / "site"
 CACHE_FILE = BASE_DIR / "ss_cache.json"
-SS_API_KEY = "APORisAAR355u0HFw6y1F2xmpPwqRX9H4xyA04aQ"
+SS_API_KEY = os.environ.get("SS_API_KEY", "APORisAAR355u0HFw6y1F2xmpPwqRX9H4xyA04aQ")
 SS_BATCH_URL = "https://api.semanticscholar.org/graph/v1/paper/batch"
 SS_SEARCH_URL = "https://api.semanticscholar.org/graph/v1/paper/search"
 SS_FIELDS = "title,authors,year,abstract,citationCount,venue,externalIds,openAccessPdf"
