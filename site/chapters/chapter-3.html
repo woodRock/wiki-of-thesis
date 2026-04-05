@@ -124,8 +124,7 @@
 <h3 id="normalization">Normalization</h3>
 <p>A standard preprocessing step applied across all datasets is normalization. Specifically, the raw REIMS spectral data underwent a two-stage normalization process. First, the data were normalized based on total intensity (Total Ion Current, TIC) across the mass spectral range. This crucial step accounts for sample-to-sample variations in ionization efficiency due to subtle differences in tissue characteristics or instrument performance.</p>
 <p>Following this, the <span class="math">\(\text{m/z}\)</span> intensity values were further scaled to fall within the range of <span class="math">\(x\in[0,1]\)</span> using min-max normalization. The formula for this normalization is:</p>
-<div class="math-display">\[
-<p>X' = \frac{X_i - X_{\min}}{X_{\max} - X_{\min}} \]</div></p>
+<div class="math-display">\[X' = \frac{X_i - X_{\min}}{X_{\max} - X_{\min}}\]</div>
 <p>Where <span class="math">\(X_{i}\)</span> is the intensity value after TIC normalization, <span class="math">\(X_{\min}\)</span> is the minimum value of that feature in the training set, and <span class="math">\(X_{\max}\)</span> is the maximum value of that feature in the training set. This final scaling helps to prevent features with larger absolute values from dominating distance calculations or gradient updates in certain machine learning algorithms.</p>
 <h2 id="task-specific-datasets">Task-Specific Datasets</h2>
 <p>The final curated and normalized data matrix was used to create five distinct datasets, each tailored to a specific classification task. The experimental methodology differed between tasks based on dataset size and structure.</p>
