@@ -644,14 +644,18 @@ class LatexConverter:
             text = text.replace(k, html)
         return self._inline_simple(text)
 
+    def _item_html(self, text: str) -> str:
+        """Process a single list item: citations first, then inline formatting."""
+        return self._inline(self._citations(text.strip()))
+
     def _enumerate(self, m) -> str:
         items = self._split_items(m.group(1))
-        lis = '\n'.join(f'  <li>{self._inline(item.strip())}</li>' for item in items if item.strip())
+        lis = '\n'.join(f'  <li>{self._item_html(item)}</li>' for item in items if item.strip())
         return f'<ol>\n{lis}\n</ol>\n'
 
     def _itemize(self, m) -> str:
         items = self._split_items(m.group(1))
-        lis = '\n'.join(f'  <li>{self._inline(item.strip())}</li>' for item in items if item.strip())
+        lis = '\n'.join(f'  <li>{self._item_html(item)}</li>' for item in items if item.strip())
         return f'<ul>\n{lis}\n</ul>\n'
 
     def _split_items(self, content: str) -> List[str]:
