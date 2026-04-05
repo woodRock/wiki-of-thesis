@@ -488,6 +488,26 @@ class LatexConverter:
         content_clean = re.sub(r'(?<!\\)%.*$', '', content, flags=re.MULTILINE)
         content_clean = re.sub(r'\\rowcolors\{[^}]*\}\{[^}]*\}\{[^}]*\}', '', content_clean)
         content_clean = re.sub(r'\\(?:small|footnotesize|large|Large|centering|raggedright|raggedleft)\b\s*', '', content_clean)
+        # Strip \resizebox{...}{!}{% ... %} wrapper — just keep the inner content
+        content_clean = re.sub(r'\\resizebox\{[^}]*\}\{[^}]*\}\{%?\s*', '', content_clean)
+        content_clean = content_clean.rstrip().rstrip('%}').rstrip()
+
+        # Protect nested \begin{tabular}...\end{tabular} environments BEFORE searching
+        # for the outer tabular, so (.*?) doesn't stop at an inner \end{tabular}.
+        # Strategy: repeatedly match the INNERMOST tabular (one whose body contains
+        # no further \begin{tabular}) and replace with a placeholder.
+        # Store on self so _cell() can expand them later.
+        if not hasattr(self, '_nested_tab_store'):
+            self._nested_tab_store = {}
+        def _protect_nested_table(m):
+            k = f'\x02NESTED{len(self._nested_tab_store)}\x02'
+            self._nested_tab_store[k] = m.group(0)
+            return k
+        # Single pass: protect each innermost tabular (body contains no \begin{tabular}).
+        # This leaves exactly the outermost \begin{tabular} visible for the search below.
+        _innermost_tab = (r'\\begin\{tabular\}(?:\[[^\]]*\])?\{(?:[^{}]|\{[^{}]*\})*\}'
+                          r'((?:(?!\\begin\{tabular\})[\s\S])*?)\\end\{tabular\}')
+        content_clean = re.sub(_innermost_tab, _protect_nested_table, content_clean)
 
         # Column spec may contain @{} so use one-level nested brace matching
         # Also support tabularx and tabulary (second arg is width, third is col spec)
@@ -511,6 +531,9 @@ class LatexConverter:
         body = body.replace('\r\n', '\n').replace('\r', '\n')
         # Only strip REAL LaTeX comments — % NOT preceded by backslash
         body = re.sub(r'(?<!\\)%.*$', '', body, flags=re.MULTILINE)
+
+        # Note: nested \begin{tabular} protection is done in _table() before calling
+        # us, so self._nested_tab_store is already populated.
 
         # Protect escaped specials before splitting on & and //
         body = body.replace(r'\&', '\x01AMP\x01')
@@ -591,12 +614,28 @@ class LatexConverter:
                 f'</div>')
 
     def _cell(self, text: str) -> str:
-        """Convert a single table cell."""
+        """Convert a single table cell, expanding any nested tabular placeholders."""
         text = text.strip()
         # \multirow — extract inner content
         mr = re.match(r'\\multirow\s*\{[^}]*\}\s*\{[^}]*\}\s*\{((?:[^{}]|\{[^{}]*\})*)\}', text)
         if mr:
             text = mr.group(1)
+        # Expand nested tabular placeholders stored by _tabular on self._nested_tab_store.
+        # Each nested \begin{tabular}...\end{tabular} becomes an <ul> bullet list.
+        store = getattr(self, '_nested_tab_store', {})
+        for k, raw in store.items():
+            if k not in text:
+                continue
+            body_m = re.search(
+                r'\\begin\{tabular\}(?:\[[^\]]*\])?\{(?:[^{}]|\{[^{}]*\})*\}(.*?)\\end\{tabular\}',
+                raw, re.DOTALL)
+            inner = body_m.group(1) if body_m else raw
+            rows = [r.strip() for r in re.split(r'\\\\', inner) if r.strip()]
+            items = [self._inline_simple(r) for r in rows if r]
+            html = ('<ul class="cell-list">'
+                    + ''.join(f'<li>{it}</li>' for it in items)
+                    + '</ul>') if items else ''
+            text = text.replace(k, html)
         return self._inline_simple(text)
 
     def _enumerate(self, m) -> str:
@@ -1800,6 +1839,18 @@ a:hover { text-decoration: underline; color: var(--accent-hover); }
   color: var(--text-muted);
   font-size: 0.88rem;
   margin: 1rem 0;
+}
+
+/* Nested bullet lists inside table cells */
+.cell-list {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  font-size: inherit;
+}
+.cell-list li {
+  padding: 0.1rem 0;
+  line-height: 1.5;
 }
 
 /* ── Chapter References ───────────────────────────────────── */
