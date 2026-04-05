@@ -104,6 +104,22 @@ if (filterInput && papersGrid) {
     return relUrl;
   }
 
+  function highlightSnippet(text, q) {
+    if (!text) return '';
+    const idx = text.toLowerCase().indexOf(q.toLowerCase());
+    let snip;
+    if (idx < 0) {
+      snip = text.slice(0, 130) + (text.length > 130 ? '…' : '');
+    } else {
+      const start = Math.max(0, idx - 40);
+      const end = Math.min(text.length, idx + q.length + 80);
+      snip = (start > 0 ? '…' : '') + text.slice(start, end) + (end < text.length ? '…' : '');
+    }
+    const escaped = escHtml(snip);
+    const escapedQ = escHtml(q).replace(/[.*+?^${}()|[\]\\]/g, '\\$&');
+    return escaped.replace(new RegExp('(' + escapedQ + ')', 'gi'), '<mark>$1</mark>');
+  }
+
   function renderResults(q) {
     if (!q) { resultsDiv.innerHTML = ''; return; }
     const index = window.SEARCH_INDEX;
@@ -123,11 +139,11 @@ if (filterInput && papersGrid) {
       return;
     }
 
-    // Group by type, up to 4 per group
+    // Group by type, up to 5 per group
     const groups = { chapter: [], paper: [], glossary: [] };
     for (const item of matches) {
       const g = groups[item.type];
-      if (g && g.length < 4) g.push(item);
+      if (g && g.length < 5) g.push(item);
     }
 
     const typeLabels = { chapter: 'Chapters', paper: 'Papers', glossary: 'Glossary' };
@@ -135,12 +151,14 @@ if (filterInput && papersGrid) {
     for (const [type, items] of Object.entries(groups)) {
       if (!items.length) continue;
       out += `<div class="search-result-group">${typeLabels[type]}</div>`;
-      out += items.map(item =>
-        `<div class="search-result-item" onclick="window.location='${siteUrl(item.url)}'">
+      out += items.map(item => {
+        const snippet = highlightSnippet(item.snippet || item.text || '', q);
+        return `<div class="search-result-item" onclick="window.location='${siteUrl(item.url)}'">
           <div class="sri-title">${escHtml((item.title || '').slice(0, 90))}</div>
-          <div class="sri-meta">${escHtml((item.meta  || '').slice(0, 80))}</div>
-        </div>`
-      ).join('');
+          <div class="sri-meta">${escHtml((item.meta || '').slice(0, 80))}</div>
+          ${snippet ? `<div class="sri-snippet">${snippet}</div>` : ''}
+        </div>`;
+      }).join('');
     }
     resultsDiv.innerHTML = out;
   }
@@ -155,19 +173,38 @@ if (filterInput && papersGrid) {
   });
 })();
 
-// Active TOC highlighting
-const observer = new IntersectionObserver((entries) => {
-  entries.forEach(entry => {
-    const id = entry.target.id;
-    const link = document.querySelector(`.toc-list a[href="#${id}"]`);
-    if (link) {
-      link.style.color = entry.isIntersecting ? 'var(--accent)' : '';
-      link.style.borderColor = entry.isIntersecting ? 'var(--accent)' : 'transparent';
-    }
-  });
-}, { rootMargin: '-20% 0px -70% 0px' });
+// Active TOC highlighting with sidebar scroll-into-view
+(function() {
+  let activeTocLink = null;
+  const sidebar = document.querySelector('.sidebar-sticky');
 
-document.querySelectorAll('h2[id], h3[id], h4[id]').forEach(h => observer.observe(h));
+  const observer = new IntersectionObserver((entries) => {
+    entries.forEach(entry => {
+      if (!entry.isIntersecting) return;
+      const id = entry.target.id;
+      const link = document.querySelector(`.toc-list a[href="#${id}"]`);
+      if (!link) return;
+
+      // Remove active from previous
+      if (activeTocLink && activeTocLink !== link) {
+        activeTocLink.classList.remove('toc-active');
+      }
+      link.classList.add('toc-active');
+      activeTocLink = link;
+
+      // Scroll the active TOC item into view within the sidebar
+      if (sidebar) {
+        const linkRect = link.getBoundingClientRect();
+        const sidebarRect = sidebar.getBoundingClientRect();
+        if (linkRect.top < sidebarRect.top + 20 || linkRect.bottom > sidebarRect.bottom - 20) {
+          link.scrollIntoView({ block: 'nearest', behavior: 'smooth' });
+        }
+      }
+    });
+  }, { rootMargin: '-10% 0px -75% 0px' });
+
+  document.querySelectorAll('h2[id], h3[id], h4[id]').forEach(h => observer.observe(h));
+})();
 
 // ── Reading Progress Bar ──────────────────────────────────────────────
 const progressBar = document.getElementById('reading-progress');
