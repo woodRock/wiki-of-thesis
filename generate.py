@@ -223,7 +223,19 @@ THESIS_META = {
     "author": "Jesse Wood",
     "university": "Victoria University of Wellington",
     "year": "2025",
-    "subject": "Artificial Intelligence / Food Science",
+    "subject": "Artificial Intelligence",
+    "degree": "Doctor of Philosophy in Artificial Intelligence",
+    "course_code": "AIML 694",
+    "school": "Te Whiri Kawe | Centre for Data Science and Artificial Intelligence",
+    "supervisors": [
+        "Dr. Bach Nguyen",
+        "Prof. Bing Xue",
+        "Prof. Mengjie Zhang",
+        "Dr. Daniel Killeen",
+    ],
+    "duration": "3.5 years",
+    "experiments": "3,000+",
+    "tasks": 5,
     "abstract": (
         "This thesis advances seafood processing by applying deep learning to Rapid Evaporative "
         "Ionization Mass Spectrometry (REIMS) data, enabling automated and accurate marine biomass analysis. "
@@ -1401,15 +1413,15 @@ def build_index(bib: Dict, ss: Dict, chapter_citations: Dict[str, Set[str]],
         <h4>Thesis at a Glance</h4>
         <dl>
           <dt>Author</dt><dd>{html.escape(m['author'])}</dd>
+          <dt>Degree</dt><dd>{html.escape(m['degree'])}</dd>
+          <dt>Course Code</dt><dd>{html.escape(m['course_code'])}</dd>
+          <dt>School</dt><dd>{html.escape(m['school'])}</dd>
           <dt>Institution</dt><dd>{html.escape(m['university'])}</dd>
           <dt>Year</dt><dd>{html.escape(m['year'])}</dd>
-          <dt>Subject</dt><dd>{html.escape(m['subject'])}</dd>
-          <dt>Chapters</dt><dd>{len(CHAPTERS)}</dd>
-          <dt>References</dt><dd>{len(bib):,}</dd>
-          <dt>Figures</dt><dd>{stats.get('figures', '—')}</dd>
-          <dt>Equations</dt><dd>{stats.get('equations', '—')}</dd>
-          <dt>Glossary Terms</dt><dd>{len(GLOSSARY)}</dd>
-          <dt>Word Count</dt><dd>~{words_k}</dd>
+          <dt>Duration</dt><dd>{html.escape(m['duration'])}</dd>
+          <dt>Supervisors</dt><dd>{'<br>'.join(html.escape(s) for s in m['supervisors'])}</dd>
+          <dt>Tasks</dt><dd>{m['tasks']} classification tasks</dd>
+          <dt>Experiments</dt><dd>{html.escape(m['experiments'])} run</dd>
         </dl>
       </div>
       <div class="info-box">
