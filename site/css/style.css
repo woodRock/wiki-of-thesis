@@ -652,6 +652,48 @@ a:hover { text-decoration: underline; color: var(--accent-hover); }
   border-radius: 0 0 var(--radius) var(--radius);
 }
 
+/* ── Thesis Tables ────────────────────────────────────────── */
+.table-wrap {
+  overflow-x: auto;
+  margin: 1.5rem 0;
+  border-radius: var(--radius);
+  border: 1px solid var(--border);
+}
+.thesis-table {
+  width: 100%;
+  border-collapse: collapse;
+  font-size: 0.88rem;
+  line-height: 1.5;
+  background: var(--bg-card);
+}
+.thesis-table caption {
+  text-align: left;
+  padding: 0.6rem 0.75rem;
+  font-size: 0.82rem;
+  color: var(--text-muted);
+  font-style: italic;
+  background: var(--bg-alt);
+  border-bottom: 1px solid var(--border);
+  caption-side: top;
+}
+.thesis-table thead th {
+  background: var(--bg-alt);
+  font-weight: 700;
+  text-align: left;
+  padding: 0.5rem 0.75rem;
+  border-bottom: 2px solid var(--border);
+  white-space: nowrap;
+}
+.thesis-table tbody td {
+  padding: 0.45rem 0.75rem;
+  border-bottom: 1px solid var(--border);
+  vertical-align: middle;
+}
+.thesis-table tbody tr:last-child td { border-bottom: none; }
+.thesis-table tbody tr:nth-child(even) td { background: var(--bg-alt); }
+.thesis-table tbody tr:hover td { background: var(--accent-light); }
+.thesis-table strong { font-weight: 700; }
+
 /* ── Papers Index ─────────────────────────────────────────── */
 .papers-page { max-width: 1200px; margin: 0 auto; padding: 2rem 1rem; }
 .papers-header { margin-bottom: 2rem; }

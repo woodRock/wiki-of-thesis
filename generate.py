@@ -144,6 +144,105 @@ def save_cache(cache: dict):
         json.dump(cache, f, indent=2)
 
 
+def _has_tool(*cmds) -> Optional[str]:
+    """Return the first command that exists on PATH, or None."""
+    import shutil as _sh
+    for cmd in cmds:
+        if _sh.which(cmd):
+            return cmd
+    return None
+
+
+def convert_pdf_to_png(pdf_path: Path, out_path: Path, resolution: int = 200) -> bool:
+    """Convert a single PDF file to PNG, auto-cropping to content bounds."""
+    import subprocess, tempfile, platform
+    try:
+        # Step 1: pdfcrop to trim whitespace (if available)
+        cropped_pdf = pdf_path
+        if _has_tool('pdfcrop'):
+            with tempfile.NamedTemporaryFile(suffix='.pdf', delete=False) as tmp:
+                tmp_path = Path(tmp.name)
+            r = subprocess.run(['pdfcrop', str(pdf_path), str(tmp_path)],
+                               capture_output=True, timeout=30)
+            if r.returncode == 0 and tmp_path.exists():
+                cropped_pdf = tmp_path
+
+        # Step 2: convert to PNG
+        stem = str(out_path.with_suffix(''))
+
+        # pdftoppm (Linux / available via poppler-utils)
+        if _has_tool('pdftoppm'):
+            r = subprocess.run(
+                ['pdftoppm', '-png', '-r', str(resolution), '-singlefile',
+                 str(cropped_pdf), stem],
+                capture_output=True, timeout=30
+            )
+            if r.returncode == 0 and out_path.exists():
+                return True
+
+        # sips (macOS fallback)
+        if platform.system() == 'Darwin' and _has_tool('sips'):
+            r = subprocess.run(
+                ['sips', '-s', 'format', 'png', str(cropped_pdf), '--out', str(out_path)],
+                capture_output=True, timeout=30
+            )
+            if r.returncode == 0 and out_path.exists():
+                return True
+
+        return False
+    except Exception:
+        return False
+
+
+# Standalone LaTeX wrapper for rendering a table as an image
+_TABLE_TEX_TEMPLATE = r"""\documentclass[border=4pt,varwidth=\maxdimen]{standalone}
+\usepackage{booktabs}
+\usepackage{multirow}
+\usepackage{amsmath}
+\usepackage{amssymb}
+\usepackage{xcolor}
+\usepackage{colortbl}
+\usepackage{tabularx}
+\usepackage{makecell}
+\usepackage{arydshln}
+\usepackage[para,online,flushleft]{threeparttable}
+\usepackage{caption}
+\captionsetup{font=small,labelfont=bf}
+\begin{document}
+%CONTENT%
+\end{document}
+"""
+
+
+def compile_table_to_png(table_latex: str, out_path: Path) -> bool:
+    """Compile a LaTeX table float to a PNG image via pdflatex."""
+    import subprocess, tempfile
+    if not _has_tool('pdflatex'):
+        return False
+
+    doc = _TABLE_TEX_TEMPLATE.replace('%CONTENT%', table_latex)
+
+    try:
+        with tempfile.TemporaryDirectory() as tmpdir:
+            tex_file = os.path.join(tmpdir, 'table.tex')
+            pdf_file = Path(tmpdir) / 'table.pdf'
+
+            with open(tex_file, 'w') as f:
+                f.write(doc)
+
+            r = subprocess.run(
+                ['pdflatex', '-interaction=batchmode', '-halt-on-error',
+                 '-output-directory', tmpdir, tex_file],
+                capture_output=True, timeout=60
+            )
+            if r.returncode != 0 or not pdf_file.exists():
+                return False
+
+            return convert_pdf_to_png(pdf_file, out_path, resolution=200)
+    except Exception:
+        return False
+
+
 def fetch_semantic_scholar(bib_entries: Dict[str, Dict]) -> Dict[str, dict]:
     """Fetch paper metadata from Semantic Scholar. Returns {key: ss_data}."""
     cache = load_cache()
@@ -289,10 +388,9 @@ class LatexConverter:
         # Figures
         t = re.sub(r'\\begin\{figure\}(?:\[.*?\])?(.*?)\\end\{figure\}',
                    self._figure, t, flags=re.DOTALL)
-        # Tables → placeholder
-        t = re.sub(r'\\begin\{table\*?\}.*?\\end\{table\*?\}',
-                   '<div class="table-note"><span>📊</span> See thesis PDF for full table data</div>',
-                   t, flags=re.DOTALL)
+        # Tables → parse into HTML
+        t = re.sub(r'\\begin\{table\*?\}(.*?)\\end\{table\*?\}',
+                   self._table, t, flags=re.DOTALL)
         # Algorithms → remove
         t = re.sub(r'\\begin\{algorithm\}.*?\\end\{algorithm\}', '', t, flags=re.DOTALL)
         t = re.sub(r'\\begin\{algorithmic\}.*?\\end\{algorithmic\}', '', t, flags=re.DOTALL)
@@ -331,12 +429,145 @@ class LatexConverter:
         img_name = os.path.basename(img_m.group(1))
         caption = self._inline_simple(cap_m.group(1)) if cap_m else ''
         alt = html.escape(re.sub(r'<[^>]+>', '', caption))
-        is_pdf = img_name.lower().endswith('.pdf')
-        if is_pdf:
-            # Output single-line so _paragraphs doesn't wrap it in <p>
-            return f'<figure class="thesis-figure"><div class="pdf-figure-note">&#128196; {html.escape(img_name)} — see thesis PDF</div><figcaption>{caption}</figcaption></figure>\n'
+        # PDF figures are converted to PNG at build time
+        if img_name.lower().endswith('.pdf'):
+            img_name = os.path.splitext(img_name)[0] + '.png'
         # Single-line <img> — no multi-line attributes that confuse _paragraphs
         return f'<figure class="thesis-figure"><img src="../assets/{html.escape(img_name)}" alt="{alt}" loading="lazy" class="thesis-img"><figcaption>{caption}</figcaption></figure>\n'
+
+    def _table(self, m) -> str:
+        """Convert a LaTeX table float into HTML (or PNG image if pdflatex available)."""
+        raw_content = m.group(0)  # full \begin{table}...\end{table} including wrapper
+        content = m.group(1)
+
+        # Extract caption for alt text / fallback
+        cap_m = re.search(r'\\caption\{((?:[^{}]|\{[^{}]*\})*)\}', content)
+        caption = self._inline_simple(cap_m.group(1)) if cap_m else ''
+
+        # --- Try PNG rendering via pdflatex (perfect output) ---
+        if hasattr(self, '_table_assets_dir') and _has_tool('pdflatex'):
+            import hashlib
+            table_hash = hashlib.md5(raw_content.encode()).hexdigest()[:12]
+            png_name = f'table_{self.chapter_slug}_{table_hash}.png'
+            png_path = Path(self._table_assets_dir) / png_name
+
+            if not png_path.exists():
+                # Reconstruct the full table float with proper formatting for standalone
+                compile_table_to_png(raw_content, png_path)
+
+            if png_path.exists():
+                alt = html.escape(re.sub(r'<[^>]+>', '', caption))
+                cap_html = f'<figcaption>{caption}</figcaption>' if caption else ''
+                return (f'<figure class="thesis-figure thesis-table-img">'
+                        f'<img src="../assets/{html.escape(png_name)}" alt="{alt}" '
+                        f'loading="lazy" class="thesis-img">'
+                        f'{cap_html}</figure>\n')
+
+        # --- Fallback: HTML table parser ---
+        content_clean = re.sub(r'(?<!\\)%.*$', '', content, flags=re.MULTILINE)
+        content_clean = re.sub(r'\\rowcolors\{[^}]*\}\{[^}]*\}\{[^}]*\}', '', content_clean)
+        content_clean = re.sub(r'\\(?:small|footnotesize|large|Large|centering|raggedright|raggedleft)\b\s*', '', content_clean)
+
+        # Column spec may contain @{} so use one-level nested brace matching
+        tab_m = re.search(
+            r'\\begin\{tabular[*]?\}\{((?:[^{}]|\{[^{}]*\})*)\}(.*?)\\end\{tabular[*]?\}',
+            content_clean, re.DOTALL)
+        if not tab_m:
+            return f'<div class="table-note">📊 {caption}</div>\n' if caption else ''
+
+        num_cols = len(re.findall(r'[lrcpXSm]', tab_m.group(1)))
+        return self._tabular(tab_m.group(2), caption, num_cols) + '\n'
+
+    def _tabular(self, body: str, caption: str, num_cols: int) -> str:
+        """Parse LaTeX tabular body → HTML table."""
+        body = body.replace('\r\n', '\n').replace('\r', '\n')
+        # Only strip REAL LaTeX comments — % NOT preceded by backslash
+        body = re.sub(r'(?<!\\)%.*$', '', body, flags=re.MULTILINE)
+
+        # Protect escaped specials before splitting on & and //
+        body = body.replace(r'\&', '\x01AMP\x01')
+        body = body.replace(r'\%', '\x01PCT\x01')
+        body = body.replace(r'\$', '\x01DOL\x01')
+
+        # Replace rule commands with unique markers so we can split cleanly
+        # \midrule (exact, not \cmidrule) marks header→body boundary
+        body = re.sub(r'\\midrule\b', '\x00MID\x00', body)
+        # \cmidrule is purely decorative — remove
+        body = re.sub(r'\\cmidrule\s*(?:\([^)]*\))?\s*\{[^}]*\}', '', body)
+        # \toprule / \bottomrule → remove (just visual decoration)
+        body = re.sub(r'\\(?:toprule|bottomrule)\b', '', body)
+        # \hline → mark
+        body = re.sub(r'\\hline\b', '\x00HLINE\x00', body)
+
+        # Decide header/body split
+        has_midrule = '\x00MID\x00' in body
+        has_hline   = '\x00HLINE\x00' in body
+
+        if has_midrule:
+            # Booktabs style: everything before first \midrule = header
+            parts = body.split('\x00MID\x00', 1)
+            header_text = parts[0].replace('\x00HLINE\x00', '').strip()
+            body_text   = parts[1].replace('\x00MID\x00','').replace('\x00HLINE\x00','').strip() if len(parts) > 1 else ''
+        elif has_hline:
+            # hline style: chunks[0]=before first hline (skip), chunks[1]=header, chunks[2+]=body
+            chunks = body.split('\x00HLINE\x00')
+            header_text = chunks[1].strip() if len(chunks) > 1 else ''
+            body_text   = '\n'.join(chunks[2:]).strip() if len(chunks) > 2 else ''
+        else:
+            header_text = ''
+            body_text   = body.strip()
+
+        def parse_rows(text: str, is_header: bool) -> List[str]:
+            result = []
+            for row in re.split(r'\\\\(?:\[[^\]]*\])?', text):
+                row = row.strip()
+                if not row:
+                    continue
+                cells = row.split('&')
+                cell_tags = []
+                for cell in cells:
+                    cell = (cell.strip()
+                            .replace('\x01AMP\x01', '&amp;')
+                            .replace('\x01PCT\x01', '%')
+                            .replace('\x01DOL\x01', '$'))
+                    # \multicolumn{n}{spec}{content}
+                    mc = re.match(
+                        r'\\multicolumn\s*\{(\d+)\}\s*\{[^}]*\}\s*\{((?:[^{}]|\{[^{}]*\})*)\}',
+                        cell
+                    )
+                    if mc:
+                        span, content = mc.group(1), self._cell(mc.group(2))
+                        tag = 'th' if is_header else 'td'
+                        cell_tags.append(f'<{tag} colspan="{span}">{content}</{tag}>')
+                    else:
+                        content = self._cell(cell)
+                        tag = 'th' if is_header else 'td'
+                        cell_tags.append(f'<{tag}>{content}</{tag}>')
+                if cell_tags:
+                    result.append('<tr>' + ''.join(cell_tags) + '</tr>')
+            return result
+
+        header_rows = parse_rows(header_text, is_header=True)
+        body_rows   = parse_rows(body_text,   is_header=False)
+
+        if not header_rows and not body_rows:
+            return ''
+
+        cap_html = f'<caption>{caption}</caption>' if caption else ''
+        thead = f'<thead>{"".join(header_rows)}</thead>' if header_rows else ''
+        tbody = f'<tbody>{"".join(body_rows)}</tbody>' if body_rows else ''
+        return (f'<div class="table-wrap">\n'
+                f'<table class="thesis-table">{cap_html}{thead}{tbody}</table>\n'
+                f'</div>')
+
+    def _cell(self, text: str) -> str:
+        """Convert a single table cell."""
+        text = text.strip()
+        # \multirow — extract inner content
+        mr = re.match(r'\\multirow\s*\{[^}]*\}\s*\{[^}]*\}\s*\{((?:[^{}]|\{[^{}]*\})*)\}', text)
+        if mr:
+            text = mr.group(1)
+        return self._inline_simple(text)
 
     def _enumerate(self, m) -> str:
         items = self._split_items(m.group(1))
@@ -353,18 +584,30 @@ class LatexConverter:
 
     def _inline_simple(self, t: str) -> str:
         """Lightweight inline converter for titles/captions (no citation tracking)."""
-        # Strip citation commands — don't leave bare keys in output
+        # Protect math FIRST so subsequent stripping doesn't destroy \pm, \times etc.
+        maths: dict = {}
+        def _prot(m):
+            k = f'\x00S{len(maths)}\x00'
+            maths[k] = f'<span class="math">\\({m.group(1)}\\)</span>'
+            return k
+        t = re.sub(r'\$([^\$\n]+?)\$', _prot, t)
+
+        # Strip citation commands
         t = re.sub(r'\\cite[a-z]*\{[^}]+\}', '', t)
+        # Formatting
         t = re.sub(r'\\textbf\{([^}]+)\}', r'<strong>\1</strong>', t)
         t = re.sub(r'\\textit\{([^}]+)\}', r'<em>\1</em>', t)
         t = re.sub(r'\\emph\{([^}]+)\}', r'<em>\1</em>', t)
         t = re.sub(r'\\texttt\{([^}]+)\}', r'<code>\1</code>', t)
         t = re.sub(r'\\text\{([^}]+)\}', r'\1', t)
-        t = re.sub(r'\$([^\$\n]+?)\$', r'<span class="math">\\(\1\\)</span>', t)
         t = t.replace('---', '—').replace('--', '–')
         t = re.sub(r'\\[a-zA-Z]+\{([^}]*)\}', r'\1', t)
         t = re.sub(r'\\[a-zA-Z]+\*?\s*', '', t)
         t = re.sub(r'[{}]', '', t)
+
+        # Restore math
+        for k, v in maths.items():
+            t = t.replace(k, v)
         return t.strip()
 
     def _inline(self, t: str) -> str:
@@ -705,6 +948,8 @@ def build_chapter(slug: str, title: str, latex: str, bib: Dict,
     """Generate a chapter page."""
     idx = [i for i, (s, _) in enumerate(CHAPTERS) if s == slug][0]
     converter = LatexConverter(bib, slug)
+    # Tell the converter where to write table PNG images
+    converter._table_assets_dir = str(SITE_DIR / "assets")
     body_html = converter.convert(latex)
     cites_used = converter.citations_used
 
@@ -1607,6 +1852,48 @@ a:hover { text-decoration: underline; color: var(--accent-hover); }
   border-radius: 0 0 var(--radius) var(--radius);
 }
 
+/* ── Thesis Tables ────────────────────────────────────────── */
+.table-wrap {
+  overflow-x: auto;
+  margin: 1.5rem 0;
+  border-radius: var(--radius);
+  border: 1px solid var(--border);
+}
+.thesis-table {
+  width: 100%;
+  border-collapse: collapse;
+  font-size: 0.88rem;
+  line-height: 1.5;
+  background: var(--bg-card);
+}
+.thesis-table caption {
+  text-align: left;
+  padding: 0.6rem 0.75rem;
+  font-size: 0.82rem;
+  color: var(--text-muted);
+  font-style: italic;
+  background: var(--bg-alt);
+  border-bottom: 1px solid var(--border);
+  caption-side: top;
+}
+.thesis-table thead th {
+  background: var(--bg-alt);
+  font-weight: 700;
+  text-align: left;
+  padding: 0.5rem 0.75rem;
+  border-bottom: 2px solid var(--border);
+  white-space: nowrap;
+}
+.thesis-table tbody td {
+  padding: 0.45rem 0.75rem;
+  border-bottom: 1px solid var(--border);
+  vertical-align: middle;
+}
+.thesis-table tbody tr:last-child td { border-bottom: none; }
+.thesis-table tbody tr:nth-child(even) td { background: var(--bg-alt); }
+.thesis-table tbody tr:hover td { background: var(--accent-light); }
+.thesis-table strong { font-weight: 700; }
+
 /* ── Papers Index ─────────────────────────────────────────── */
 .papers-page { max-width: 1200px; margin: 0 auto; padding: 2rem 1rem; }
 .papers-header { margin-bottom: 2rem; }
@@ -1875,6 +2162,8 @@ def main():
     chapter_citations: Dict[str, Set[str]] = {}
     for slug, title in CHAPTERS:
         conv = LatexConverter(bib, slug)
+        # Don't render table PNGs during the citation pre-pass
+        conv._table_assets_dir = None
         conv.convert(chapter_latex.get(slug, ""))
         chapter_citations[slug] = conv.citations_used
         print(f"  {slug}: {len(conv.citations_used)} citations")
@@ -1892,13 +2181,24 @@ def main():
     (SITE_DIR / "js").mkdir(exist_ok=True)
     (SITE_DIR / "assets").mkdir(exist_ok=True)
 
-    # Copy assets
+    # Copy assets (PNG/JPG/etc.) and convert PDF figures → PNG
     assets_src = THESIS_DIR / "assets"
+    assets_dst = SITE_DIR / "assets"
     if assets_src.exists():
         for f in assets_src.iterdir():
-            if f.is_file() and not f.name.endswith('.pdf'):
-                shutil.copy2(f, SITE_DIR / "assets" / f.name)
-    print("  Assets copied")
+            if not f.is_file():
+                continue
+            if f.suffix.lower() == '.pdf':
+                # Convert PDF to PNG (with pdfcrop to remove whitespace)
+                out_png = assets_dst / (f.stem + '.png')
+                if not out_png.exists():
+                    if convert_pdf_to_png(f, out_png, resolution=200):
+                        print(f"    Converted {f.name} → PNG")
+                    else:
+                        print(f"    Warning: could not convert {f.name} to PNG")
+            else:
+                shutil.copy2(f, assets_dst / f.name)
+    print("  Assets copied (PDFs converted to PNG)")
 
     # Write CSS & JS
     (SITE_DIR / "css" / "style.css").write_text(CSS)
