@@ -1,0 +1,92 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Ordinal Regression with Multiple Output CNN for Age Estimati… — ML for REIMS</title>
+  <link rel="stylesheet" href="../css/style.css">
+  <script>
+    // Apply saved theme before render
+    (function(){
+      const t = localStorage.getItem('theme');
+      if(t === 'dark') document.documentElement.classList.add('dark');
+    })();
+  </script>
+  
+</head>
+<body>
+<nav class="site-nav">
+  <div class="nav-inner">
+    <a href="../index.html" class="nav-brand">
+      <img src="../assets/university-logo.png" alt="University Logo" class="nav-logo" onerror="this.style.display='none'">
+      <span class="nav-title">ML for REIMS</span>
+    </a>
+    <div class="nav-links">
+      <a href="../index.html">Home</a>
+      <a href="../chapters/chapter-1.html">Chapters</a>
+      <a href="../papers.html">Papers</a>
+    </div>
+    <div class="nav-actions">
+      <button id="search-toggle" class="icon-btn" aria-label="Search">🔍</button>
+      <button id="theme-toggle" class="icon-btn" aria-label="Toggle theme">🌙</button>
+      <button id="menu-toggle" class="icon-btn" aria-label="Menu">☰</button>
+    </div>
+  </div>
+  <div id="mobile-menu" class="mobile-menu hidden">
+    <a href="../index.html">Home</a>
+    <a href="../chapters/chapter-1.html">Chapters</a>
+    <a href="../papers.html">All Papers</a>
+  </div>
+  <div id="search-bar" class="search-bar hidden">
+    <input type="text" id="search-input" placeholder="Search papers, concepts, authors…" autocomplete="off">
+    <div id="search-results" class="search-results"></div>
+  </div>
+</nav>
+<div id="page-wrapper">
+
+<div class="paper-layout">
+  <main class="paper-main">
+    <div class="breadcrumb"><a href="../index.html">Home</a> / <a href="../papers.html">Papers</a> / Niu2016</div>
+
+    <article class="paper-article">
+      <header class="paper-header">
+        <h1 class="paper-title">Ordinal Regression with Multiple Output CNN for Age Estimation</h1>
+        <p class="paper-authors">Zhenxing Niu, Mo Zhou, Le Wang, Xinbo Gao, G. Hua</p>
+        <div class="paper-meta">
+          <span class="paper-year">2016</span>
+          <span class="paper-venue">Computer Vision and Pattern Recognition</span>
+          <span class="cite-count">Cited 673 times</span>
+        </div>
+        <div class="paper-links"><a href="https://doi.org/10.1109/CVPR.2016.532" target="_blank" class="ext-link">DOI ↗</a></div>
+      </header>
+
+      <div class="abstract-block"><h3>Abstract</h3><p>To address the non-stationary property of aging patterns, age estimation can be cast as an ordinal regression problem. However, the processes of extracting features and learning a regression model are often separated and optimized independently in previous work. In this paper, we propose an End-to-End learning approach to address ordinal regression problems using deep Convolutional Neural Network, which could simultaneously conduct feature learning and regression modeling. In particular, an ordinal regression problem is transformed into a series of binary classification sub-problems. And we propose a multiple output CNN learning algorithm to collectively solve these classification sub-problems, so that the correlation between these tasks could be explored. In addition, we publish an Asian Face Age Dataset (AFAD) containing more than 160K facial images with precise age ground-truths, which is the largest public age dataset to date. To the best of our knowledge, this is the first work to address ordinal regression problems by using CNN, and achieves the state-of-the-art performance on both the MORPH and AFAD datasets.</p></div>
+
+      <div class="cited-in-block"><h3>Cited in this thesis</h3><div class="cite-chips"><a href="../chapters/chapter-7.html" class="cite-chip">Conclusions</a></div></div>
+
+      <details class="bibtex-block">
+        <summary>BibTeX</summary>
+        <pre><code>@inproceedings{Niu2016,
+  title = {Ordinal regression with multiple output cnn for age estimation},
+  author = {Niu, Zhenxing and Zhou, Mo and Wang, Le and Gao, Xinbo and Hua, Gang},
+  booktitle = {Proceedings of the IEEE conference on computer vision and pattern recognition},
+  pages = {4920–4928},
+  year = {2016},
+}</code></pre>
+      </details>
+    </article>
+  </main>
+</div>
+
+</div>
+<footer class="site-footer">
+  <div class="footer-inner">
+    <p>
+      <strong>Jesse Wood</strong> · PhD Thesis · Victoria University of Wellington · 2025
+    </p>
+    <p class="footer-sub">Machine Learning for Rapid Evaporative Ionization Mass Spectrometry for Marine Biomass Analysis</p>
+  </div>
+</footer>
+<script src="../js/main.js"></script>
+</body>
+</html>

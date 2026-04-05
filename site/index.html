@@ -1,0 +1,207 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Machine Learning for Rapid Evaporative Ionization Mass Spectrometry for Marine Biomass Analysis</title>
+  <link rel="stylesheet" href="./css/style.css">
+  <script>
+    // Apply saved theme before render
+    (function(){
+      const t = localStorage.getItem('theme');
+      if(t === 'dark') document.documentElement.classList.add('dark');
+    })();
+  </script>
+  
+</head>
+<body>
+<nav class="site-nav">
+  <div class="nav-inner">
+    <a href="./index.html" class="nav-brand">
+      <img src="./assets/university-logo.png" alt="University Logo" class="nav-logo" onerror="this.style.display='none'">
+      <span class="nav-title">ML for REIMS</span>
+    </a>
+    <div class="nav-links">
+      <a href="./index.html">Home</a>
+      <a href="./chapters/chapter-1.html">Chapters</a>
+      <a href="./papers.html">Papers</a>
+    </div>
+    <div class="nav-actions">
+      <button id="search-toggle" class="icon-btn" aria-label="Search">🔍</button>
+      <button id="theme-toggle" class="icon-btn" aria-label="Toggle theme">🌙</button>
+      <button id="menu-toggle" class="icon-btn" aria-label="Menu">☰</button>
+    </div>
+  </div>
+  <div id="mobile-menu" class="mobile-menu hidden">
+    <a href="./index.html">Home</a>
+    <a href="./chapters/chapter-1.html">Chapters</a>
+    <a href="./papers.html">All Papers</a>
+  </div>
+  <div id="search-bar" class="search-bar hidden">
+    <input type="text" id="search-input" placeholder="Search papers, concepts, authors…" autocomplete="off">
+    <div id="search-results" class="search-results"></div>
+  </div>
+</nav>
+<div id="page-wrapper">
+
+<div class="hero">
+  <div class="hero-inner">
+    <div class="hero-badge">PhD Thesis · 2025</div>
+    <h1 class="hero-title">Machine Learning for Rapid Evaporative Ionization Mass Spectrometry for Marine Biomass Analysis</h1>
+    <p class="hero-author">by <strong>Jesse Wood</strong> · Victoria University of Wellington</p>
+    <div class="hero-tags"><span class="tag tag-blue">REIMS</span><span class="tag tag-blue">Marine Biomass</span><span class="tag tag-blue">Species Identification</span><span class="tag tag-blue">Food Fraud Detection</span><span class="tag tag-blue">Oil Contamination</span><span class="tag tag-blue">Batch Traceability</span><span class="tag tag-blue">Explainable AI</span></div>
+  </div>
+</div>
+
+<div class="main-content">
+  <div class="content-cols">
+    <main class="content-main">
+
+      <section class="wiki-section">
+        <h2>Abstract</h2>
+        <p class="abstract-text">This thesis advances seafood processing by applying deep learning to Rapid Evaporative Ionization Mass Spectrometry (REIMS) data, enabling automated and accurate marine biomass analysis. It addresses critical industry challenges including species identification to combat mislabeling fraud, body part classification for by-product utilization, oil contamination detection, cross-species adulteration detection, and batch traceability. Key contributions include Transformer and Mixture of Experts (MoE) architectures achieving up to 100% accuracy in species identification, SpectroSim — a self-supervised contrastive learning framework for label-free batch traceability (70.8% accuracy) — and explainable AI integration via LIME and Grad-CAM for interpretable predictions.</p>
+      </section>
+
+      <section class="wiki-section">
+        <h2>Key Results</h2>
+        <p>Deep learning methods consistently outperform the OPLS-DA baseline across all five analytical tasks:</p>
+        <div class="table-wrap">
+        <table class="results-table">
+          <thead><tr><th>Task</th><th>Baseline (OPLS-DA)</th><th>Best Model</th><th>Gain</th></tr></thead>
+          <tbody>
+      <tr>
+        <td>Fish Species</td>
+        <td class="text-muted">OPLS-DA: 96.39%</td>
+        <td><strong>MoE Transformer: 100.00%</strong></td>
+        <td class="gain">+3.61%</td>
+      </tr>
+      <tr>
+        <td>Fish Body Part</td>
+        <td class="text-muted">OPLS-DA: 51.17%</td>
+        <td><strong>Ensemble Transformer: 74.13%</strong></td>
+        <td class="gain">+22.96%</td>
+      </tr>
+      <tr>
+        <td>Oil Contamination</td>
+        <td class="text-muted">OPLS-DA: 26.43%</td>
+        <td><strong>TL MoE Transformer: 49.10%</strong></td>
+        <td class="gain">+22.67%</td>
+      </tr>
+      <tr>
+        <td>Cross-species Adulteration</td>
+        <td class="text-muted">OPLS-DA: 79.96%</td>
+        <td><strong>Pre-trained Transformer: 91.97%</strong></td>
+        <td class="gain">+12.01%</td>
+      </tr>
+      <tr>
+        <td>Batch Detection</td>
+        <td class="text-muted">OPLS-DA: 53.19%</td>
+        <td><strong>SpectroSim (Transformer): 70.80%</strong></td>
+        <td class="gain">+17.61%</td>
+      </tr></tbody>
+        </table>
+        </div>
+      </section>
+
+      <section class="wiki-section">
+        <h2>Methods &amp; Approaches</h2>
+        <div class="tags-block"><span class="tag">Transformer</span><span class="tag">Mixture of Experts</span><span class="tag">Transfer Learning</span><span class="tag">Contrastive Learning</span><span class="tag">LIME</span><span class="tag">Grad-CAM</span><span class="tag">Masked Spectra Modelling</span><span class="tag">OPLS-DA</span></div>
+      </section>
+
+      <section class="wiki-section">
+        <h2>Chapters</h2>
+        <div class="chapter-grid">
+    <a href="chapters/chapter-0.html" class="chapter-card">
+      <div class="chapter-num">Ch. 0</div>
+      <div class="chapter-card-title">Acknowledgements</div>
+      <div class="chapter-meta">0 citations</div>
+    </a>
+    <a href="chapters/chapter-1.html" class="chapter-card">
+      <div class="chapter-num">Ch. 1</div>
+      <div class="chapter-card-title">Introduction</div>
+      <div class="chapter-meta">59 citations</div>
+    </a>
+    <a href="chapters/chapter-2.html" class="chapter-card">
+      <div class="chapter-num">Ch. 2</div>
+      <div class="chapter-card-title">Literature Survey</div>
+      <div class="chapter-meta">106 citations</div>
+    </a>
+    <a href="chapters/chapter-3.html" class="chapter-card">
+      <div class="chapter-num">Ch. 3</div>
+      <div class="chapter-card-title">Datasets and Processing</div>
+      <div class="chapter-meta">7 citations</div>
+    </a>
+    <a href="chapters/chapter-4.html" class="chapter-card">
+      <div class="chapter-num">Ch. 4</div>
+      <div class="chapter-card-title">Fish Species and Part Identification</div>
+      <div class="chapter-meta">37 citations</div>
+    </a>
+    <a href="chapters/chapter-5.html" class="chapter-card">
+      <div class="chapter-num">Ch. 5</div>
+      <div class="chapter-card-title">Oil Contamination and Cross-Species Adulteration</div>
+      <div class="chapter-meta">30 citations</div>
+    </a>
+    <a href="chapters/chapter-6.html" class="chapter-card">
+      <div class="chapter-num">Ch. 6</div>
+      <div class="chapter-card-title">Contrastive Learning for Batch Detection</div>
+      <div class="chapter-meta">15 citations</div>
+    </a>
+    <a href="chapters/chapter-7.html" class="chapter-card">
+      <div class="chapter-num">Ch. 7</div>
+      <div class="chapter-card-title">Conclusions</div>
+      <div class="chapter-meta">33 citations</div>
+    </a>
+        </div>
+      </section>
+
+    </main>
+
+    <aside class="content-aside">
+      <div class="info-box">
+        <h4>Thesis at a Glance</h4>
+        <dl>
+          <dt>Author</dt><dd>Jesse Wood</dd>
+          <dt>Institution</dt><dd>Victoria University of Wellington</dd>
+          <dt>Year</dt><dd>2025</dd>
+          <dt>Subject</dt><dd>Artificial Intelligence / Food Science</dd>
+          <dt>Chapters</dt><dd>8</dd>
+          <dt>References</dt><dd>348</dd>
+        </dl>
+      </div>
+      <div class="info-box">
+        <h4>Quick Links</h4>
+        <ul class="quick-links">
+          <li><a href="chapters/chapter-1.html">→ Introduction</a></li>
+          <li><a href="chapters/chapter-2.html">→ Literature Survey</a></li>
+          <li><a href="chapters/chapter-4.html">→ Species Identification</a></li>
+          <li><a href="chapters/chapter-5.html">→ Contamination Detection</a></li>
+          <li><a href="chapters/chapter-6.html">→ Batch Traceability</a></li>
+          <li><a href="papers.html">→ All 374 Papers</a></li>
+        </ul>
+      </div>
+      <div class="info-box">
+        <h4>Novel Contributions</h4>
+        <ul class="contrib-list">
+          <li>First Transformer application to REIMS biomass analysis</li>
+          <li>First MoE Transformer for REIMS data</li>
+          <li>SpectroSim: self-supervised batch traceability</li>
+          <li>First REIMS-based oil contamination detection</li>
+          <li>First REIMS-based cross-species adulteration detection</li>
+        </ul>
+      </div>
+    </aside>
+  </div>
+</div>
+
+</div>
+<footer class="site-footer">
+  <div class="footer-inner">
+    <p>
+      <strong>Jesse Wood</strong> · PhD Thesis · Victoria University of Wellington · 2025
+    </p>
+    <p class="footer-sub">Machine Learning for Rapid Evaporative Ionization Mass Spectrometry for Marine Biomass Analysis</p>
+  </div>
+</footer>
+<script src="./js/main.js"></script>
+</body>
+</html>

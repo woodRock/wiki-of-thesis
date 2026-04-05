@@ -1,0 +1,93 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Denoising Diffusion Probabilistic Models… — ML for REIMS</title>
+  <link rel="stylesheet" href="../css/style.css">
+  <script>
+    // Apply saved theme before render
+    (function(){
+      const t = localStorage.getItem('theme');
+      if(t === 'dark') document.documentElement.classList.add('dark');
+    })();
+  </script>
+  
+</head>
+<body>
+<nav class="site-nav">
+  <div class="nav-inner">
+    <a href="../index.html" class="nav-brand">
+      <img src="../assets/university-logo.png" alt="University Logo" class="nav-logo" onerror="this.style.display='none'">
+      <span class="nav-title">ML for REIMS</span>
+    </a>
+    <div class="nav-links">
+      <a href="../index.html">Home</a>
+      <a href="../chapters/chapter-1.html">Chapters</a>
+      <a href="../papers.html">Papers</a>
+    </div>
+    <div class="nav-actions">
+      <button id="search-toggle" class="icon-btn" aria-label="Search">🔍</button>
+      <button id="theme-toggle" class="icon-btn" aria-label="Toggle theme">🌙</button>
+      <button id="menu-toggle" class="icon-btn" aria-label="Menu">☰</button>
+    </div>
+  </div>
+  <div id="mobile-menu" class="mobile-menu hidden">
+    <a href="../index.html">Home</a>
+    <a href="../chapters/chapter-1.html">Chapters</a>
+    <a href="../papers.html">All Papers</a>
+  </div>
+  <div id="search-bar" class="search-bar hidden">
+    <input type="text" id="search-input" placeholder="Search papers, concepts, authors…" autocomplete="off">
+    <div id="search-results" class="search-results"></div>
+  </div>
+</nav>
+<div id="page-wrapper">
+
+<div class="paper-layout">
+  <main class="paper-main">
+    <div class="breadcrumb"><a href="../index.html">Home</a> / <a href="../papers.html">Papers</a> / Ho2020</div>
+
+    <article class="paper-article">
+      <header class="paper-header">
+        <h1 class="paper-title">Denoising Diffusion Probabilistic Models</h1>
+        <p class="paper-authors">Jonathan Ho, Ajay Jain, P. Abbeel</p>
+        <div class="paper-meta">
+          <span class="paper-year">2020</span>
+          <span class="paper-venue">Neural Information Processing Systems</span>
+          <span class="cite-count">Cited 28,928 times</span>
+        </div>
+        <div class="paper-links"><a href="https://arxiv.org/abs/2006.11239" target="_blank" class="ext-link">arXiv ↗</a></div>
+      </header>
+
+      <div class="abstract-block"><h3>Abstract</h3><p>We present high quality image synthesis results using diffusion probabilistic models, a class of latent variable models inspired by considerations from nonequilibrium thermodynamics. Our best results are obtained by training on a weighted variational bound designed according to a novel connection between diffusion probabilistic models and denoising score matching with Langevin dynamics, and our models naturally admit a progressive lossy decompression scheme that can be interpreted as a generalization of autoregressive decoding. On the unconditional CIFAR10 dataset, we obtain an Inception score of 9.46 and a state-of-the-art FID score of 3.17. On 256x256 LSUN, we obtain sample quality similar to ProgressiveGAN. Our implementation is available at this https URL</p></div>
+
+      
+
+      <details class="bibtex-block">
+        <summary>BibTeX</summary>
+        <pre><code>@article{Ho2020,
+  author = {Ho, Jonathan and Jain, Ajay and Abbeel, Pieter},
+  journal = {Advances in Neural Information Processing Systems},
+  title = {Denoising diffusion probabilistic models},
+  year = {2020},
+  pages = {6840–6851},
+  volume = {33},
+}</code></pre>
+      </details>
+    </article>
+  </main>
+</div>
+
+</div>
+<footer class="site-footer">
+  <div class="footer-inner">
+    <p>
+      <strong>Jesse Wood</strong> · PhD Thesis · Victoria University of Wellington · 2025
+    </p>
+    <p class="footer-sub">Machine Learning for Rapid Evaporative Ionization Mass Spectrometry for Marine Biomass Analysis</p>
+  </div>
+</footer>
+<script src="../js/main.js"></script>
+</body>
+</html>

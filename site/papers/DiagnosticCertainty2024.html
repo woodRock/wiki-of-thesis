@@ -1,0 +1,95 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Classification of Diagnostic Certainty in Radiology Reports … — ML for REIMS</title>
+  <link rel="stylesheet" href="../css/style.css">
+  <script>
+    // Apply saved theme before render
+    (function(){
+      const t = localStorage.getItem('theme');
+      if(t === 'dark') document.documentElement.classList.add('dark');
+    })();
+  </script>
+  
+</head>
+<body>
+<nav class="site-nav">
+  <div class="nav-inner">
+    <a href="../index.html" class="nav-brand">
+      <img src="../assets/university-logo.png" alt="University Logo" class="nav-logo" onerror="this.style.display='none'">
+      <span class="nav-title">ML for REIMS</span>
+    </a>
+    <div class="nav-links">
+      <a href="../index.html">Home</a>
+      <a href="../chapters/chapter-1.html">Chapters</a>
+      <a href="../papers.html">Papers</a>
+    </div>
+    <div class="nav-actions">
+      <button id="search-toggle" class="icon-btn" aria-label="Search">🔍</button>
+      <button id="theme-toggle" class="icon-btn" aria-label="Toggle theme">🌙</button>
+      <button id="menu-toggle" class="icon-btn" aria-label="Menu">☰</button>
+    </div>
+  </div>
+  <div id="mobile-menu" class="mobile-menu hidden">
+    <a href="../index.html">Home</a>
+    <a href="../chapters/chapter-1.html">Chapters</a>
+    <a href="../papers.html">All Papers</a>
+  </div>
+  <div id="search-bar" class="search-bar hidden">
+    <input type="text" id="search-input" placeholder="Search papers, concepts, authors…" autocomplete="off">
+    <div id="search-results" class="search-results"></div>
+  </div>
+</nav>
+<div id="page-wrapper">
+
+<div class="paper-layout">
+  <main class="paper-main">
+    <div class="breadcrumb"><a href="../index.html">Home</a> / <a href="../papers.html">Papers</a> / DiagnosticCertainty2024</div>
+
+    <article class="paper-article">
+      <header class="paper-header">
+        <h1 class="paper-title">Classification of Diagnostic Certainty in Radiology Reports with Deep Learning</h1>
+        <p class="paper-authors">Kento Sugimoto, Shoya Wada, Shozo Konishi, Katsuki Okada, S. Manabe, Yasushi Matsumura et al.</p>
+        <div class="paper-meta">
+          <span class="paper-year">2024</span>
+          <span class="paper-venue">Medinfo</span>
+          <span class="cite-count">Cited 4 times</span>
+        </div>
+        <div class="paper-links"><a href="https://doi.org/10.3233/SHTI231029" target="_blank" class="ext-link">DOI ↗</a> <a href="https://ebooks.iospress.nl/pdf/doi/10.3233/SHTI231029" target="_blank" class="ext-link pdf-link">PDF ↗</a></div>
+      </header>
+
+      <div class="abstract-block"><h3>Abstract</h3><p>A radiology report is prepared for communicating clinical information about observed abnormal structures and clinically important findings with referring clinicians. However, such observations and findings are often accompanied by ambiguous expressions, which can prevent clinicians from accurately interpreting the content of reports. To systematically assess the degree of diagnostic certainty for each observation and finding in a report, we defined an ordinal scale comprising five classes: definite, likely, may represent, unlikely, and denial. Furthermore, we applied a deep learning classification model to determine its applicability to in-house radiology reports. We trained and evaluated the model using 540 in-house chest computed tomography reports. The deep learning model achieved a micro F1-score of 97.61%, which indicated that our ordinal scale was suitable for measuring the diagnostic certainty of observations and findings in a report.</p></div>
+
+      
+
+      <details class="bibtex-block">
+        <summary>BibTeX</summary>
+        <pre><code>@article{DiagnosticCertainty2024,
+  author = {Fujimoto, Koya and Tanabe, Naoto and Yoshiura, Takashi},
+  title = {Classification of Diagnostic Certainty in Radiology Reports with Deep Learning},
+  journal = {Stud Health Technol Inform},
+  year = {2024},
+  volume = {310},
+  pages = {569–573},
+  doi = {10.3233/SHTI231029},
+  pmid = {38269873},
+}</code></pre>
+      </details>
+    </article>
+  </main>
+</div>
+
+</div>
+<footer class="site-footer">
+  <div class="footer-inner">
+    <p>
+      <strong>Jesse Wood</strong> · PhD Thesis · Victoria University of Wellington · 2025
+    </p>
+    <p class="footer-sub">Machine Learning for Rapid Evaporative Ionization Mass Spectrometry for Marine Biomass Analysis</p>
+  </div>
+</footer>
+<script src="../js/main.js"></script>
+</body>
+</html>

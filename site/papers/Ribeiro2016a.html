@@ -1,0 +1,92 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>“Why Should I Trust You?”: Explaining the Predictions of Any… — ML for REIMS</title>
+  <link rel="stylesheet" href="../css/style.css">
+  <script>
+    // Apply saved theme before render
+    (function(){
+      const t = localStorage.getItem('theme');
+      if(t === 'dark') document.documentElement.classList.add('dark');
+    })();
+  </script>
+  
+</head>
+<body>
+<nav class="site-nav">
+  <div class="nav-inner">
+    <a href="../index.html" class="nav-brand">
+      <img src="../assets/university-logo.png" alt="University Logo" class="nav-logo" onerror="this.style.display='none'">
+      <span class="nav-title">ML for REIMS</span>
+    </a>
+    <div class="nav-links">
+      <a href="../index.html">Home</a>
+      <a href="../chapters/chapter-1.html">Chapters</a>
+      <a href="../papers.html">Papers</a>
+    </div>
+    <div class="nav-actions">
+      <button id="search-toggle" class="icon-btn" aria-label="Search">🔍</button>
+      <button id="theme-toggle" class="icon-btn" aria-label="Toggle theme">🌙</button>
+      <button id="menu-toggle" class="icon-btn" aria-label="Menu">☰</button>
+    </div>
+  </div>
+  <div id="mobile-menu" class="mobile-menu hidden">
+    <a href="../index.html">Home</a>
+    <a href="../chapters/chapter-1.html">Chapters</a>
+    <a href="../papers.html">All Papers</a>
+  </div>
+  <div id="search-bar" class="search-bar hidden">
+    <input type="text" id="search-input" placeholder="Search papers, concepts, authors…" autocomplete="off">
+    <div id="search-results" class="search-results"></div>
+  </div>
+</nav>
+<div id="page-wrapper">
+
+<div class="paper-layout">
+  <main class="paper-main">
+    <div class="breadcrumb"><a href="../index.html">Home</a> / <a href="../papers.html">Papers</a> / Ribeiro2016a</div>
+
+    <article class="paper-article">
+      <header class="paper-header">
+        <h1 class="paper-title">“Why Should I Trust You?”: Explaining the Predictions of Any Classifier</h1>
+        <p class="paper-authors">Marco Tulio Ribeiro, Sameer Singh, Carlos Guestrin</p>
+        <div class="paper-meta">
+          <span class="paper-year">2016</span>
+          <span class="paper-venue">North American Chapter of the Association for Computational Linguistics</span>
+          <span class="cite-count">Cited 21,085 times</span>
+        </div>
+        <div class="paper-links"><a href="https://doi.org/10.1145/2939672.2939778" target="_blank" class="ext-link">DOI ↗</a> <a href="https://arxiv.org/abs/1602.04938" target="_blank" class="ext-link">arXiv ↗</a> <a href="https://www.aclweb.org/anthology/N16-3020.pdf" target="_blank" class="ext-link pdf-link">PDF ↗</a></div>
+      </header>
+
+      <div class="abstract-block"><h3>Abstract</h3><p>Despite widespread adoption, machine learning models remain mostly black boxes. Understanding the reasons behind predictions is, however, quite important in assessing trust, which is fundamental if one plans to take action based on a prediction, or when choosing whether to deploy a new model. Such understanding also provides insights into the model, which can be used to transform an untrustworthy model or prediction into a trustworthy one. In this work, we propose LIME, a novel explanation technique that explains the predictions of any classifier in an interpretable and faithful manner, by learning an interpretable model locally varound the prediction. We also propose a method to explain models by presenting representative individual predictions and their explanations in a non-redundant way, framing the task as a submodular optimization problem. We demonstrate the flexibility of these methods by explaining different models for text (e.g. random forests) and image classification (e.g. neural networks). We show the utility of explanations via novel experiments, both simulated and with human subjects, on various scenarios that require trust: deciding if one should trust a prediction, choosing between models, improving an untrustworthy classifier, and identifying why a classifier should not be trusted.</p></div>
+
+      
+
+      <details class="bibtex-block">
+        <summary>BibTeX</summary>
+        <pre><code>@inproceedings{Ribeiro2016a,
+  author = {Ribeiro, Marco Tulio and Singh, Sameer and Guestrin, Carlos},
+  booktitle = {Proceedings of the 22nd ACM SIGKDD international conference on knowledge discovery and data mining},
+  title = {&quot; Why should i trust you?&quot; Explaining the predictions of any classifier},
+  year = {2016},
+  pages = {1135–1144},
+}</code></pre>
+      </details>
+    </article>
+  </main>
+</div>
+
+</div>
+<footer class="site-footer">
+  <div class="footer-inner">
+    <p>
+      <strong>Jesse Wood</strong> · PhD Thesis · Victoria University of Wellington · 2025
+    </p>
+    <p class="footer-sub">Machine Learning for Rapid Evaporative Ionization Mass Spectrometry for Marine Biomass Analysis</p>
+  </div>
+</footer>
+<script src="../js/main.js"></script>
+</body>
+</html>

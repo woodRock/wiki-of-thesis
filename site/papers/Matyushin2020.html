@@ -1,0 +1,94 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Gas Chromatographic Retention Index Prediction Using Multimo… — ML for REIMS</title>
+  <link rel="stylesheet" href="../css/style.css">
+  <script>
+    // Apply saved theme before render
+    (function(){
+      const t = localStorage.getItem('theme');
+      if(t === 'dark') document.documentElement.classList.add('dark');
+    })();
+  </script>
+  
+</head>
+<body>
+<nav class="site-nav">
+  <div class="nav-inner">
+    <a href="../index.html" class="nav-brand">
+      <img src="../assets/university-logo.png" alt="University Logo" class="nav-logo" onerror="this.style.display='none'">
+      <span class="nav-title">ML for REIMS</span>
+    </a>
+    <div class="nav-links">
+      <a href="../index.html">Home</a>
+      <a href="../chapters/chapter-1.html">Chapters</a>
+      <a href="../papers.html">Papers</a>
+    </div>
+    <div class="nav-actions">
+      <button id="search-toggle" class="icon-btn" aria-label="Search">🔍</button>
+      <button id="theme-toggle" class="icon-btn" aria-label="Toggle theme">🌙</button>
+      <button id="menu-toggle" class="icon-btn" aria-label="Menu">☰</button>
+    </div>
+  </div>
+  <div id="mobile-menu" class="mobile-menu hidden">
+    <a href="../index.html">Home</a>
+    <a href="../chapters/chapter-1.html">Chapters</a>
+    <a href="../papers.html">All Papers</a>
+  </div>
+  <div id="search-bar" class="search-bar hidden">
+    <input type="text" id="search-input" placeholder="Search papers, concepts, authors…" autocomplete="off">
+    <div id="search-results" class="search-results"></div>
+  </div>
+</nav>
+<div id="page-wrapper">
+
+<div class="paper-layout">
+  <main class="paper-main">
+    <div class="breadcrumb"><a href="../index.html">Home</a> / <a href="../papers.html">Papers</a> / Matyushin2020</div>
+
+    <article class="paper-article">
+      <header class="paper-header">
+        <h1 class="paper-title">Gas Chromatographic Retention Index Prediction Using Multimodal Machine Learning</h1>
+        <p class="paper-authors">D. Matyushin, A. Buryak</p>
+        <div class="paper-meta">
+          <span class="paper-year">2020</span>
+          <span class="paper-venue">IEEE Access</span>
+          <span class="cite-count">Cited 24 times</span>
+        </div>
+        <div class="paper-links"><a href="https://doi.org/10.1109/ACCESS.2020.3045047" target="_blank" class="ext-link">DOI ↗</a> <a href="https://ieeexplore.ieee.org/ielx7/6287639/6514899/09294096.pdf" target="_blank" class="ext-link pdf-link">PDF ↗</a></div>
+      </header>
+
+      <div class="abstract-block"><h3>Abstract</h3><p>Gas chromatography is a widely used method in analytical chemistry and metabolomics. Using gas chromatography, vaporizable compounds can be separated for their further identification. Retention indices are standardized values that depend only on a chemical structure of a compound and on a stationary phase and characterize the retention of a compound in a chromatographic system. Retention index prediction is an important task because databases contain experimental values for a small fraction of all possible molecules, while this information is usable for untargeted analysis. In this work, we consider four machine learning models for retention index prediction: 1D and 2D convolutional neural networks, deep residual multilayer perceptron, and gradient boosting. String representation of the molecule, 2D representation of the chemical structure, molecular descriptors and fingerprints, and molecular descriptors are used as inputs of these four models, respectively, along with information about the stationary phase. The first and third models show the best performance, while the other two perform slightly worse. The models predict retention index values for various standard and semi-standard non-polar stationary phases. Further improvement in performance was achieved using a linear model that uses the results of four previous models as inputs (model stacking). The models were tested using various diverse data sets: flavor compounds, essential oils, metabolomics-related compounds. Achieved accuracy: median absolute and percentage errors – 6–40 units and 0.8-2.2%. Accuracy depends on a test data set. The stacking model outperforms previously reported approaches for all test data sets. Parameters of a pre-trained model and some source code are provided.</p></div>
+
+      
+
+      <details class="bibtex-block">
+        <summary>BibTeX</summary>
+        <pre><code>@article{Matyushin2020,
+  author = {Matyushin, Dmitriy D and Buryak, Aleksey K},
+  journal = {Ieee Access},
+  title = {Gas Chromatographic Retention Index Prediction Using Multimodal Machine Learning},
+  year = {2020},
+  pages = {223140–223155},
+  volume = {8},
+  publisher = {IEEE},
+}</code></pre>
+      </details>
+    </article>
+  </main>
+</div>
+
+</div>
+<footer class="site-footer">
+  <div class="footer-inner">
+    <p>
+      <strong>Jesse Wood</strong> · PhD Thesis · Victoria University of Wellington · 2025
+    </p>
+    <p class="footer-sub">Machine Learning for Rapid Evaporative Ionization Mass Spectrometry for Marine Biomass Analysis</p>
+  </div>
+</footer>
+<script src="../js/main.js"></script>
+</body>
+</html>

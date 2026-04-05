@@ -1,0 +1,100 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Plankton Classification with Deep Learning… — ML for REIMS</title>
+  <link rel="stylesheet" href="../css/style.css">
+  <script>
+    // Apply saved theme before render
+    (function(){
+      const t = localStorage.getItem('theme');
+      if(t === 'dark') document.documentElement.classList.add('dark');
+    })();
+  </script>
+  
+</head>
+<body>
+<nav class="site-nav">
+  <div class="nav-inner">
+    <a href="../index.html" class="nav-brand">
+      <img src="../assets/university-logo.png" alt="University Logo" class="nav-logo" onerror="this.style.display='none'">
+      <span class="nav-title">ML for REIMS</span>
+    </a>
+    <div class="nav-links">
+      <a href="../index.html">Home</a>
+      <a href="../chapters/chapter-1.html">Chapters</a>
+      <a href="../papers.html">Papers</a>
+    </div>
+    <div class="nav-actions">
+      <button id="search-toggle" class="icon-btn" aria-label="Search">🔍</button>
+      <button id="theme-toggle" class="icon-btn" aria-label="Toggle theme">🌙</button>
+      <button id="menu-toggle" class="icon-btn" aria-label="Menu">☰</button>
+    </div>
+  </div>
+  <div id="mobile-menu" class="mobile-menu hidden">
+    <a href="../index.html">Home</a>
+    <a href="../chapters/chapter-1.html">Chapters</a>
+    <a href="../papers.html">All Papers</a>
+  </div>
+  <div id="search-bar" class="search-bar hidden">
+    <input type="text" id="search-input" placeholder="Search papers, concepts, authors…" autocomplete="off">
+    <div id="search-results" class="search-results"></div>
+  </div>
+</nav>
+<div id="page-wrapper">
+
+<div class="paper-layout">
+  <main class="paper-main">
+    <div class="breadcrumb"><a href="../index.html">Home</a> / <a href="../papers.html">Papers</a> / Somek2023PlanktonClassification</div>
+
+    <article class="paper-article">
+      <header class="paper-header">
+        <h1 class="paper-title">Plankton Classification with Deep Learning</h1>
+        <p class="paper-authors">Betül Sömek, S. E. Yüksel</p>
+        <div class="paper-meta">
+          <span class="paper-year">2020</span>
+          <span class="paper-venue">2023 Signal Processing: Algorithms, Architectures, Arrangements, and Applications (SPA)</span>
+          <span class="cite-count">Cited 0 times</span>
+        </div>
+        <div class="paper-links"><a href="https://doi.org/10.23919/SPA59660.2023.10274456" target="_blank" class="ext-link">DOI ↗</a></div>
+      </header>
+
+      <div class="abstract-block"><h3>Abstract</h3><p>Plankton plays a vital role in sustaining life on Earth as it forms the foundation of the aquatic food chain. Additionally, it is responsible for producing approximately half of the oxygen in the Earth’s atmosphere. Understanding the distribution of plankton is crucial in studying climate change and monitoring water quality. This study utilized a dataset comprising 30,336 plankton images belonging to 121 different classes. State-of-the-art deep learning methods were employed to automatically label the plankton species, while alternative training approaches, data augmentation, and preprocessing techniques were compared to assess their impact. The study analyzed the similarities between and within plankton classes, as well as the classes that were frequently misidentified. By training models on networks from two different versions of the Kaggle dataset, the highest success rate achieved was 78% on the larger dataset with 118 classes, and 92% on the smaller dataset with 38 classes using individual models. These results represent a 1% improvement over the previously reported best-performing single model classifiers. Furthermore, by employing an averaging ensemble method, the performance was further enhanced by 2% in the first dataset and 1% in the second dataset. These findings demonstrate the efficacy of the proposed approach in accurately identifying plankton species and highlight the potential for improving classification results through ensemble techniques. Also, we address the unbalance and the varying input sizes within the Kaggle plankton dataset. We propose alternative data balancing methods and investigate three pre-processing techniques. Then we compare several state-of-the-art deep learning algorithms and show the improvement in classification rates with ensemble methods. Our results have significantly improved the best results reported in the literature over the single best models.</p></div>
+
+      
+
+      <details class="bibtex-block">
+        <summary>BibTeX</summary>
+        <pre><code>@inproceedings{Somek2023PlanktonClassification,
+  author = {Song, Jiaming and Meng, Chenlin and Ermon, Stefano},
+  booktitle = {2023 Signal Processing: Algorithms, Architectures, Arrangements, and Applications (SPA)},
+  title = {Denoising diffusion implicit models},
+  year = {2020},
+  volume = {},
+  number = {},
+  pages = {118-123},
+  abstract = {Plankton plays a vital role in sustaining life on Earth as it forms the foundation of the aquatic food chain. Additionally, it is responsible for producing approximately half of the oxygen in the Earth’s atmosphere. Understanding the distribution of plankton is crucial in studying climate change and monitoring water quality. This study utilized a dataset comprising 30,336 plankton images belonging to 121 different classes. State-of-the-art deep learning methods were employed to automatically label the plankton species, while alternative training approaches, data augmentation, and preprocessing techniques were compared to assess their impact. The study analyzed the similarities between and within plankton classes, as well as the classes that were frequently misidentified. By training models on networks from two different versions of the Kaggle dataset, the highest success rate achieved was 78% on the larger dataset with 118 classes, and 92% on the smaller dataset with 38 classes using individual models. These results represent a 1% improvement over the previously reported best-performing single model classifiers. Furthermore, by employing an averaging ensemble method, the performance was further enhanced by 2% in the first dataset and 1% in the second dataset. These findings demonstrate the efficacy of the proposed approach in accurately identifying plankton species and highlight the potential for improving classification results through ensemble techniques. Also, we address the unbalance and the varying input sizes within the Kaggle plankton dataset. We propose alternative data balancing methods and investigate three pre-processing techniques. Then we compare several state-of-the-art deep learning algorithms and show the improvement in classification rates with ensemble methods. Our results have significantly improved the best results reported in the literature over the single best models.},
+  keywords = {Deep learning;Convolutional neural networks;Climate change;Classification algorithms;Aquaculture;Plankton Classification;Deep Learning;CNN},
+  doi = {10.23919/SPA59660.2023.10274456},
+  issn = {2326-0319},
+  month = {Sep.},
+  journal = {arXiv preprint arXiv:2010.02502},
+}</code></pre>
+      </details>
+    </article>
+  </main>
+</div>
+
+</div>
+<footer class="site-footer">
+  <div class="footer-inner">
+    <p>
+      <strong>Jesse Wood</strong> · PhD Thesis · Victoria University of Wellington · 2025
+    </p>
+    <p class="footer-sub">Machine Learning for Rapid Evaporative Ionization Mass Spectrometry for Marine Biomass Analysis</p>
+  </div>
+</footer>
+<script src="../js/main.js"></script>
+</body>
+</html>

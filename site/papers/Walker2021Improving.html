@@ -1,0 +1,100 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Improving Rare-Class Recognition of Marine Plankton with Har… — ML for REIMS</title>
+  <link rel="stylesheet" href="../css/style.css">
+  <script>
+    // Apply saved theme before render
+    (function(){
+      const t = localStorage.getItem('theme');
+      if(t === 'dark') document.documentElement.classList.add('dark');
+    })();
+  </script>
+  
+</head>
+<body>
+<nav class="site-nav">
+  <div class="nav-inner">
+    <a href="../index.html" class="nav-brand">
+      <img src="../assets/university-logo.png" alt="University Logo" class="nav-logo" onerror="this.style.display='none'">
+      <span class="nav-title">ML for REIMS</span>
+    </a>
+    <div class="nav-links">
+      <a href="../index.html">Home</a>
+      <a href="../chapters/chapter-1.html">Chapters</a>
+      <a href="../papers.html">Papers</a>
+    </div>
+    <div class="nav-actions">
+      <button id="search-toggle" class="icon-btn" aria-label="Search">🔍</button>
+      <button id="theme-toggle" class="icon-btn" aria-label="Toggle theme">🌙</button>
+      <button id="menu-toggle" class="icon-btn" aria-label="Menu">☰</button>
+    </div>
+  </div>
+  <div id="mobile-menu" class="mobile-menu hidden">
+    <a href="../index.html">Home</a>
+    <a href="../chapters/chapter-1.html">Chapters</a>
+    <a href="../papers.html">All Papers</a>
+  </div>
+  <div id="search-bar" class="search-bar hidden">
+    <input type="text" id="search-input" placeholder="Search papers, concepts, authors…" autocomplete="off">
+    <div id="search-results" class="search-results"></div>
+  </div>
+</nav>
+<div id="page-wrapper">
+
+<div class="paper-layout">
+  <main class="paper-main">
+    <div class="breadcrumb"><a href="../index.html">Home</a> / <a href="../papers.html">Papers</a> / Walker2021Improving</div>
+
+    <article class="paper-article">
+      <header class="paper-header">
+        <h1 class="paper-title">Improving Rare-Class Recognition of Marine Plankton with Hard Negative Mining</h1>
+        <p class="paper-authors">Joseph L. Walker, Eric C. Orenstein</p>
+        <div class="paper-meta">
+          <span class="paper-year">2024</span>
+          <span class="paper-venue">2021 IEEE/CVF International Conference on Computer Vision Workshops (ICCVW)</span>
+          <span class="cite-count">Cited 11 times</span>
+        </div>
+        <div class="paper-links"><a href="https://doi.org/10.1109/ICCVW54120.2021.00410" target="_blank" class="ext-link">DOI ↗</a></div>
+      </header>
+
+      <div class="abstract-block"><h3>Abstract</h3><p>Biological oceanographers are increasingly adopting machine learning techniques to conduct quantitative as-sessments of marine plankton. Most supervised plankton classifiers are trained on labeled image datasets annotated by domain experts under the closed world assumption: all object classes and their priors are the same during both training and deployment. This assumption, however, is hard to satisfy in the actual ocean where data is subject to dataset shift due to shifting populations and from the introduction of object categories not seen during training. Here we present an alternative approach for training and evaluating plank-ton classifiers under the more realistic open world scenario. We specifically address the problems of out-of-distribution detection and dataset shift under the class imbalance setting where downsampling is needed to reliably detect and classify relatively rare target classes. We apply a hard negative mining approach called Background Resampling to perform downsampling and compare it to other strategies. We show that Background Resampling improves detection of novel particle classes while simultaneously providing competitive classification performance under dataset shift.</p></div>
+
+      
+
+      <details class="bibtex-block">
+        <summary>BibTeX</summary>
+        <pre><code>@inproceedings{Walker2021Improving,
+  author = {Wang, Jie and Ji, Tao and Wu, Yuanbin and Yan, Hang and Gui, Tao and Zhang, Qi and Huang, Xuanjing and Wang, Xiaoling},
+  booktitle = {2021 IEEE/CVF International Conference on Computer Vision Workshops (ICCVW)},
+  title = {Length generalization of causal transformers without position encoding},
+  year = {2024},
+  volume = {},
+  number = {},
+  pages = {3665-3675},
+  abstract = {Biological oceanographers are increasingly adopting machine learning techniques to conduct quantitative as-sessments of marine plankton. Most supervised plankton classifiers are trained on labeled image datasets annotated by domain experts under the closed world assumption: all object classes and their priors are the same during both training and deployment. This assumption, however, is hard to satisfy in the actual ocean where data is subject to dataset shift due to shifting populations and from the introduction of object categories not seen during training. Here we present an alternative approach for training and evaluating plank-ton classifiers under the more realistic open world scenario. We specifically address the problems of out-of-distribution detection and dataset shift under the class imbalance setting where downsampling is needed to reliably detect and classify relatively rare target classes. We apply a hard negative mining approach called Background Resampling to perform downsampling and compare it to other strategies. We show that Background Resampling improves detection of novel particle classes while simultaneously providing competitive classification performance under dataset shift.},
+  keywords = {Training;Computer vision;Oceans;Conferences;Sociology;Machine learning;Biology},
+  doi = {10.1109/ICCVW54120.2021.00410},
+  issn = {2473-9944},
+  month = {Oct},
+  journal = {arXiv preprint arXiv:2404.12224},
+}</code></pre>
+      </details>
+    </article>
+  </main>
+</div>
+
+</div>
+<footer class="site-footer">
+  <div class="footer-inner">
+    <p>
+      <strong>Jesse Wood</strong> · PhD Thesis · Victoria University of Wellington · 2025
+    </p>
+    <p class="footer-sub">Machine Learning for Rapid Evaporative Ionization Mass Spectrometry for Marine Biomass Analysis</p>
+  </div>
+</footer>
+<script src="../js/main.js"></script>
+</body>
+</html>

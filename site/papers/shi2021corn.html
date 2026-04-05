@@ -1,0 +1,91 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Deep neural networks for rank-consistent ordinal regression … — ML for REIMS</title>
+  <link rel="stylesheet" href="../css/style.css">
+  <script>
+    // Apply saved theme before render
+    (function(){
+      const t = localStorage.getItem('theme');
+      if(t === 'dark') document.documentElement.classList.add('dark');
+    })();
+  </script>
+  
+</head>
+<body>
+<nav class="site-nav">
+  <div class="nav-inner">
+    <a href="../index.html" class="nav-brand">
+      <img src="../assets/university-logo.png" alt="University Logo" class="nav-logo" onerror="this.style.display='none'">
+      <span class="nav-title">ML for REIMS</span>
+    </a>
+    <div class="nav-links">
+      <a href="../index.html">Home</a>
+      <a href="../chapters/chapter-1.html">Chapters</a>
+      <a href="../papers.html">Papers</a>
+    </div>
+    <div class="nav-actions">
+      <button id="search-toggle" class="icon-btn" aria-label="Search">🔍</button>
+      <button id="theme-toggle" class="icon-btn" aria-label="Toggle theme">🌙</button>
+      <button id="menu-toggle" class="icon-btn" aria-label="Menu">☰</button>
+    </div>
+  </div>
+  <div id="mobile-menu" class="mobile-menu hidden">
+    <a href="../index.html">Home</a>
+    <a href="../chapters/chapter-1.html">Chapters</a>
+    <a href="../papers.html">All Papers</a>
+  </div>
+  <div id="search-bar" class="search-bar hidden">
+    <input type="text" id="search-input" placeholder="Search papers, concepts, authors…" autocomplete="off">
+    <div id="search-results" class="search-results"></div>
+  </div>
+</nav>
+<div id="page-wrapper">
+
+<div class="paper-layout">
+  <main class="paper-main">
+    <div class="breadcrumb"><a href="../index.html">Home</a> / <a href="../papers.html">Papers</a> / shi2021corn</div>
+
+    <article class="paper-article">
+      <header class="paper-header">
+        <h1 class="paper-title">Deep neural networks for rank-consistent ordinal regression based on conditional probabilities</h1>
+        <p class="paper-authors">Xintong Shi, Wenzhi Cao, S. Raschka</p>
+        <div class="paper-meta">
+          <span class="paper-year">2021</span>
+          <span class="paper-venue">Pattern Analysis and Applications</span>
+          <span class="cite-count">Cited 88 times</span>
+        </div>
+        <div class="paper-links"><a href="https://doi.org/10.1007/s10044-023-01181-9" target="_blank" class="ext-link">DOI ↗</a> <a href="https://arxiv.org/abs/2111.08851" target="_blank" class="ext-link">arXiv ↗</a> <a href="https://arxiv.org/pdf/2111.08851" target="_blank" class="ext-link pdf-link">PDF ↗</a></div>
+      </header>
+
+      <div class="abstract-block"><h3>Abstract</h3><p>In recent times, deep neural networks achieved outstanding predictive performance on various classification and pattern recognition tasks. However, many real-world prediction problems have ordinal response variables, and this ordering information is ignored by conventional classification losses such as the multi-category cross-entropy. Ordinal regression methods for deep neural networks address this. One such method is the CORAL method, which is based on an earlier binary label extension framework and achieves rank consistency among its output layer tasks by imposing a weight-sharing constraint. However, while earlier experiments showed that CORAL’s rank consistency is beneficial for performance, it is limited by a weight-sharing constraint in a neural network’s fully connected output layer, which may restrict the expressiveness and capacity of a network trained using CORAL. We propose a new method for rank-consistent ordinal regression without this limitation. Our rank-consistent ordinal regression framework (CORN) achieves rank consistency by a novel training scheme. This training scheme uses conditional training sets to obtain the unconditional rank probabilities through applying the chain rule for conditional probability distributions. Experiments on various datasets demonstrate the efficacy of the proposed method to utilize the ordinal target information, and the absence of the weight-sharing restriction improves the performance substantially compared to the CORAL reference approach. Additionally, the suggested CORN method is not tied to any specific architecture and can be utilized with any deep neural network classifier to train it for ordinal regression tasks.</p></div>
+
+      <div class="cited-in-block"><h3>Cited in this thesis</h3><div class="cite-chips"><a href="../chapters/chapter-7.html" class="cite-chip">Conclusions</a></div></div>
+
+      <details class="bibtex-block">
+        <summary>BibTeX</summary>
+        <pre><code>@inproceedings{shi2021corn,
+  title = {Deep conditional ordinal regression for neural networks},
+  author = {Shi, Xinyu and Cao, Wenzhi and Lau, Jey Han},
+  booktitle = {Proceedings of the 35th AAAI Conference on Artificial Intelligence},
+  year = {2021},
+}</code></pre>
+      </details>
+    </article>
+  </main>
+</div>
+
+</div>
+<footer class="site-footer">
+  <div class="footer-inner">
+    <p>
+      <strong>Jesse Wood</strong> · PhD Thesis · Victoria University of Wellington · 2025
+    </p>
+    <p class="footer-sub">Machine Learning for Rapid Evaporative Ionization Mass Spectrometry for Marine Biomass Analysis</p>
+  </div>
+</footer>
+<script src="../js/main.js"></script>
+</body>
+</html>

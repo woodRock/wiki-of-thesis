@@ -1,0 +1,93 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Sizing mudsnails: Applying superpixels to scale growth detec… — ML for REIMS</title>
+  <link rel="stylesheet" href="../css/style.css">
+  <script>
+    // Apply saved theme before render
+    (function(){
+      const t = localStorage.getItem('theme');
+      if(t === 'dark') document.documentElement.classList.add('dark');
+    })();
+  </script>
+  
+</head>
+<body>
+<nav class="site-nav">
+  <div class="nav-inner">
+    <a href="../index.html" class="nav-brand">
+      <img src="../assets/university-logo.png" alt="University Logo" class="nav-logo" onerror="this.style.display='none'">
+      <span class="nav-title">ML for REIMS</span>
+    </a>
+    <div class="nav-links">
+      <a href="../index.html">Home</a>
+      <a href="../chapters/chapter-1.html">Chapters</a>
+      <a href="../papers.html">Papers</a>
+    </div>
+    <div class="nav-actions">
+      <button id="search-toggle" class="icon-btn" aria-label="Search">🔍</button>
+      <button id="theme-toggle" class="icon-btn" aria-label="Toggle theme">🌙</button>
+      <button id="menu-toggle" class="icon-btn" aria-label="Menu">☰</button>
+    </div>
+  </div>
+  <div id="mobile-menu" class="mobile-menu hidden">
+    <a href="../index.html">Home</a>
+    <a href="../chapters/chapter-1.html">Chapters</a>
+    <a href="../papers.html">All Papers</a>
+  </div>
+  <div id="search-bar" class="search-bar hidden">
+    <input type="text" id="search-input" placeholder="Search papers, concepts, authors…" autocomplete="off">
+    <div id="search-results" class="search-results"></div>
+  </div>
+</nav>
+<div id="page-wrapper">
+
+<div class="paper-layout">
+  <main class="paper-main">
+    <div class="breadcrumb"><a href="../index.html">Home</a> / <a href="../papers.html">Papers</a> / Wood2025c</div>
+
+    <article class="paper-article">
+      <header class="paper-header">
+        <h1 class="paper-title">Sizing mudsnails: Applying superpixels to scale growth detection under ocean warming</h1>
+        <p class="paper-authors">L. MacNeil, Léa Joly, M. Ito, Anna Steinmann, K. Mehler, Marco Scotti</p>
+        <div class="paper-meta">
+          <span class="paper-year">2025</span>
+          <span class="paper-venue">Methods in Ecology and Evolution</span>
+          <span class="cite-count">Cited 1 times</span>
+        </div>
+        <div class="paper-links"><a href="https://doi.org/10.1111/2041-210X.14295" target="_blank" class="ext-link">DOI ↗</a> <a href="https://onlinelibrary.wiley.com/doi/pdfdirect/10.1111/2041-210X.14295" target="_blank" class="ext-link pdf-link">PDF ↗</a></div>
+      </header>
+
+      <div class="abstract-block"><h3>Abstract</h3><p>The expansion of scientific image data holds great promise to quantify individuals, size distributions and traits. Computer vision tools are especially powerful to automate data mining of images and thus have been applied widely across studies in aquatic and terrestrial ecology. Yet marine benthic communities, especially infauna, remain understudied despite their dominance of marine biomass, biodiversity and playing critical roles in ecosystem functioning. Here, we disaggregated infauna from sediment cores taken throughout the spring transition (April–June) from a near‐natural mesocosm setup under experimental warming (Ambient, +1.5°C, +3.0°C). Numerically abundant mudsnails were imaged in batches under stereomicroscopy, from which we automatically counted and sized individuals using a superpixel‐based segmentation algorithm. Our segmentation approach was based on clustering superpixels, which naturally partition images by low‐level properties (e.g., colour, shape and edges) and allow instance‐based segmentation to extract all individuals from each image. We demonstrate high accuracy and precision for counting and sizing individuals, through a procedure that is robust to the number of individuals per image (5–65) and to size ranges spanning an order of magnitude (&lt;750 μm to 7.4 mm). The segmentation routine provided at least a fivefold increase in efficiency compared with manual measurements. Scaling this approach to a larger dataset tallied &gt;40k individuals and revealed overall growth in response to springtime warming. We illustrate that image processing and segmentation workflows can be built upon existing open‐access R packages, underlining the potential for wider adoption of computer vision tools among ecologists. The image‐based approach also generated reproducible data products that, alongside our scripts, we have made freely available. This work reinforces the need for next‐generation monitoring of benthic communities, especially infauna, which can display differential responses to average warming.</p></div>
+
+      
+
+      <details class="bibtex-block">
+        <summary>BibTeX</summary>
+        <pre><code>@article{Wood2025c,
+  author = {Wood, Jesse and Nguyen, Bach Hoai and Xue, Bing and Zhang, Mengjie and Killeen, Daniel},
+  journal = {Computational Intelligence Magazine},
+  title = {SpectroSim: Batch Detection in Marine Biomass},
+  year = {2025},
+  pages = {516–529},
+  organization = {CIM},
+}</code></pre>
+      </details>
+    </article>
+  </main>
+</div>
+
+</div>
+<footer class="site-footer">
+  <div class="footer-inner">
+    <p>
+      <strong>Jesse Wood</strong> · PhD Thesis · Victoria University of Wellington · 2025
+    </p>
+    <p class="footer-sub">Machine Learning for Rapid Evaporative Ionization Mass Spectrometry for Marine Biomass Analysis</p>
+  </div>
+</footer>
+<script src="../js/main.js"></script>
+</body>
+</html>

@@ -1,0 +1,92 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Grad-CAM: Visual Explanations from Deep Networks via Gradien… — ML for REIMS</title>
+  <link rel="stylesheet" href="../css/style.css">
+  <script>
+    // Apply saved theme before render
+    (function(){
+      const t = localStorage.getItem('theme');
+      if(t === 'dark') document.documentElement.classList.add('dark');
+    })();
+  </script>
+  
+</head>
+<body>
+<nav class="site-nav">
+  <div class="nav-inner">
+    <a href="../index.html" class="nav-brand">
+      <img src="../assets/university-logo.png" alt="University Logo" class="nav-logo" onerror="this.style.display='none'">
+      <span class="nav-title">ML for REIMS</span>
+    </a>
+    <div class="nav-links">
+      <a href="../index.html">Home</a>
+      <a href="../chapters/chapter-1.html">Chapters</a>
+      <a href="../papers.html">Papers</a>
+    </div>
+    <div class="nav-actions">
+      <button id="search-toggle" class="icon-btn" aria-label="Search">🔍</button>
+      <button id="theme-toggle" class="icon-btn" aria-label="Toggle theme">🌙</button>
+      <button id="menu-toggle" class="icon-btn" aria-label="Menu">☰</button>
+    </div>
+  </div>
+  <div id="mobile-menu" class="mobile-menu hidden">
+    <a href="../index.html">Home</a>
+    <a href="../chapters/chapter-1.html">Chapters</a>
+    <a href="../papers.html">All Papers</a>
+  </div>
+  <div id="search-bar" class="search-bar hidden">
+    <input type="text" id="search-input" placeholder="Search papers, concepts, authors…" autocomplete="off">
+    <div id="search-results" class="search-results"></div>
+  </div>
+</nav>
+<div id="page-wrapper">
+
+<div class="paper-layout">
+  <main class="paper-main">
+    <div class="breadcrumb"><a href="../index.html">Home</a> / <a href="../papers.html">Papers</a> / Selvaraju2017</div>
+
+    <article class="paper-article">
+      <header class="paper-header">
+        <h1 class="paper-title">Grad-CAM: Visual Explanations from Deep Networks via Gradient-Based Localization</h1>
+        <p class="paper-authors">Ramprasaath R. Selvaraju, Abhishek Das, Ramakrishna Vedantam, Michael Cogswell, Devi Parikh, Dhruv Batra</p>
+        <div class="paper-meta">
+          <span class="paper-year">2017</span>
+          <span class="paper-venue">International Journal of Computer Vision</span>
+          <span class="cite-count">Cited 25,775 times</span>
+        </div>
+        <div class="paper-links"><a href="https://doi.org/10.1007/s11263-019-01228-7" target="_blank" class="ext-link">DOI ↗</a> <a href="https://arxiv.org/abs/1610.02391" target="_blank" class="ext-link">arXiv ↗</a> <a href="http://arxiv.org/pdf/1610.02391" target="_blank" class="ext-link pdf-link">PDF ↗</a></div>
+      </header>
+
+      <div class="abstract-block"><h3>Abstract</h3><p>We propose a technique for producing ‘visual explanations’ for decisions from a large class of Convolutional Neural Network (CNN)-based models, making them more transparent and explainable. Our approach—Gradient-weighted Class Activation Mapping (Grad-CAM), uses the gradients of any target concept (say ‘dog’ in a classification network or a sequence of words in captioning network) flowing into the final convolutional layer to produce a coarse localization map highlighting the important regions in the image for predicting the concept. Unlike previous approaches, Grad-CAM is applicable to a wide variety of CNN model-families: (1) CNNs with fully-connected layers (e.g.VGG), (2) CNNs used for structured outputs (e.g.captioning), (3) CNNs used in tasks with multi-modal inputs (e.g.visual question answering) or reinforcement learning, all without architectural changes or re-training. We combine Grad-CAM with existing fine-grained visualizations to create a high-resolution class-discriminative visualization, Guided Grad-CAM, and apply it to image classification, image captioning, and visual question answering (VQA) models, including ResNet-based architectures. In the context of image classification models, our visualizations (a) lend insights into failure modes of these models (showing that seemingly unreasonable predictions have reasonable explanations), (b) outperform previous methods on the ILSVRC-15 weakly-supervised localization task, (c) are robust to adversarial perturbations, (d) are more faithful to the underlying model, and (e) help achieve model generalization by identifying dataset bias. For image captioning and VQA, our visualizations show that even non-attention based models learn to localize discriminative regions of input image. We devise a way to identify important neurons through Grad-CAM and combine it with neuron names (Bau et al. in Computer vision and pattern recognition, 2017) to provide textual explanations for model decisions. Finally, we design and conduct human studies to measure if Grad-CAM explanations help users establish appropriate trust in predictions from deep networks and show that Grad-CAM helps untrained users successfully discern a ‘stronger’ deep network from a ‘weaker’ one even when both make identical predictions. Our code is available at https://github.com/ramprs/grad-cam/, along with a demo on CloudCV (Agrawal et al., in: Mobile cloud visual media computing, pp 265–290. Springer, 2015) (http://gradcam.cloudcv.org) and a video at http://youtu.be/COjUB9Izk6E.</p></div>
+
+      <div class="cited-in-block"><h3>Cited in this thesis</h3><div class="cite-chips"><a href="../chapters/chapter-1.html" class="cite-chip">Introduction</a><a href="../chapters/chapter-2.html" class="cite-chip">Literature Survey</a><a href="../chapters/chapter-4.html" class="cite-chip">Fish Species and Part Identification</a><a href="../chapters/chapter-5.html" class="cite-chip">Oil Contamination and Cross-Species Adulteration</a></div></div>
+
+      <details class="bibtex-block">
+        <summary>BibTeX</summary>
+        <pre><code>@inproceedings{Selvaraju2017,
+  author = {Selvaraju, Ramprasaath R and Cogswell, Michael and Das, Abhishek and Vedantam, Ramakrishna and Parikh, Devi and Batra, Dhruv},
+  booktitle = {Proceedings of the IEEE international conference on computer vision},
+  title = {Grad-cam: Visual explanations from deep networks via gradient-based localization},
+  year = {2017},
+  pages = {618–626},
+}</code></pre>
+      </details>
+    </article>
+  </main>
+</div>
+
+</div>
+<footer class="site-footer">
+  <div class="footer-inner">
+    <p>
+      <strong>Jesse Wood</strong> · PhD Thesis · Victoria University of Wellington · 2025
+    </p>
+    <p class="footer-sub">Machine Learning for Rapid Evaporative Ionization Mass Spectrometry for Marine Biomass Analysis</p>
+  </div>
+</footer>
+<script src="../js/main.js"></script>
+</body>
+</html>

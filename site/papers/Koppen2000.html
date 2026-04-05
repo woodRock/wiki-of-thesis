@@ -1,0 +1,93 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Designing Likelihood Function in Block Particle Filter for B… — ML for REIMS</title>
+  <link rel="stylesheet" href="../css/style.css">
+  <script>
+    // Apply saved theme before render
+    (function(){
+      const t = localStorage.getItem('theme');
+      if(t === 'dark') document.documentElement.classList.add('dark');
+    })();
+  </script>
+  
+</head>
+<body>
+<nav class="site-nav">
+  <div class="nav-inner">
+    <a href="../index.html" class="nav-brand">
+      <img src="../assets/university-logo.png" alt="University Logo" class="nav-logo" onerror="this.style.display='none'">
+      <span class="nav-title">ML for REIMS</span>
+    </a>
+    <div class="nav-links">
+      <a href="../index.html">Home</a>
+      <a href="../chapters/chapter-1.html">Chapters</a>
+      <a href="../papers.html">Papers</a>
+    </div>
+    <div class="nav-actions">
+      <button id="search-toggle" class="icon-btn" aria-label="Search">🔍</button>
+      <button id="theme-toggle" class="icon-btn" aria-label="Toggle theme">🌙</button>
+      <button id="menu-toggle" class="icon-btn" aria-label="Menu">☰</button>
+    </div>
+  </div>
+  <div id="mobile-menu" class="mobile-menu hidden">
+    <a href="../index.html">Home</a>
+    <a href="../chapters/chapter-1.html">Chapters</a>
+    <a href="../papers.html">All Papers</a>
+  </div>
+  <div id="search-bar" class="search-bar hidden">
+    <input type="text" id="search-input" placeholder="Search papers, concepts, authors…" autocomplete="off">
+    <div id="search-results" class="search-results"></div>
+  </div>
+</nav>
+<div id="page-wrapper">
+
+<div class="paper-layout">
+  <main class="paper-main">
+    <div class="breadcrumb"><a href="../index.html">Home</a> / <a href="../papers.html">Papers</a> / Koppen2000</div>
+
+    <article class="paper-article">
+      <header class="paper-header">
+        <h1 class="paper-title">Designing Likelihood Function in Block Particle Filter for Beating Curse of Dimensionality</h1>
+        <p class="paper-authors">Tianzhi Li, Mario Romero, Xi Vincent Wang</p>
+        <div class="paper-meta">
+          <span class="paper-year">2000</span>
+          <span class="paper-venue">Proceedings of the 15th International Workshop on Structural Health Monitoring</span>
+          <span class="cite-count">Cited 0 times</span>
+        </div>
+        <div class="paper-links"><a href="https://doi.org/10.12783/shm2025/37309" target="_blank" class="ext-link">DOI ↗</a></div>
+      </header>
+
+      <div class="abstract-block"><h3>Abstract</h3><p>Particle filter (PF) has proven effective for nonlinear identification scenarios; however, its performance in high-dimensional problems is often limited by the curse of dimensionality. To overcome this challenge, block particle filter (BPF) is proposed to reformulate a high-dimensional model into several blocks, so the identification of one high-dimensional system can be simplified into that for many lower-dimensional blocks. However, due to the coupling between blocks, the likelihood function for each state subgroup depends not only on its own state components but also on its neighboring subgroups - a dependency that the BPF does not address. In this work, we extend the BPF by developing likelihood functions that incorporate nuisance components, thereby enabling its application to coupled systems. The performance of the proposed algorithms is demonstrated through a numerical example of a forty-story Bouc-Wen frame structure subjected to ground motion.</p></div>
+
+      <div class="cited-in-block"><h3>Cited in this thesis</h3><div class="cite-chips"><a href="../chapters/chapter-1.html" class="cite-chip">Introduction</a><a href="../chapters/chapter-3.html" class="cite-chip">Datasets and Processing</a></div></div>
+
+      <details class="bibtex-block">
+        <summary>BibTeX</summary>
+        <pre><code>@inproceedings{Koppen2000,
+  title = {The curse of dimensionality},
+  author = {Koppen, Mario},
+  booktitle = {5th online world conference on soft computing in industrial applications (WSC5)},
+  volume = {1},
+  pages = {4–8},
+  year = {2000},
+}</code></pre>
+      </details>
+    </article>
+  </main>
+</div>
+
+</div>
+<footer class="site-footer">
+  <div class="footer-inner">
+    <p>
+      <strong>Jesse Wood</strong> · PhD Thesis · Victoria University of Wellington · 2025
+    </p>
+    <p class="footer-sub">Machine Learning for Rapid Evaporative Ionization Mass Spectrometry for Marine Biomass Analysis</p>
+  </div>
+</footer>
+<script src="../js/main.js"></script>
+</body>
+</html>

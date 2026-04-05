@@ -1,0 +1,100 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Better quantifying inter-annotator variability: A step towar… — ML for REIMS</title>
+  <link rel="stylesheet" href="../css/style.css">
+  <script>
+    // Apply saved theme before render
+    (function(){
+      const t = localStorage.getItem('theme');
+      if(t === 'dark') document.documentElement.classList.add('dark');
+    })();
+  </script>
+  
+</head>
+<body>
+<nav class="site-nav">
+  <div class="nav-inner">
+    <a href="../index.html" class="nav-brand">
+      <img src="../assets/university-logo.png" alt="University Logo" class="nav-logo" onerror="this.style.display='none'">
+      <span class="nav-title">ML for REIMS</span>
+    </a>
+    <div class="nav-links">
+      <a href="../index.html">Home</a>
+      <a href="../chapters/chapter-1.html">Chapters</a>
+      <a href="../papers.html">Papers</a>
+    </div>
+    <div class="nav-actions">
+      <button id="search-toggle" class="icon-btn" aria-label="Search">🔍</button>
+      <button id="theme-toggle" class="icon-btn" aria-label="Toggle theme">🌙</button>
+      <button id="menu-toggle" class="icon-btn" aria-label="Menu">☰</button>
+    </div>
+  </div>
+  <div id="mobile-menu" class="mobile-menu hidden">
+    <a href="../index.html">Home</a>
+    <a href="../chapters/chapter-1.html">Chapters</a>
+    <a href="../papers.html">All Papers</a>
+  </div>
+  <div id="search-bar" class="search-bar hidden">
+    <input type="text" id="search-input" placeholder="Search papers, concepts, authors…" autocomplete="off">
+    <div id="search-results" class="search-results"></div>
+  </div>
+</nav>
+<div id="page-wrapper">
+
+<div class="paper-layout">
+  <main class="paper-main">
+    <div class="breadcrumb"><a href="../index.html">Home</a> / <a href="../papers.html">Papers</a> / Dubus2023BetterQuantifying</div>
+
+    <article class="paper-article">
+      <header class="paper-header">
+        <h1 class="paper-title">Better quantifying inter-annotator variability: A step towards citizen science in underwater passive acoustics</h1>
+        <p class="paper-authors">G. Dubus, Maëlle Torterotot, P. V. N. Duc, Julie Béesau, D. Cazau, Olivier Adam</p>
+        <div class="paper-meta">
+          <span class="paper-year">2011</span>
+          <span class="paper-venue">Oceans</span>
+          <span class="cite-count">Cited 5 times</span>
+        </div>
+        <div class="paper-links"><a href="https://doi.org/10.1109/OCEANSLimerick52467.2023.10244502" target="_blank" class="ext-link">DOI ↗</a></div>
+      </header>
+
+      <div class="abstract-block"><h3>Abstract</h3><p>Deployments of underwater passive acoustic recorders have been widely used to study marine biodiversity, especially to detect vocal cetaceans. To process the huge amount of data collected, automatic detection and classification methods are necessary. Recently the development of such methods, which includes training and then testing the models, is mainly based on so-called ground-truth labels, obtained by manual annotation of audio files.However, manual annotation is a difficult and time-consuming process because of the large size of the datasets, the large diversity of the sounds, their unfamiliar representation, the variant quality of the acoustic recordings and the variability in human appreciation.These different factors induce non-negligible differences from one annotator to another, and better quantifying and understanding such differences is capital to make progress in machine learning applications.On this topic, the inter-annotator variability is investigated on three multi-annotator annotation campaigns performed on different marine bioacoustics datasets. Each of them gathered more than 10 annotators with different profiles, from novices to field experts, covering different annotation tasks, different geographical areas and varieties of sound classes. From this multi-annotation, this work enhances the understanding of the inter-annotator variability through the kappa-metrics. In a second part, from a grouping method of annotation based on a majority vote, a drastic reduction of the potential errors in the annotation from novice annotators is observed. This last observation enlightens the possibility of using citizen sciences to overcome the lack of annotation, while maintaining a quality of annotation expected by an expert.</p></div>
+
+      
+
+      <details class="bibtex-block">
+        <summary>BibTeX</summary>
+        <pre><code>@inproceedings{Dubus2023BetterQuantifying,
+  author = {Einstein, Albert},
+  booktitle = {OCEANS 2023 - Limerick},
+  title = {The ultimate quotable Einstein},
+  year = {2011},
+  volume = {},
+  number = {},
+  pages = {1-8},
+  abstract = {Deployments of underwater passive acoustic recorders have been widely used to study marine biodiversity, especially to detect vocal cetaceans. To process the huge amount of data collected, automatic detection and classification methods are necessary. Recently the development of such methods, which includes training and then testing the models, is mainly based on so-called ground-truth labels, obtained by manual annotation of audio files.However, manual annotation is a difficult and time-consuming process because of the large size of the datasets, the large diversity of the sounds, their unfamiliar representation, the variant quality of the acoustic recordings and the variability in human appreciation.These different factors induce non-negligible differences from one annotator to another, and better quantifying and understanding such differences is capital to make progress in machine learning applications.On this topic, the inter-annotator variability is investigated on three multi-annotator annotation campaigns performed on different marine bioacoustics datasets. Each of them gathered more than 10 annotators with different profiles, from novices to field experts, covering different annotation tasks, different geographical areas and varieties of sound classes. From this multi-annotation, this work enhances the understanding of the inter-annotator variability through the kappa-metrics. In a second part, from a grouping method of annotation based on a majority vote, a drastic reduction of the potential errors in the annotation from novice annotators is observed. This last observation enlightens the possibility of using citizen sciences to overcome the lack of annotation, while maintaining a quality of annotation expected by an expert.},
+  keywords = {Training;Systematics;Annotations;Biological system modeling;Manuals;Acoustics;Recording;marine bioacoustics;passive acoustic monitoring;citizen sciences;inter-annotator agreement;manual annotation},
+  doi = {10.1109/OCEANSLimerick52467.2023.10244502},
+  issn = {},
+  month = {June},
+  publisher = {Princeton University Press},
+}</code></pre>
+      </details>
+    </article>
+  </main>
+</div>
+
+</div>
+<footer class="site-footer">
+  <div class="footer-inner">
+    <p>
+      <strong>Jesse Wood</strong> · PhD Thesis · Victoria University of Wellington · 2025
+    </p>
+    <p class="footer-sub">Machine Learning for Rapid Evaporative Ionization Mass Spectrometry for Marine Biomass Analysis</p>
+  </div>
+</footer>
+<script src="../js/main.js"></script>
+</body>
+</html>

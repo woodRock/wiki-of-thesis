@@ -1,0 +1,97 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Deep Ordinal Classification in Forest Areas Using Light Dete… — ML for REIMS</title>
+  <link rel="stylesheet" href="../css/style.css">
+  <script>
+    // Apply saved theme before render
+    (function(){
+      const t = localStorage.getItem('theme');
+      if(t === 'dark') document.documentElement.classList.add('dark');
+    })();
+  </script>
+  
+</head>
+<body>
+<nav class="site-nav">
+  <div class="nav-inner">
+    <a href="../index.html" class="nav-brand">
+      <img src="../assets/university-logo.png" alt="University Logo" class="nav-logo" onerror="this.style.display='none'">
+      <span class="nav-title">ML for REIMS</span>
+    </a>
+    <div class="nav-links">
+      <a href="../index.html">Home</a>
+      <a href="../chapters/chapter-1.html">Chapters</a>
+      <a href="../papers.html">Papers</a>
+    </div>
+    <div class="nav-actions">
+      <button id="search-toggle" class="icon-btn" aria-label="Search">🔍</button>
+      <button id="theme-toggle" class="icon-btn" aria-label="Toggle theme">🌙</button>
+      <button id="menu-toggle" class="icon-btn" aria-label="Menu">☰</button>
+    </div>
+  </div>
+  <div id="mobile-menu" class="mobile-menu hidden">
+    <a href="../index.html">Home</a>
+    <a href="../chapters/chapter-1.html">Chapters</a>
+    <a href="../papers.html">All Papers</a>
+  </div>
+  <div id="search-bar" class="search-bar hidden">
+    <input type="text" id="search-input" placeholder="Search papers, concepts, authors…" autocomplete="off">
+    <div id="search-results" class="search-results"></div>
+  </div>
+</nav>
+<div id="page-wrapper">
+
+<div class="paper-layout">
+  <main class="paper-main">
+    <div class="breadcrumb"><a href="../index.html">Home</a> / <a href="../papers.html">Papers</a> / LiDARForest2024</div>
+
+    <article class="paper-article">
+      <header class="paper-header">
+        <h1 class="paper-title">Deep Ordinal Classification in Forest Areas Using Light Detection and Ranging Point Clouds</h1>
+        <p class="paper-authors">Alejandro Morales-Martín, F. Mesas-Carrascosa, P. Gutiérrez, F. Pérez-Porras, V. Vargas, C. Hervás‐Martínez</p>
+        <div class="paper-meta">
+          <span class="paper-year">2024</span>
+          <span class="paper-venue">Italian National Conference on Sensors</span>
+          <span class="cite-count">Cited 4 times</span>
+        </div>
+        <div class="paper-links"><a href="https://doi.org/10.3390/s24072168" target="_blank" class="ext-link">DOI ↗</a> <a href="https://www.mdpi.com/1424-8220/24/7/2168/pdf?version=1711622944" target="_blank" class="ext-link pdf-link">PDF ↗</a></div>
+      </header>
+
+      <div class="abstract-block"><h3>Abstract</h3><p>Recent advances in Deep Learning and aerial Light Detection And Ranging (LiDAR) have offered the possibility of refining the classification and segmentation of 3D point clouds to contribute to the monitoring of complex environments. In this context, the present study focuses on developing an ordinal classification model in forest areas where LiDAR point clouds can be classified into four distinct ordinal classes: ground, low vegetation, medium vegetation, and high vegetation. To do so, an effective soft labeling technique based on a novel proposed generalized exponential function (CE-GE) is applied to the PointNet network architecture. Statistical analyses based on Kolmogorov–Smirnov and Student’s t-test reveal that the CE-GE method achieves the best results for all the evaluation metrics compared to other methodologies. Regarding the confusion matrices of the best alternative conceived and the standard categorical cross-entropy method, the smoothed ordinal classification obtains a more consistent classification compared to the nominal approach. Thus, the proposed methodology significantly improves the point-by-point classification of PointNet, reducing the errors in distinguishing between the middle classes (low vegetation and medium vegetation).</p></div>
+
+      
+
+      <details class="bibtex-block">
+        <summary>BibTeX</summary>
+        <pre><code>@article{LiDARForest2024,
+  author = {Pena-Alonso, Christian and Perez-Alonso, Jose and Perez-Urrestarazu, Luis and Fernandez-Rebollo, Pilar and Hervas-Mart\&#x27; nez, Cesar},
+  title = {Deep Ordinal Classification in Forest Areas Using Light Detection and Ranging Point Clouds},
+  journal = {Sensors (Basel)},
+  year = {2024},
+  volume = {24},
+  number = {7},
+  pages = {2168},
+  month = {Mar},
+  doi = {10.3390/s24072168},
+  pmid = {38610379},
+}</code></pre>
+      </details>
+    </article>
+  </main>
+</div>
+
+</div>
+<footer class="site-footer">
+  <div class="footer-inner">
+    <p>
+      <strong>Jesse Wood</strong> · PhD Thesis · Victoria University of Wellington · 2025
+    </p>
+    <p class="footer-sub">Machine Learning for Rapid Evaporative Ionization Mass Spectrometry for Marine Biomass Analysis</p>
+  </div>
+</footer>
+<script src="../js/main.js"></script>
+</body>
+</html>

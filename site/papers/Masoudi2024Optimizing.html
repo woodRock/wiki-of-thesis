@@ -1,0 +1,100 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Optimizing Plankton Image Classification With Metadata-Enhan… — ML for REIMS</title>
+  <link rel="stylesheet" href="../css/style.css">
+  <script>
+    // Apply saved theme before render
+    (function(){
+      const t = localStorage.getItem('theme');
+      if(t === 'dark') document.documentElement.classList.add('dark');
+    })();
+  </script>
+  
+</head>
+<body>
+<nav class="site-nav">
+  <div class="nav-inner">
+    <a href="../index.html" class="nav-brand">
+      <img src="../assets/university-logo.png" alt="University Logo" class="nav-logo" onerror="this.style.display='none'">
+      <span class="nav-title">ML for REIMS</span>
+    </a>
+    <div class="nav-links">
+      <a href="../index.html">Home</a>
+      <a href="../chapters/chapter-1.html">Chapters</a>
+      <a href="../papers.html">Papers</a>
+    </div>
+    <div class="nav-actions">
+      <button id="search-toggle" class="icon-btn" aria-label="Search">🔍</button>
+      <button id="theme-toggle" class="icon-btn" aria-label="Toggle theme">🌙</button>
+      <button id="menu-toggle" class="icon-btn" aria-label="Menu">☰</button>
+    </div>
+  </div>
+  <div id="mobile-menu" class="mobile-menu hidden">
+    <a href="../index.html">Home</a>
+    <a href="../chapters/chapter-1.html">Chapters</a>
+    <a href="../papers.html">All Papers</a>
+  </div>
+  <div id="search-bar" class="search-bar hidden">
+    <input type="text" id="search-input" placeholder="Search papers, concepts, authors…" autocomplete="off">
+    <div id="search-results" class="search-results"></div>
+  </div>
+</nav>
+<div id="page-wrapper">
+
+<div class="paper-layout">
+  <main class="paper-main">
+    <div class="breadcrumb"><a href="../index.html">Home</a> / <a href="../papers.html">Papers</a> / Masoudi2024Optimizing</div>
+
+    <article class="paper-article">
+      <header class="paper-header">
+        <h1 class="paper-title">Optimizing Plankton Image Classification With Metadata-Enhanced Representation Learning</h1>
+        <p class="paper-authors">Mojtaba Masoudi, Sarah Giering, Noushin Eftekhari, M. Massot-Campos, J. Irisson, Blair Thornton</p>
+        <div class="paper-meta">
+          <span class="paper-year">2022</span>
+          <span class="paper-venue">IEEE Journal of Selected Topics in Applied Earth Observations and Remote Sensing</span>
+          <span class="cite-count">Cited 5 times</span>
+        </div>
+        <div class="paper-links"><a href="https://doi.org/10.1109/JSTARS.2024.3424498" target="_blank" class="ext-link">DOI ↗</a></div>
+      </header>
+
+      <div class="abstract-block"><h3>Abstract</h3><p>Automated camera-based sensors are widely used in vessel-based research to monitor plankton and marine particles. However, current methods suffer from the costly and time-consuming requirement of annotating data for fully supervised learning, especially in plankton grouping tasks characterized by long-tailed datasets. In response, we propose a novel self-supervised learning framework that significantly reduces reliance on expensive human annotations by leveraging crucial metadata such as water depth and location. The method comprises three major steps: self-supervised training, innovative sampling, and final classification. It identifies key sample subsets from an unlabeled dataset using a hierarchical clustering approach and incorporates an innovative balancing representative subsampling strategy that addresses the challenge of dataset imbalance and enhances generalizability across diverse plankton classes. Our approach prioritizes discerning representation features observed in images that exhibit correlations with the patterns found in their associated metadata. Furthermore, our method introduces a novel grouping based on the visual perspective selection method, enabling the identification of balanced subset views that depart from traditional class-based categorization. Our experimental results showcase a significant enhancement in image classification accuracy, with a 23% improvement over methods that do not utilize metadata, and attains a macro F1-score of 54% for ten populated species from a severely long-tailed dataset. This is achieved with a mere 0.3% of the entire dataset used for annotation.</p></div>
+
+      
+
+      <details class="bibtex-block">
+        <summary>BibTeX</summary>
+        <pre><code>@article{Masoudi2024Optimizing,
+  author = {Matsuo, Yutaka and LeCun, Yann and Sahani, Maneesh and Precup, Doina and Silver, David and Sugiyama, Masashi and Uchibe, Eiji and Morimoto, Jun},
+  journal = {Neural Networks},
+  title = {Deep learning, reinforcement learning, and world models},
+  year = {2022},
+  volume = {17},
+  number = {},
+  pages = {17117-17133},
+  abstract = {Automated camera-based sensors are widely used in vessel-based research to monitor plankton and marine particles. However, current methods suffer from the costly and time-consuming requirement of annotating data for fully supervised learning, especially in plankton grouping tasks characterized by long-tailed datasets. In response, we propose a novel self-supervised learning framework that significantly reduces reliance on expensive human annotations by leveraging crucial metadata such as water depth and location. The method comprises three major steps: self-supervised training, innovative sampling, and final classification. It identifies key sample subsets from an unlabeled dataset using a hierarchical clustering approach and incorporates an innovative balancing representative subsampling strategy that addresses the challenge of dataset imbalance and enhances generalizability across diverse plankton classes. Our approach prioritizes discerning representation features observed in images that exhibit correlations with the patterns found in their associated metadata. Furthermore, our method introduces a novel grouping based on the visual perspective selection method, enabling the identification of balanced subset views that depart from traditional class-based categorization. Our experimental results showcase a significant enhancement in image classification accuracy, with a 23% improvement over methods that do not utilize metadata, and attains a macro F1-score of 54% for ten populated species from a severely long-tailed dataset. This is achieved with a mere 0.3% of the entire dataset used for annotation.},
+  keywords = {Plankton;Visualization;Training;Annotations;Task analysis;Accuracy;Monitoring;Convolutional neural network (CNN);marine imaging;plankton;representation learning;self-supervised learning (SSL)},
+  doi = {10.1109/JSTARS.2024.3424498},
+  issn = {2151-1535},
+  month = {},
+  publisher = {Elsevier},
+}</code></pre>
+      </details>
+    </article>
+  </main>
+</div>
+
+</div>
+<footer class="site-footer">
+  <div class="footer-inner">
+    <p>
+      <strong>Jesse Wood</strong> · PhD Thesis · Victoria University of Wellington · 2025
+    </p>
+    <p class="footer-sub">Machine Learning for Rapid Evaporative Ionization Mass Spectrometry for Marine Biomass Analysis</p>
+  </div>
+</footer>
+<script src="../js/main.js"></script>
+</body>
+</html>

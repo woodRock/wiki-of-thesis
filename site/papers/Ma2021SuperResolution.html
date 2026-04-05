@@ -1,0 +1,102 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Super-resolution for in situ Plankton Images… — ML for REIMS</title>
+  <link rel="stylesheet" href="../css/style.css">
+  <script>
+    // Apply saved theme before render
+    (function(){
+      const t = localStorage.getItem('theme');
+      if(t === 'dark') document.documentElement.classList.add('dark');
+    })();
+  </script>
+  
+</head>
+<body>
+<nav class="site-nav">
+  <div class="nav-inner">
+    <a href="../index.html" class="nav-brand">
+      <img src="../assets/university-logo.png" alt="University Logo" class="nav-logo" onerror="this.style.display='none'">
+      <span class="nav-title">ML for REIMS</span>
+    </a>
+    <div class="nav-links">
+      <a href="../index.html">Home</a>
+      <a href="../chapters/chapter-1.html">Chapters</a>
+      <a href="../papers.html">Papers</a>
+    </div>
+    <div class="nav-actions">
+      <button id="search-toggle" class="icon-btn" aria-label="Search">🔍</button>
+      <button id="theme-toggle" class="icon-btn" aria-label="Toggle theme">🌙</button>
+      <button id="menu-toggle" class="icon-btn" aria-label="Menu">☰</button>
+    </div>
+  </div>
+  <div id="mobile-menu" class="mobile-menu hidden">
+    <a href="../index.html">Home</a>
+    <a href="../chapters/chapter-1.html">Chapters</a>
+    <a href="../papers.html">All Papers</a>
+  </div>
+  <div id="search-bar" class="search-bar hidden">
+    <input type="text" id="search-input" placeholder="Search papers, concepts, authors…" autocomplete="off">
+    <div id="search-results" class="search-results"></div>
+  </div>
+</nav>
+<div id="page-wrapper">
+
+<div class="paper-layout">
+  <main class="paper-main">
+    <div class="breadcrumb"><a href="../index.html">Home</a> / <a href="../papers.html">Papers</a> / Ma2021SuperResolution</div>
+
+    <article class="paper-article">
+      <header class="paper-header">
+        <h1 class="paper-title">Super-resolution for in situ Plankton Images</h1>
+        <p class="paper-authors">Wenqi Ma, T. Chen, Zhengwen Zhang, Zhenyu Yang, Chao Dong, Jianping Qiao et al.</p>
+        <div class="paper-meta">
+          <span class="paper-year">2018</span>
+          <span class="paper-venue">2021 IEEE/CVF International Conference on Computer Vision Workshops (ICCVW)</span>
+          <span class="cite-count">Cited 6 times</span>
+        </div>
+        <div class="paper-links"><a href="https://doi.org/10.1109/ICCVW54120.2021.00411" target="_blank" class="ext-link">DOI ↗</a></div>
+      </header>
+
+      <div class="abstract-block"><h3>Abstract</h3><p>Being inherently limited by the wave properties of light, underwater plankton cameras compromise between their imaging resolution and field of view (FOV) for in situ observations. In order to enlarge the sampling volume in single frame acquisition, lower magnifications are usually adopted to enable larger FOV but sacrifice the resolution. In this paper, we build a real-underwater image dataset called IsPlanktonSR for in situ plankton im-age super-resolution (SR), in which paired low resolution (LR) and high resolution (HR) images of the same individual live planktonic organisms are captured by a customized dual-channel darkfield imaging system. An image registration algorithmic pipeline is also proposed to preprocess and align the image pairs at different scaling factors of 2× and 4×. The IsPlanktonSR dataset is used to train an enhanced deep residual network for SR through the L2, the perceptual and the contextual losses, respectively. Our extensive experimental results demonstrate that the deep learning model trained on real data through the contextual loss has de-livered better visual and quantitative SR performance than those trained on simulated data or through other loss functions. The trained SR model is also proved to generalize well to images of various plankton species or captured by different instruments. The proposed SR technology is anticipated to enhance the existing darkfield plankton imageries and enable the future in situ plankton imaging instruments for better observation capability and hence deepen under-standing of the plankton ecology.</p></div>
+
+      
+
+      <details class="bibtex-block">
+        <summary>BibTeX</summary>
+        <pre><code>@inproceedings{Ma2021SuperResolution,
+  author = {Mackay, Hamish},
+  booktitle = {2021 IEEE/CVF International Conference on Computer Vision Workshops (ICCVW)},
+  title = {Meat testing: A fifth of samples reveal unspecified animals&#x27; DNA},
+  year = {2018},
+  volume = {},
+  number = {},
+  pages = {3676-3685},
+  abstract = {Being inherently limited by the wave properties of light, underwater plankton cameras compromise between their imaging resolution and field of view (FOV) for in situ observations. In order to enlarge the sampling volume in single frame acquisition, lower magnifications are usually adopted to enable larger FOV but sacrifice the resolution. In this paper, we build a real-underwater image dataset called IsPlanktonSR for in situ plankton im-age super-resolution (SR), in which paired low resolution (LR) and high resolution (HR) images of the same individual live planktonic organisms are captured by a customized dual-channel darkfield imaging system. An image registration algorithmic pipeline is also proposed to preprocess and align the image pairs at different scaling factors of 2× and 4×. The IsPlanktonSR dataset is used to train an enhanced deep residual network for SR through the L2, the perceptual and the contextual losses, respectively. Our extensive experimental results demonstrate that the deep learning model trained on real data through the contextual loss has de-livered better visual and quantitative SR performance than those trained on simulated data or through other loss functions. The trained SR model is also proved to generalize well to images of various plankton species or captured by different instruments. The proposed SR technology is anticipated to enhance the existing darkfield plankton imageries and enable the future in situ plankton imaging instruments for better observation capability and hence deepen under-standing of the plankton ecology.},
+  keywords = {Deep learning;Visualization;Image registration;Instruments;Biological system modeling;Superresolution;Pipelines},
+  doi = {10.1109/ICCVW54120.2021.00411},
+  issn = {2473-9944},
+  month = {Sep},
+  howpublished = {https://www.bbc.com/news/uk-45371852},
+  journal = {BBC News},
+  publisher = {BBC},
+}</code></pre>
+      </details>
+    </article>
+  </main>
+</div>
+
+</div>
+<footer class="site-footer">
+  <div class="footer-inner">
+    <p>
+      <strong>Jesse Wood</strong> · PhD Thesis · Victoria University of Wellington · 2025
+    </p>
+    <p class="footer-sub">Machine Learning for Rapid Evaporative Ionization Mass Spectrometry for Marine Biomass Analysis</p>
+  </div>
+</footer>
+<script src="../js/main.js"></script>
+</body>
+</html>

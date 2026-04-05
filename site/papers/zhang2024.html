@@ -1,0 +1,96 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Fish Biomass Estimation Under Occluded Features: A Framework… — ML for REIMS</title>
+  <link rel="stylesheet" href="../css/style.css">
+  <script>
+    // Apply saved theme before render
+    (function(){
+      const t = localStorage.getItem('theme');
+      if(t === 'dark') document.documentElement.classList.add('dark');
+    })();
+  </script>
+  
+</head>
+<body>
+<nav class="site-nav">
+  <div class="nav-inner">
+    <a href="../index.html" class="nav-brand">
+      <img src="../assets/university-logo.png" alt="University Logo" class="nav-logo" onerror="this.style.display='none'">
+      <span class="nav-title">ML for REIMS</span>
+    </a>
+    <div class="nav-links">
+      <a href="../index.html">Home</a>
+      <a href="../chapters/chapter-1.html">Chapters</a>
+      <a href="../papers.html">Papers</a>
+    </div>
+    <div class="nav-actions">
+      <button id="search-toggle" class="icon-btn" aria-label="Search">🔍</button>
+      <button id="theme-toggle" class="icon-btn" aria-label="Toggle theme">🌙</button>
+      <button id="menu-toggle" class="icon-btn" aria-label="Menu">☰</button>
+    </div>
+  </div>
+  <div id="mobile-menu" class="mobile-menu hidden">
+    <a href="../index.html">Home</a>
+    <a href="../chapters/chapter-1.html">Chapters</a>
+    <a href="../papers.html">All Papers</a>
+  </div>
+  <div id="search-bar" class="search-bar hidden">
+    <input type="text" id="search-input" placeholder="Search papers, concepts, authors…" autocomplete="off">
+    <div id="search-results" class="search-results"></div>
+  </div>
+</nav>
+<div id="page-wrapper">
+
+<div class="paper-layout">
+  <main class="paper-main">
+    <div class="breadcrumb"><a href="../index.html">Home</a> / <a href="../papers.html">Papers</a> / zhang2024</div>
+
+    <article class="paper-article">
+      <header class="paper-header">
+        <h1 class="paper-title">Fish Biomass Estimation Under Occluded Features: A Framework Combining Imputation and Regression</h1>
+        <p class="paper-authors">Yaohui Yang, Lijun Zhang, Zhixiang Liu, Tuyan Luo, Baolong Bao, Liping Zhou et al.</p>
+        <div class="paper-meta">
+          <span class="paper-year">2024</span>
+          <span class="paper-venue">Fishes</span>
+          <span class="cite-count">Cited 2 times</span>
+        </div>
+        <div class="paper-links"><a href="https://doi.org/10.3390/fishes10070306" target="_blank" class="ext-link">DOI ↗</a></div>
+      </header>
+
+      <div class="abstract-block"><h3>Abstract</h3><p>In biomass estimation based on size-related features, regression models are commonly used to predict fish mass. However, in real-world scenarios, fish are often partially occluded by others, resulting in missing or corrupted features. To address this issue, we propose a robust framework that integrates feature imputation with regression. Missing features are first reconstructed through imputation, followed by regression for biomass prediction. We evaluated various imputation and regression methods and found that the autoencoder achieved the best performance in imputation. Among regression models, SVR, Extra Trees, and MLP performed best in their respective categories. These three models, combined with the autoencoder, were selected to construct the final framework. Experimental results demonstrate that the proposed framework significantly improves performance. For instance, the RMSE of SVR, Extra Trees, and MLP decreased from 21.10 g, 2.49 g, and 18.40 g to 6.53 g, 1.95 g, and 5.09 g, respectively.</p></div>
+
+      
+
+      <details class="bibtex-block">
+        <summary>BibTeX</summary>
+        <pre><code>@article{zhang2024,
+  title = {Fish Biomass Estimation Under Occluded Features: A Framework Combining Imputation and Regression},
+  author = {Zhang, Xu and Yang, Wentao and Liu, Haoran and Fang, Yuan and Chen, Chao and Yang, Xian},
+  journal = {Journal of Marine Science and Engineering},
+  volume = {10},
+  number = {7},
+  pages = {306},
+  year = {2024},
+  publisher = {MDPI},
+  abstract = {In biomass estimation based on size-related features, regression models are commonly used to predict fish mass. However, in real-world scenarios, fish are often partially occluded by others, resulting in missing or corrupted features. To address this issue, we propose a robust framework that integrates feature imputation with regression. Missing features are first reconstructed through imputation, followed by regression for biomass prediction. We evaluated various imputation and regression methods and found that the autoencoder achieved the best performance in imputation. Among regression models, SVR, Extra Trees, and MLP performed best in their respective categories. These three models, combined with the autoencoder, were selected to construct the final framework. Experimental results demonstrate that the proposed framework significantly improves performance. For instance, the RMSE of SVR, Extra Trees, and MLP decreased from 21.10 g, 2.49 g, and 18.40 g to 6.53 g, 1.95 g, and 5.09 g, respectively.},
+}</code></pre>
+      </details>
+    </article>
+  </main>
+</div>
+
+</div>
+<footer class="site-footer">
+  <div class="footer-inner">
+    <p>
+      <strong>Jesse Wood</strong> · PhD Thesis · Victoria University of Wellington · 2025
+    </p>
+    <p class="footer-sub">Machine Learning for Rapid Evaporative Ionization Mass Spectrometry for Marine Biomass Analysis</p>
+  </div>
+</footer>
+<script src="../js/main.js"></script>
+</body>
+</html>

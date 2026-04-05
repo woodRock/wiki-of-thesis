@@ -1,0 +1,92 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Automatic Design of Convolutional Neural Network Architectur… — ML for REIMS</title>
+  <link rel="stylesheet" href="../css/style.css">
+  <script>
+    // Apply saved theme before render
+    (function(){
+      const t = localStorage.getItem('theme');
+      if(t === 'dark') document.documentElement.classList.add('dark');
+    })();
+  </script>
+  
+</head>
+<body>
+<nav class="site-nav">
+  <div class="nav-inner">
+    <a href="../index.html" class="nav-brand">
+      <img src="../assets/university-logo.png" alt="University Logo" class="nav-logo" onerror="this.style.display='none'">
+      <span class="nav-title">ML for REIMS</span>
+    </a>
+    <div class="nav-links">
+      <a href="../index.html">Home</a>
+      <a href="../chapters/chapter-1.html">Chapters</a>
+      <a href="../papers.html">Papers</a>
+    </div>
+    <div class="nav-actions">
+      <button id="search-toggle" class="icon-btn" aria-label="Search">🔍</button>
+      <button id="theme-toggle" class="icon-btn" aria-label="Toggle theme">🌙</button>
+      <button id="menu-toggle" class="icon-btn" aria-label="Menu">☰</button>
+    </div>
+  </div>
+  <div id="mobile-menu" class="mobile-menu hidden">
+    <a href="../index.html">Home</a>
+    <a href="../chapters/chapter-1.html">Chapters</a>
+    <a href="../papers.html">All Papers</a>
+  </div>
+  <div id="search-bar" class="search-bar hidden">
+    <input type="text" id="search-input" placeholder="Search papers, concepts, authors…" autocomplete="off">
+    <div id="search-results" class="search-results"></div>
+  </div>
+</nav>
+<div id="page-wrapper">
+
+<div class="paper-layout">
+  <main class="paper-main">
+    <div class="breadcrumb"><a href="../index.html">Home</a> / <a href="../papers.html">Papers</a> / Li2021</div>
+
+    <article class="paper-article">
+      <header class="paper-header">
+        <h1 class="paper-title">Automatic Design of Convolutional Neural Network Architectures Under Resource Constraints</h1>
+        <p class="paper-authors">Siyi Li, Yanan Sun, G. Yen, Mengjie Zhang</p>
+        <div class="paper-meta">
+          <span class="paper-year">2021</span>
+          <span class="paper-venue">IEEE Transactions on Neural Networks and Learning Systems</span>
+          <span class="cite-count">Cited 29 times</span>
+        </div>
+        <div class="paper-links"><a href="https://doi.org/10.1109/TNNLS.2021.3123105" target="_blank" class="ext-link">DOI ↗</a></div>
+      </header>
+
+      <div class="abstract-block"><h3>Abstract</h3><p>With the rise of various smart electronics and mobile/edge devices, many existing high-accuracy convolutional neural network (CNN) models are difficult to be applied in practice due to the limited resources, such as memory capacity, power consumption, and spectral efficiency. In order to meet these constraints, researchers have carefully designed some lightweight networks. Meanwhile, to reduce the reliance on manual design on expert experience, some researchers also work to improve neural architecture search (NAS) algorithms to automatically design small networks, exploiting the multiobjective approaches that consider both accuracy and other important goals during optimization. However, simply searching for smaller network models is not consistent with the current research belief of “the deeper the better” and may affect the effectiveness of the model and thus waste the limited resources available. In this article, we propose an automatic method for designing CNNs architectures under constraint handling, which can search for optimal network models meeting the preset constraint. Specifically, an adaptive penalty algorithm is used for fitness evaluation, and a selective repair operation is developed for infeasible individuals to search for feasible CNN architectures. As a case study, we set the complexity (the number of parameters) as a resource constraint and perform multiple experiments on CIFAR-10 and CIFAR-100, to demonstrate the effectiveness of the proposed method. In addition, the proposed algorithm is compared with a state-of-the-art algorithm, NSGA-Net, and several manual-designed models. The experimental results show that the proposed algorithm can successfully solve the problem of the uncertain size of the optimal CNN model under the random search strategy, and the automatically designed CNN model can satisfy the predefined resource constraint while achieving better accuracy.</p></div>
+
+      <div class="cited-in-block"><h3>Cited in this thesis</h3><div class="cite-chips"><a href="../chapters/chapter-2.html" class="cite-chip">Literature Survey</a></div></div>
+
+      <details class="bibtex-block">
+        <summary>BibTeX</summary>
+        <pre><code>@article{Li2021,
+  author = {Li, Siyi and Sun, Yanan and Yen, Gary G and Zhang, Mengjie},
+  journal = {IEEE Transactions on Neural Networks and Learning Systems},
+  title = {Automatic design of convolutional neural network architectures under resource constraints},
+  year = {2021},
+  publisher = {IEEE},
+}</code></pre>
+      </details>
+    </article>
+  </main>
+</div>
+
+</div>
+<footer class="site-footer">
+  <div class="footer-inner">
+    <p>
+      <strong>Jesse Wood</strong> · PhD Thesis · Victoria University of Wellington · 2025
+    </p>
+    <p class="footer-sub">Machine Learning for Rapid Evaporative Ionization Mass Spectrometry for Marine Biomass Analysis</p>
+  </div>
+</footer>
+<script src="../js/main.js"></script>
+</body>
+</html>

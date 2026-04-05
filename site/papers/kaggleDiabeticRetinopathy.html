@@ -1,0 +1,91 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Uncertainty-aware diabetic retinopathy detection using deep … — ML for REIMS</title>
+  <link rel="stylesheet" href="../css/style.css">
+  <script>
+    // Apply saved theme before render
+    (function(){
+      const t = localStorage.getItem('theme');
+      if(t === 'dark') document.documentElement.classList.add('dark');
+    })();
+  </script>
+  
+</head>
+<body>
+<nav class="site-nav">
+  <div class="nav-inner">
+    <a href="../index.html" class="nav-brand">
+      <img src="../assets/university-logo.png" alt="University Logo" class="nav-logo" onerror="this.style.display='none'">
+      <span class="nav-title">ML for REIMS</span>
+    </a>
+    <div class="nav-links">
+      <a href="../index.html">Home</a>
+      <a href="../chapters/chapter-1.html">Chapters</a>
+      <a href="../papers.html">Papers</a>
+    </div>
+    <div class="nav-actions">
+      <button id="search-toggle" class="icon-btn" aria-label="Search">🔍</button>
+      <button id="theme-toggle" class="icon-btn" aria-label="Toggle theme">🌙</button>
+      <button id="menu-toggle" class="icon-btn" aria-label="Menu">☰</button>
+    </div>
+  </div>
+  <div id="mobile-menu" class="mobile-menu hidden">
+    <a href="../index.html">Home</a>
+    <a href="../chapters/chapter-1.html">Chapters</a>
+    <a href="../papers.html">All Papers</a>
+  </div>
+  <div id="search-bar" class="search-bar hidden">
+    <input type="text" id="search-input" placeholder="Search papers, concepts, authors…" autocomplete="off">
+    <div id="search-results" class="search-results"></div>
+  </div>
+</nav>
+<div id="page-wrapper">
+
+<div class="paper-layout">
+  <main class="paper-main">
+    <div class="breadcrumb"><a href="../index.html">Home</a> / <a href="../papers.html">Papers</a> / kaggleDiabeticRetinopathy</div>
+
+    <article class="paper-article">
+      <header class="paper-header">
+        <h1 class="paper-title">Uncertainty-aware diabetic retinopathy detection using deep learning enhanced by Bayesian approaches</h1>
+        <p class="paper-authors">M. Usman Akram, Muhammad Adnan, Syed Farooq Ali, Jameel Ahmad, Amr H. Yousef, T. Alshalali et al.</p>
+        <div class="paper-meta">
+          <span class="paper-year">2015</span>
+          <span class="paper-venue">Scientific Reports</span>
+          <span class="cite-count">Cited 51 times</span>
+        </div>
+        <div class="paper-links"><a href="https://doi.org/10.1038/s41598-024-84478-x" target="_blank" class="ext-link">DOI ↗</a> <a href="https://doi.org/10.1038/s41598-024-84478-x" target="_blank" class="ext-link pdf-link">PDF ↗</a></div>
+      </header>
+
+      <div class="abstract-block"><h3>Abstract</h3><p>Deep learning-based medical image analysis has shown strong potential in disease categorization, segmentation, detection, and even prediction. However, in high-stakes and complex domains like healthcare, the opaque nature of these models makes it challenging to trust predictions, particularly in uncertain cases. This sort of uncertainty can be crucial in medical image analysis; diabetic retinopathy is an example where even slight errors without an indication of confidence can have adverse impacts. Traditional deep learning models rely on single-point predictions, limiting their ability to provide uncertainty measures essential for robust clinical decision-making. To solve this issue, Bayesian approximation approaches have evolved and are gaining market traction. In this work, we implemented a transfer learning approach, building upon the DenseNet-121 convolutional neural network to detect diabetic retinopathy, followed by Bayesian extensions to the trained model. Bayesian approximation techniques, including Monte Carlo Dropout, Mean Field Variational Inference, and Deterministic Inference, were applied to represent the posterior predictive distribution, allowing us to evaluate uncertainty in model predictions. Our experiments on a combined dataset (APTOS 2019 + DDR) with pre-processed images showed that the Bayesian-augmented DenseNet-121 outperforms state-of-the-art models in test accuracy, achieving 97.68% for the Monte Carlo Dropout model, 94.23% for Mean Field Variational Inference, and 91.44% for the Deterministic model. We also measure how certain the predictions are, using an entropy and a standard deviation metric for each approach. We also evaluated the model using both AUC and accuracy scores at multiple data retention levels. In addition to overall performance boosts, these results highlight that Bayesian deep learning does not only improve classification accuracy in the detection of diabetic retinopathy but also reveals beneficial insights about how uncertainty estimation can help build more trustworthy clinical decision-making solutions.</p></div>
+
+      
+
+      <details class="bibtex-block">
+        <summary>BibTeX</summary>
+        <pre><code>@misc{kaggleDiabeticRetinopathy,
+  title = {Diabetic Retinopathy Detection},
+  author = {Kaggle},
+  year = {2015},
+  howpublished = {https://www.kaggle.com/c/diabetic-retinopathy-detection},
+}</code></pre>
+      </details>
+    </article>
+  </main>
+</div>
+
+</div>
+<footer class="site-footer">
+  <div class="footer-inner">
+    <p>
+      <strong>Jesse Wood</strong> · PhD Thesis · Victoria University of Wellington · 2025
+    </p>
+    <p class="footer-sub">Machine Learning for Rapid Evaporative Ionization Mass Spectrometry for Marine Biomass Analysis</p>
+  </div>
+</footer>
+<script src="../js/main.js"></script>
+</body>
+</html>

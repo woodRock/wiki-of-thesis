@@ -1,0 +1,103 @@
+\documentclass[11pt, a4paper, twoside, openright]{book}
+
+\usepackage[round]{natbib}  % For citation management
+\usepackage{style}
+\usepackage{url}
+\usepackage{quoting}  % For creating definition blocks
+\usepackage{caption}
+\usepackage{subcaption} 
+\usepackage{graphicx}
+\usepackage{multirow}
+\usepackage{amsfonts}
+\usepackage{amsmath}
+\usepackage{bm}  % For bold symbols in math.
+\usepackage{relsize}
+\usepackage{tabularx}
+\usepackage{enumitem}
+\usepackage{rotating}  % For rotating figures.
+\usepackage[para,online,flushleft]{threeparttable}
+\usepackage[ruled,vlined,noend,linesnumbered]{algorithm2e}
+\usepackage{afterpage}
+\usepackage{multicol}
+\usepackage{arydshln}
+\usepackage{cleveref}
+\usepackage{subcaption}
+\usepackage[table]{xcolor}
+\usepackage{ragged2e} % For command if needed for paragraphs, though itemize usually handles this.
+\usepackage{float} % Allow absolute  positioning in figures. 
+\usepackage{booktabs} % Tables with midrule and such.
+% \usepackage{amsmath} % Required for AMS-LaTeX environments, like bmatrix
+\usepackage{algorithm} % Required for the algorithm environment
+\usepackage{algpseudocode} % Required for algorithmicx (provides \BState)
+% Add these packages to your preamble if you haven't already
+% \usepackage{booktabs}
+\usepackage{siunitx}
+% \usepackage{booktabs}
+% \usepackage{tabularx}
+\usepackage{makecell}
+\usepackage{totcount}
+
+\newtotcounter{citnum} %From the package documentation
+\def\oldbibitem{} \let\oldbibitem=\bibitem
+\def\bibitem{\stepcounter{citnum}\oldbibitem}
+
+
+
+\raggedbottom
+
+\begin{document}
+
+\frontmatter
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+\title{
+Machine Learning for Rapid Evaporative Ionization Mass Spectrometry for Marine Biomass Analysis
+\total{citnum}\ citations later... 
+}
+\author{Jesse Wood}
+\subject{Artificial Intelligence}
+
+\abstract{
+This thesis advances seafood processing by applying deep learning to Rapid Evaporative Ionization Mass Spectrometry (REIMS) data, enabling automated and accurate marine biomass analysis.
+
+This research addresses critical industry challenges in quality control, food safety, and fraud prevention. These include foundational tasks like species identification to combat mislabeling fraud and body part classification to optimize by-product utilization and prevent adulteration with offal. It also formalizes novel food safety problems, such as detecting oil contamination (a food safety hazard) and cross-species adulteration (a form of economic fraud). Finally, it tackles batch traceability, a task essential for rapid product recalls that currently relies on costly and impractical physical tagging methods.
+
+To achieve this, the thesis first establishes a suite of advanced models for foundational tasks species and body part identification (Chapter 4), drawing on datasets described in Chapter 3. Specifically, this involves a binary classification dataset of 106 samples for Hoki and Mackerel identification and a multi-class dataset of 33 samples for classifying seven distinct body parts (fillets, heads, livers, skins, gonads, guts, and frames). The work then formalizes and solves novel food safety problems, including oil contamination (seven ordinal concentration levels from $50\%$ to $0\%$ in a 126-sample dataset) and cross-species adulteration (pure Hoki, pure Mackerel, and mixed Hoki-Mackerel samples from a 144-sample dataset) (Chapter 5), also based on Chapter 3 data. Finally, it introduces a self-supervised framework to address the challenge of batch traceability using a highly imbalanced, pairwise comparison dataset of 2,556 instances, derived from 72 fish samples across 24 distinct batches (Chapter 6). The high-dimensional nature of the REIMS data, with 2,080 features per spectrum for all tasks, necessitates sophisticated solutions.
+
+Key contributions include the development of advanced Transformer architectures, which significantly outperform traditional methods by achieving up to $100\%$ accuracy in species identification. The study also critically evaluates Mixture of Experts (MoE) Transformers to determine optimal configurations and investigates the asymmetric effects of transfer learning across different tasks, namely species identification, body part classification, oil contamination, and cross-species adulteration detection. Furthermore, a comparative analysis of ordinal classification techniques is included, demonstrating that models designed for ordered data significantly reduce error distance in graded contamination tasks. For batch traceability, a novel self-supervised contrastive learning method, SpectroSim, is introduced, which identifies sample origins with $70.8\%$ accuracy without using class labels. Explainable AI techniques are employed to ensure model predictions are interpretable, enhancing trust and providing chemically relevant insights.
+
+This research is motivated by the need to overcome the limitations of current state-of-the-art analytical methods. The standard approach for REIMS analysis relies on traditional chemometric techniques like Orthogonal Partial Least Squares Discriminant Analysis (OPLS-DA), which are often limited in their ability to model the complex, non-linear, and high-dimensional nature of mass spectra. For the foundational task of species and body part identification (Chapter 4), the challenge was to classify samples from complex and high-dimensional REIMS data. This was addressed by developing novel Transformer architectures that achieved near-perfect accuracy (up to $100\%$), establishing a new performance benchmark. For the novel tasks of oil contamination and cross-species adulteration (Chapter 5), the challenge was to detect subtle chemical signatures often masked by the sample’s primary chemical profile. This was solved by adapting advanced models to these difficult classification problems and systematically applying transfer learning, which was found to consistently improve the detection of oil contamination. Finally, for batch traceability (Chapter 6), the challenge was to create a method that avoids costly physical tags and the need for impractical supervised labels. This was achieved by developing ``SpectroSim'', a self-supervised framework that accurately determines sample origin without labels, offering a practical and cost-effective solution for the industry.
+}
+\phd
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+\maketitle
+
+\include{chapter-0/main}
+
+\addtocontents{toc}{\vskip -0.1cm}  % Pushes contents slightly higher.
+\tableofcontents
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\mainmatter
+\pagestyle{fancy}
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+\include{chapter-1/main}
+\include{chapter-2/main}
+\include{chapter-3/main}
+\include{chapter-4/main}
+\include{chapter-5/main}
+\include{chapter-6/main}
+\include{chapter-7/main}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+\addcontentsline{toc}{chapter}{Bibliography}
+
+\bibliographystyle{style}
+\bibliography{refs}
+
+\end{document}

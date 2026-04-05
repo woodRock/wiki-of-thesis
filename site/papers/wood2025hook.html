@@ -1,0 +1,96 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>In-domain Self-supervised Learning for Plankton Image Classi… — ML for REIMS</title>
+  <link rel="stylesheet" href="../css/style.css">
+  <script>
+    // Apply saved theme before render
+    (function(){
+      const t = localStorage.getItem('theme');
+      if(t === 'dark') document.documentElement.classList.add('dark');
+    })();
+  </script>
+  
+</head>
+<body>
+<nav class="site-nav">
+  <div class="nav-inner">
+    <a href="../index.html" class="nav-brand">
+      <img src="../assets/university-logo.png" alt="University Logo" class="nav-logo" onerror="this.style.display='none'">
+      <span class="nav-title">ML for REIMS</span>
+    </a>
+    <div class="nav-links">
+      <a href="../index.html">Home</a>
+      <a href="../chapters/chapter-1.html">Chapters</a>
+      <a href="../papers.html">Papers</a>
+    </div>
+    <div class="nav-actions">
+      <button id="search-toggle" class="icon-btn" aria-label="Search">🔍</button>
+      <button id="theme-toggle" class="icon-btn" aria-label="Toggle theme">🌙</button>
+      <button id="menu-toggle" class="icon-btn" aria-label="Menu">☰</button>
+    </div>
+  </div>
+  <div id="mobile-menu" class="mobile-menu hidden">
+    <a href="../index.html">Home</a>
+    <a href="../chapters/chapter-1.html">Chapters</a>
+    <a href="../papers.html">All Papers</a>
+  </div>
+  <div id="search-bar" class="search-bar hidden">
+    <input type="text" id="search-input" placeholder="Search papers, concepts, authors…" autocomplete="off">
+    <div id="search-results" class="search-results"></div>
+  </div>
+</nav>
+<div id="page-wrapper">
+
+<div class="paper-layout">
+  <main class="paper-main">
+    <div class="breadcrumb"><a href="../index.html">Home</a> / <a href="../papers.html">Papers</a> / wood2025hook</div>
+
+    <article class="paper-article">
+      <header class="paper-header">
+        <h1 class="paper-title">In-domain Self-supervised Learning for Plankton Image Classification on a Budget</h1>
+        <p class="paper-authors">Massimiliano Ciranni, Ani Gjergji, Andrea Maracani, Vittorio Murino, Vito Paolo Pastore</p>
+        <div class="paper-meta">
+          
+          <span class="paper-venue">2025 IEEE/CVF Winter Conference on Applications of Computer Vision Workshops (WACVW)</span>
+          <span class="cite-count">Cited 4 times</span>
+        </div>
+        <div class="paper-links"><a href="https://doi.org/10.1109/WACVW65960.2025.00173" target="_blank" class="ext-link">DOI ↗</a></div>
+      </header>
+
+      <div class="abstract-block"><h3>Abstract</h3><p>In the last few years, the abundance of available plank-ton images has significantly increased due to advancements in acquisition system technology. Consequently, a growing interest in automatic plankton image classification has surged. Machine learning algorithms have recently emerged to assist in the analysis of this vast quantity of data, supporting traditional manual processing. However, annotating such data is costly and demands significant time and resources, thus requiring data-efficient machine learning solutions. The typical framework for tackling this issue has been the adoption of supervised ImageNet pre-trained models, and fine-tuning them on the plankton classification downstream task. Nonetheless, self-supervised pre-training protocols may provide an effective alternative to the supervised approaches using ImageNet, while allowing the exploitation of the increasingly large amount of unanno-tated plankton data. To the best of our knowledge, no work systematically analyzes the impact of self-supervised pre-training protocols for plankton image classification. To fill this gap, in this paper, we present a thorough comparison between in-domain (plankton images) and out-of-domain (ImageNet) supervised and self-supervised pre-training, in terms of the quality of the corresponding embeddings for plankton image classification. We believe that this work may pave the way for further research in self-supervised protocols for the plankton domain, providing a valuable alternative to ImageNet, and exploiting the vast amount of unannotated available plankton images.</p></div>
+
+      
+
+      <details class="bibtex-block">
+        <summary>BibTeX</summary>
+        <pre><code>@article{wood2025hook,
+  title = {Hook, line, and spectra: machine learning for fish species identification and body part classification using rapid evaporative ionization mass spectrometry},
+  author = {Wood, Jesse and Nguyen, Bach and Xue, Bing and Zhang, Mengjie and Killeen, Daniel},
+  journal = {Intelligent Marine Technology and Systems},
+  volume = {3},
+  number = {1},
+  pages = {16},
+  doi = {10.1109/WACVW65960.2025.00173},
+  publisher = {Springer},
+  abstract = {Marine biomass composition analysis traditionally requires time-consuming processes and domain expertise. This study demonstrates the effectiveness of rapid evaporative ionization mass spectrometry (REIMS) combined with advanced machine learning (ML) techniques for accurate marine biomass composition determination. Using fish species and body parts as model systems representing diverse biochemical profiles, we investigate various ML methods, including unsupervised pretraining strategies for transformers. The deep learning approaches consistently outperformed traditional machine learning across all tasks. For fish species classification, the pretrained transformer achieved 99.62% accuracy, and for fish body parts classification, the transformer achieved 84.06% accuracy. We further explored the explainability of the best-performing and predominantly black box models using local interpretable model-agnostic explanations and gradient-weighted class activation mapping to identify the important features driving the decisions behind each of the best performing classifiers. REIMS analysis with ML can be an accurate and potentially explainable technique for automated marine biomass composition analysis. Thus, REIMS analysis with ML has potential applications in quality control, product optimization, and food safety monitoring in marine-based industries.},
+}</code></pre>
+      </details>
+    </article>
+  </main>
+</div>
+
+</div>
+<footer class="site-footer">
+  <div class="footer-inner">
+    <p>
+      <strong>Jesse Wood</strong> · PhD Thesis · Victoria University of Wellington · 2025
+    </p>
+    <p class="footer-sub">Machine Learning for Rapid Evaporative Ionization Mass Spectrometry for Marine Biomass Analysis</p>
+  </div>
+</footer>
+<script src="../js/main.js"></script>
+</body>
+</html>

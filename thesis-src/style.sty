@@ -1,0 +1,102 @@
+% This defines the line spacing (1.5 spacing for 12pt see p53 of Goossens etc)
+\renewcommand{\baselinestretch}{1.15} % 1.24
+
+\usepackage{geometry}
+\usepackage{hyperref}
+\usepackage{xcolor}
+
+% This defines the pages margins.
+\geometry{
+  left=3cm,
+  right=3cm,
+  top=4.5cm,
+  bottom=3.3cm,
+  headsep=1cm
+}
+
+% Making the links such as in the contents page, equations, figures etc. clickable. 
+\definecolor{mydarkblue}{rgb}{0,0.08,0.55}
+\hypersetup{
+    colorlinks,
+    citecolor=mydarkblue,
+    filecolor=mydarkblue,
+    linkcolor=black,
+    urlcolor=mydarkblue
+}
+
+% Code for making the large chapter number.
+\usepackage{fix-cm}
+\usepackage{xcolor}
+\usepackage{titlesec}
+\newcommand{\hsp}{\hspace{0pt}}
+\titleformat{\chapter}[hang]{\vspace{-80pt}\flushright
+\fontseries{b}\fontsize{80}{100}\selectfont}{\fontseries{b}\fontsize{100}{130}\selectfont \textcolor{gray}\thechapter\hsp}{0pt}{~\\ \Huge\bfseries}[]
+
+% Code for making the page header for non plain pages.
+\usepackage{fancyhdr}
+\fancyhf{}
+\fancyhead[RE]{\slshape \leftmark} %section
+\fancyhead[LE]{\thepage}
+\fancyhead[LO]{\slshape \rightmark} % chapter
+\fancyhead[RO]{\thepage}
+
+% Code for making the page header for chapter and other plain pages.
+\fancypagestyle{plain}{%
+  \fancyhf{}%
+  \fancyhead[RO]{\thepage}%
+}
+
+% To declare the degree
+\def\phd{\gdef\@degree{Doctor of Philosophy}}
+\gdef\@ffil{fulfilment}
+
+% to declare the subject
+\def\subject#1{\gdef\@subject{#1}}
+\gdef\@subject{SUBJECT NOT STATED}
+
+\newcommand{\abstract}[1]{\gdef\@abstract{#1}}
+
+% This is the code for making the administrative cover pages etc.
+\def\maketitle{\begin{titlepage}
+\thispagestyle{empty}
+ \let\footnotesize\small
+ \let\footnoterule\relax
+ \if@twoside\setcounter{page}{-1}\else\setcounter{page}{0}\fi
+ \null
+
+ \begin{center}
+  \vspace*{\stretch{1}}
+  \parbox{120mm}{\center\huge\bf\@title}\par
+  \vspace*{\stretch{3}}
+  \parbox{100mm}{\center by}\par
+  \vspace*{\stretch{3}}
+  \parbox{100mm}{\center\Large\@author}\par
+  \vspace*{\stretch{3}}
+  \parbox{100mm}{\center
+                         A thesis submitted to \\ 
+                         Victoria University of Wellington\\ 
+                         in partial fulfilment of the\\
+                         requirements for the degree of\\  
+                         \@degree \\ 
+                         in \@subject}\par
+ 
+ \parbox{100mm}{\center\number\year}
+ \vspace*{\stretch{1}}
+\end{center}
+
+\pagestyle{empty}
+\if@twoside\cleardoublepage\else\clearpage\fi
+\mbox{}\vspace{20mm}
+\begin{center}
+{\Large\bf Abstract}
+\end{center}
+\@abstract
+\end{titlepage}
+\gdef\@author{}
+\gdef\@title{}
+\gdef\@degree{}
+\gdef\@ffil{}
+\gdef\@subject{}
+\gdef\@abstract{}
+\let\maketitle\relax
+}

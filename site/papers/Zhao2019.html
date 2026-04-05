@@ -1,0 +1,93 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Maximum Relevance and Minimum Redundancy Feature Selection M… — ML for REIMS</title>
+  <link rel="stylesheet" href="../css/style.css">
+  <script>
+    // Apply saved theme before render
+    (function(){
+      const t = localStorage.getItem('theme');
+      if(t === 'dark') document.documentElement.classList.add('dark');
+    })();
+  </script>
+  
+</head>
+<body>
+<nav class="site-nav">
+  <div class="nav-inner">
+    <a href="../index.html" class="nav-brand">
+      <img src="../assets/university-logo.png" alt="University Logo" class="nav-logo" onerror="this.style.display='none'">
+      <span class="nav-title">ML for REIMS</span>
+    </a>
+    <div class="nav-links">
+      <a href="../index.html">Home</a>
+      <a href="../chapters/chapter-1.html">Chapters</a>
+      <a href="../papers.html">Papers</a>
+    </div>
+    <div class="nav-actions">
+      <button id="search-toggle" class="icon-btn" aria-label="Search">🔍</button>
+      <button id="theme-toggle" class="icon-btn" aria-label="Toggle theme">🌙</button>
+      <button id="menu-toggle" class="icon-btn" aria-label="Menu">☰</button>
+    </div>
+  </div>
+  <div id="mobile-menu" class="mobile-menu hidden">
+    <a href="../index.html">Home</a>
+    <a href="../chapters/chapter-1.html">Chapters</a>
+    <a href="../papers.html">All Papers</a>
+  </div>
+  <div id="search-bar" class="search-bar hidden">
+    <input type="text" id="search-input" placeholder="Search papers, concepts, authors…" autocomplete="off">
+    <div id="search-results" class="search-results"></div>
+  </div>
+</nav>
+<div id="page-wrapper">
+
+<div class="paper-layout">
+  <main class="paper-main">
+    <div class="breadcrumb"><a href="../index.html">Home</a> / <a href="../papers.html">Papers</a> / Zhao2019</div>
+
+    <article class="paper-article">
+      <header class="paper-header">
+        <h1 class="paper-title">Maximum Relevance and Minimum Redundancy Feature Selection Methods for a Marketing Machine Learning Platform</h1>
+        <p class="paper-authors">Zhenyu Zhao, Radhika Anand, Mallory Wang</p>
+        <div class="paper-meta">
+          <span class="paper-year">2019</span>
+          <span class="paper-venue">International Conference on Data Science and Advanced Analytics</span>
+          <span class="cite-count">Cited 205 times</span>
+        </div>
+        <div class="paper-links"><a href="https://doi.org/10.1109/dsaa.2019.00059" target="_blank" class="ext-link">DOI ↗</a> <a href="https://arxiv.org/abs/1908.05376" target="_blank" class="ext-link">arXiv ↗</a> <a href="https://repositorio.unal.edu.co/bitstream/unal/81507/3/1039463302.2022.pdf" target="_blank" class="ext-link pdf-link">PDF ↗</a></div>
+      </header>
+
+      <div class="abstract-block"><h3>Abstract</h3><p>In machine learning applications for online product offerings and marketing strategies, there are often hundreds or thousands of features available to build such models. Feature selection is one essential method in such applications for multiple objectives: improving the prediction accuracy by eliminating irrelevant features, accelerating the model training and prediction speed, reducing the monitoring and maintenance workload for feature data pipeline, and providing better model interpretation and diagnosis capability. However, selecting an optimal feature subset from a large feature space is considered as an NP-complete problem. The mRMR (Minimum Redundancy and Maximum Relevance) feature selection framework solves this problem by selecting the relevant features while controlling for the redundancy within the selected features. This paper describes the approach to extend, evaluate, and implement the mRMR feature selection methods for classification problem in a marketing machine learning platform at Uber that automates creation and deployment of targeting and personalization models at scale. This study first extends the existing mRMR methods by introducing a non-linear feature redundancy measure and a model-based feature relevance measure. Then an extensive empirical evaluation is performed for eight different feature selection methods, using one synthetic dataset and three real-world marketing datasets at Uber to cover different use cases. Based on the empirical results, the selected mRMR method is implemented in production for the marketing machine learning platform. A description of the production implementation is provided and an online experiment deployed through the platform is discussed.</p></div>
+
+      
+
+      <details class="bibtex-block">
+        <summary>BibTeX</summary>
+        <pre><code>@inproceedings{Zhao2019,
+  author = {Zhao, Zhenyu and Anand, Radhika and Wang, Mallory},
+  booktitle = {2019 IEEE international conference on data science and advanced analytics (DSAA)},
+  title = {Maximum relevance and minimum redundancy feature selection methods for a marketing machine learning platform},
+  year = {2019},
+  organization = {IEEE},
+  pages = {442–452},
+}</code></pre>
+      </details>
+    </article>
+  </main>
+</div>
+
+</div>
+<footer class="site-footer">
+  <div class="footer-inner">
+    <p>
+      <strong>Jesse Wood</strong> · PhD Thesis · Victoria University of Wellington · 2025
+    </p>
+    <p class="footer-sub">Machine Learning for Rapid Evaporative Ionization Mass Spectrometry for Marine Biomass Analysis</p>
+  </div>
+</footer>
+<script src="../js/main.js"></script>
+</body>
+</html>

@@ -1,0 +1,93 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>On Ensemble Techniques for Data Stream Regression… — ML for REIMS</title>
+  <link rel="stylesheet" href="../css/style.css">
+  <script>
+    // Apply saved theme before render
+    (function(){
+      const t = localStorage.getItem('theme');
+      if(t === 'dark') document.documentElement.classList.add('dark');
+    })();
+  </script>
+  
+</head>
+<body>
+<nav class="site-nav">
+  <div class="nav-inner">
+    <a href="../index.html" class="nav-brand">
+      <img src="../assets/university-logo.png" alt="University Logo" class="nav-logo" onerror="this.style.display='none'">
+      <span class="nav-title">ML for REIMS</span>
+    </a>
+    <div class="nav-links">
+      <a href="../index.html">Home</a>
+      <a href="../chapters/chapter-1.html">Chapters</a>
+      <a href="../papers.html">Papers</a>
+    </div>
+    <div class="nav-actions">
+      <button id="search-toggle" class="icon-btn" aria-label="Search">🔍</button>
+      <button id="theme-toggle" class="icon-btn" aria-label="Toggle theme">🌙</button>
+      <button id="menu-toggle" class="icon-btn" aria-label="Menu">☰</button>
+    </div>
+  </div>
+  <div id="mobile-menu" class="mobile-menu hidden">
+    <a href="../index.html">Home</a>
+    <a href="../chapters/chapter-1.html">Chapters</a>
+    <a href="../papers.html">All Papers</a>
+  </div>
+  <div id="search-bar" class="search-bar hidden">
+    <input type="text" id="search-input" placeholder="Search papers, concepts, authors…" autocomplete="off">
+    <div id="search-results" class="search-results"></div>
+  </div>
+</nav>
+<div id="page-wrapper">
+
+<div class="paper-layout">
+  <main class="paper-main">
+    <div class="breadcrumb"><a href="../index.html">Home</a> / <a href="../papers.html">Papers</a> / Gomes2020</div>
+
+    <article class="paper-article">
+      <header class="paper-header">
+        <h1 class="paper-title">On Ensemble Techniques for Data Stream Regression</h1>
+        <p class="paper-authors">Heitor Murilo Gomes, Jacob Montiel, S. Mastelini, Bernhard Pfahringer, A. Bifet</p>
+        <div class="paper-meta">
+          <span class="paper-year">2020</span>
+          <span class="paper-venue">IEEE International Joint Conference on Neural Network</span>
+          <span class="cite-count">Cited 21 times</span>
+        </div>
+        <div class="paper-links"><a href="https://doi.org/10.1109/IJCNN48605.2020.9206756" target="_blank" class="ext-link">DOI ↗</a> <a href="https://researchcommons.waikato.ac.nz/bitstream/10289/14237/2/On%20Ensemble%20Techniques%20apepr.pdf" target="_blank" class="ext-link pdf-link">PDF ↗</a></div>
+      </header>
+
+      <div class="abstract-block"><h3>Abstract</h3><p>An ensemble of learners tends to exceed the predictive performance of individual learners. This approach has been explored for both batch and online learning. Ensembles methods applied to data stream classification were thoroughly investigated over the years, while their regression counterparts received less attention in comparison. In this work, we discuss and analyze several techniques for generating, aggregating, and updating ensembles of regressors for evolving data streams. We investigate the impact of different strategies for inducing diversity into the ensemble by randomizing the input data (resampling, random subspaces and random patches). On top of that, we devote particular attention to techniques that adapt the ensemble model in response to concept drifts, including adaptive window approaches, fixed periodical resets and randomly determined windows. Extensive empirical experiments show that simple techniques can obtain similar predictive performance to sophisticated algorithms that rely on reactive adaptation (i.e., concept drift detection and recovery).</p></div>
+
+      
+
+      <details class="bibtex-block">
+        <summary>BibTeX</summary>
+        <pre><code>@inproceedings{Gomes2020,
+  author = {Gomes, Heitor Murilo and Montiel, Jacob and Mastelini, Saulo Martiello and Pfahringer, Bernhard and Bifet, Albert},
+  booktitle = {2020 International Joint Conference on Neural Networks (IJCNN)},
+  title = {On ensemble techniques for data stream regression},
+  year = {2020},
+  organization = {IEEE},
+  pages = {1–8},
+}</code></pre>
+      </details>
+    </article>
+  </main>
+</div>
+
+</div>
+<footer class="site-footer">
+  <div class="footer-inner">
+    <p>
+      <strong>Jesse Wood</strong> · PhD Thesis · Victoria University of Wellington · 2025
+    </p>
+    <p class="footer-sub">Machine Learning for Rapid Evaporative Ionization Mass Spectrometry for Marine Biomass Analysis</p>
+  </div>
+</footer>
+<script src="../js/main.js"></script>
+</body>
+</html>

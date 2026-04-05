@@ -1,0 +1,91 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>A Graph Neural Network Model for Financial Fraud Prevention… — ML for REIMS</title>
+  <link rel="stylesheet" href="../css/style.css">
+  <script>
+    // Apply saved theme before render
+    (function(){
+      const t = localStorage.getItem('theme');
+      if(t === 'dark') document.documentElement.classList.add('dark');
+    })();
+  </script>
+  
+</head>
+<body>
+<nav class="site-nav">
+  <div class="nav-inner">
+    <a href="../index.html" class="nav-brand">
+      <img src="../assets/university-logo.png" alt="University Logo" class="nav-logo" onerror="this.style.display='none'">
+      <span class="nav-title">ML for REIMS</span>
+    </a>
+    <div class="nav-links">
+      <a href="../index.html">Home</a>
+      <a href="../chapters/chapter-1.html">Chapters</a>
+      <a href="../papers.html">Papers</a>
+    </div>
+    <div class="nav-actions">
+      <button id="search-toggle" class="icon-btn" aria-label="Search">🔍</button>
+      <button id="theme-toggle" class="icon-btn" aria-label="Toggle theme">🌙</button>
+      <button id="menu-toggle" class="icon-btn" aria-label="Menu">☰</button>
+    </div>
+  </div>
+  <div id="mobile-menu" class="mobile-menu hidden">
+    <a href="../index.html">Home</a>
+    <a href="../chapters/chapter-1.html">Chapters</a>
+    <a href="../papers.html">All Papers</a>
+  </div>
+  <div id="search-bar" class="search-bar hidden">
+    <input type="text" id="search-input" placeholder="Search papers, concepts, authors…" autocomplete="off">
+    <div id="search-results" class="search-results"></div>
+  </div>
+</nav>
+<div id="page-wrapper">
+
+<div class="paper-layout">
+  <main class="paper-main">
+    <div class="breadcrumb"><a href="../index.html">Home</a> / <a href="../papers.html">Papers</a> / Chougiouris2024</div>
+
+    <article class="paper-article">
+      <header class="paper-header">
+        <h1 class="paper-title">A Graph Neural Network Model for Financial Fraud Prevention</h1>
+        <p class="paper-authors">Ryo Takahashi, Haruto Nishimura, Keiko Matsuda</p>
+        <div class="paper-meta">
+          <span class="paper-year">2024</span>
+          <span class="paper-venue">Frontiers in Artificial Intelligence Research</span>
+          <span class="cite-count">Cited 4 times</span>
+        </div>
+        <div class="paper-links"><a href="https://doi.org/10.71465/0g50ff50" target="_blank" class="ext-link">DOI ↗</a></div>
+      </header>
+
+      <div class="abstract-block"><h3>Abstract</h3><p>Financial fraud prevention is a critical challenge for banks, payment processors, and online financial services. Traditional fraud detection models, including rule-based systems and machine learning classifiers, often struggle with adaptive fraud tactics, requiring frequent retraining to remain effective. Recent advancements in graph neural networks (GNNs) have enabled fraud detection models to leverage relational transaction data, capturing multi-hop fraud patterns and collusive fraud schemes that are difficult to detect with conventional approaches. 
+This study proposes a GNN-based fraud prevention framework that models financial transactions as a heterogeneous graph, where nodes represent users and transactions, while edges encode financial relationships such as payment frequency, transaction amount similarity, and shared device usage. The GNN model learns fraud indicators by aggregating information from neighboring transactions, allowing it to detect complex fraud networks and coordinated money laundering activities. The proposed system was evaluated on large-scale transaction datasets, demonstrating higher fraud detection accuracy and lower false positive rates compared to traditional fraud detection models. The results confirm that graph-based fraud detection improves scalability and adaptability, making it a more effective approach for modern financial institutions seeking real-time fraud prevention solutions.</p></div>
+
+      <div class="cited-in-block"><h3>Cited in this thesis</h3><div class="cite-chips"><a href="../chapters/chapter-7.html" class="cite-chip">Conclusions</a></div></div>
+
+      <details class="bibtex-block">
+        <summary>BibTeX</summary>
+        <pre><code>@article{Chougiouris2024,
+  author = {Chougiouris, Nikolaos E and Panagidi, Kakia},
+  title = {Adaptive Neural Network Model Retraining},
+  year = {2024},
+}</code></pre>
+      </details>
+    </article>
+  </main>
+</div>
+
+</div>
+<footer class="site-footer">
+  <div class="footer-inner">
+    <p>
+      <strong>Jesse Wood</strong> · PhD Thesis · Victoria University of Wellington · 2025
+    </p>
+    <p class="footer-sub">Machine Learning for Rapid Evaporative Ionization Mass Spectrometry for Marine Biomass Analysis</p>
+  </div>
+</footer>
+<script src="../js/main.js"></script>
+</body>
+</html>

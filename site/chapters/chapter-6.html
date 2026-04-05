@@ -1,0 +1,281 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Contrastive Learning for Batch Detection — ML for REIMS</title>
+  <link rel="stylesheet" href="../css/style.css">
+  <script>
+    // Apply saved theme before render
+    (function(){
+      const t = localStorage.getItem('theme');
+      if(t === 'dark') document.documentElement.classList.add('dark');
+    })();
+  </script>
+  <script>
+  window.MathJax = {
+    tex: { inlineMath: [['\\(','\\)']], displayMath: [['\\[','\\]']] },
+    options: { skipHtmlTags: ['script','noscript','style','textarea','pre'] }
+  };
+</script>
+<script src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-chtml.js" id="MathJax-script" async></script>
+</head>
+<body>
+<nav class="site-nav">
+  <div class="nav-inner">
+    <a href="../index.html" class="nav-brand">
+      <img src="../assets/university-logo.png" alt="University Logo" class="nav-logo" onerror="this.style.display='none'">
+      <span class="nav-title">ML for REIMS</span>
+    </a>
+    <div class="nav-links">
+      <a href="../index.html">Home</a>
+      <a href="../chapters/chapter-1.html">Chapters</a>
+      <a href="../papers.html">Papers</a>
+    </div>
+    <div class="nav-actions">
+      <button id="search-toggle" class="icon-btn" aria-label="Search">🔍</button>
+      <button id="theme-toggle" class="icon-btn" aria-label="Toggle theme">🌙</button>
+      <button id="menu-toggle" class="icon-btn" aria-label="Menu">☰</button>
+    </div>
+  </div>
+  <div id="mobile-menu" class="mobile-menu hidden">
+    <a href="../index.html">Home</a>
+    <a href="../chapters/chapter-1.html">Chapters</a>
+    <a href="../papers.html">All Papers</a>
+  </div>
+  <div id="search-bar" class="search-bar hidden">
+    <input type="text" id="search-input" placeholder="Search papers, concepts, authors…" autocomplete="off">
+    <div id="search-results" class="search-results"></div>
+  </div>
+</nav>
+<div id="page-wrapper">
+
+<div class="chapter-layout">
+  <aside class="chapter-sidebar">
+    <div class="sidebar-sticky">
+      <div class="chapter-info">
+        <div class="chapter-num-badge">Chapter 6</div>
+        <div class="back-link"><a href="../index.html">← Home</a></div>
+      </div>
+      <nav class="toc"><h4>Contents</h4><ol class="toc-list">
+  <li class="toc-l2"><a href="#chapter-overview">Chapter Overview</a></li>
+  <li class="toc-l2"><a href="#the-approach">The Approach</a></li>
+  <li class="toc-l2"><a href="#experimental-setup">Experimental Setup</a></li>
+  <li class="toc-l2"><a href="#results-and-analysis">Results and Analysis</a></li>
+  <li class="toc-l2"><a href="#chapter-summary">Chapter Summary</a></li>
+  <li class="toc-l3"><a href="#contributions">Contributions</a></li>
+  <li class="toc-l3"><a href="#approach-overview">Approach Overview</a></li>
+  <li class="toc-l3"><a href="#data-augmentation">Data Augmentation</a></li>
+  <li class="toc-l3"><a href="#encoder">Encoder</a></li>
+  <li class="toc-l3"><a href="#projection-head">Projection Head</a></li>
+  <li class="toc-l3"><a href="#loss-function">Loss Function</a></li>
+  <li class="toc-l3"><a href="#threshold">Threshold</a></li>
+  <li class="toc-l3"><a href="#benchmark-methods">Benchmark Methods</a></li>
+  <li class="toc-l3"><a href="#benchmark-technique">Benchmark Technique</a></li>
+  <li class="toc-l3"><a href="#experimental-settings">Experimental Settings</a></li>
+  <li class="toc-l3"><a href="#parameter-settings">Parameter Settings</a></li>
+  <li class="toc-l3"><a href="#overall-results">Overall Results</a></li>
+  <li class="toc-l3"><a href="#visualization">Visualization</a></li>
+  <li class="toc-l3"><a href="#computational-cost">Computational Cost</a></li>
+  <li class="toc-l3"><a href="#other-contrastive-learning-methods">Other Contrastive Learning Methods</a></li>
+  <li class="toc-l3"><a href="#conclusions">Conclusions</a></li>
+  <li class="toc-l3"><a href="#future-work">Future Work</a></li>
+  <li class="toc-l4"><a href="#jitter-noise">Jitter (Noise)</a></li>
+  <li class="toc-l4"><a href="#shift">Shift</a></li>
+  <li class="toc-l4"><a href="#scale">Scale</a></li>
+  <li class="toc-l4"><a href="#crop-and-pad">Crop and Pad</a></li>
+  <li class="toc-l4"><a href="#flip">Flip</a></li>
+  <li class="toc-l4"><a href="#permutation">Permutation</a></li>
+</ol></nav>
+      <div class="chapter-nav">
+        <a href="chapter-5.html" class="nav-btn">← Oil Contamination and Cross-Species Adulteration</a>
+        <a href="chapter-7.html" class="nav-btn">Conclusions →</a>
+      </div>
+    </div>
+  </aside>
+
+  <main class="chapter-main">
+    <header class="chapter-header">
+      <div class="chapter-label">Chapter 6</div>
+      <h1>Contrastive Learning for Batch Detection</h1>
+    </header>
+
+    <article class="chapter-content">
+      <p>Addressing the need for enhanced traceability within the seafood supply chain, <a href="#chapter-contrastive-learning-for-batch-detection" class="internal-ref">chapter:contrastive-learning-for-batch-detection</a> introduces a novel approach to batch detection using REIMS data. This chapter presents “SpectroSim,” a self-supervised contrastive learning framework specifically designed for identifying whether fish samples originate from the same processing batch. The chapter will detail the motivation for this approach, the SpectroSim architecture (which adapts SimCLR with a Transformer encoder and a custom projection head for mass spectrometry). Experimental results will demonstrate its performance, computational cost, and compare it against both traditional binary classification methods and other state-of-the-art contrastive learning frameworks. Finally, to ensure the model's decisions are interpretable, Gradient-weighted Class Activation Mapping (Grad-CAM) is employed to visualize the key spectral features the model uses to determine batch similarity.</p>
+<h2 id="chapter-overview">Chapter Overview</h2>
+<p>Traditional approaches to supply chain traceability in the seafood industry, such as physical tagging, are often complex and costly, creating a significant barrier to widespread adoption <span class="cite-group"><a href="../papers/Mai2010.html" class="cite" title="Benefits of traceability in fish supply chains–case studies">[Mai, 2010]</a><a href="../papers/Thompson2005.html" class="cite" title="Thompson2005">[Thompson2005]</a></span>. While the field is rapidly advancing toward digital solutions like blockchain, "Digital Food Product Passports", and mobile data-entry platforms <span class="cite-group"><a href="../papers/turkson2025digital.html" class="cite" title="Digital technologies for traceability and transparency in the global fish supply">[Turkson, 2025]</a><a href="../papers/jiang2025traceability.html" class="cite" title="Traceability Data in the form of Digital Food Product Passports for Fish Supply ">[Jiang, 2025]</a><a href="../papers/Untal2025.html" class="cite" title="Fishers&#x27; preference for mobile traceability platform: challenges in achieving a ">[Untal, 2025]</a><a href="../papers/Gastaldi2025.html" class="cite" title="Technical traceability systems in the food and fisheries sectors: A comparative ">[Gastaldi Garcia, 2025]</a></span>, these systems are still fundamentally vulnerable to deliberate fraud at the point of data entry <span class="cite-group"><a href="../papers/Helyar2014.html" class="cite" title="Fish product mislabelling: failings of traceability in the production chain and ">[Helyar, 2014]</a></span>. A digital record is only as trustworthy as the initial data it is given. This creates a critical need for an intrinsic, chemical-based verification method that can validate a sample's identity against its digital record, a gap that has not been explored for REIMS batch detection. Existing analytical methods for REIMS data are not designed for the nuanced pairwise comparisons required to determine if two samples share a common origin, necessitating the formalization of a new analytical task.</p>
+<p>This chapter addresses this gap by formalizing and solving the problem of batch detection in marine biomass as a self-supervised, pairwise comparison task. The emerging paradigm of contrastive learning provides a powerful framework for this challenge, as it is designed to learn a representation space where similar items are grouped together <span class="cite-group"><a href="../papers/Bromley1993.html" class="cite" title="Signature verification using a ``siamese&quot; time delay neural network">[Bromley, 1993]</a></span>. However, applying standard contrastive learning frameworks like SimCLR presents its own difficulties, including a reliance on large batch sizes, which are ill-suited to the limited and high-dimensional nature of REIMS data <span class="cite-group"><a href="../papers/Chen2020a.html" class="cite" title="A simple framework for contrastive learning of visual representations">[Chen, 2020]</a><a href="../papers/Kinakh2021.html" class="cite" title="Scatsimclr: self-supervised contrastive learning with pretext task regularizatio">[Kinakh, 2021]</a></span>. Furthermore, the model must be robust enough to learn subtle, batch-specific chemical signatures, optionally doing so without explicit labels.</p>
+<p>This chapter aims to resolve these issues by proposing a novel, self-supervised contrastive learning framework called `"SpectroSim", which is specifically designed for REIMS mass spectra. The solution adapts the SimCLR framework <span class="cite-group"><a href="../papers/Chen2020a.html" class="cite" title="A simple framework for contrastive learning of visual representations">[Chen, 2020]</a></span> by replacing the standard image-based backbone with a Transformer-based encoder <span class="cite-group"><a href="../papers/Vaswani2017.html" class="cite" title="Vaswani2017">[Vaswani2017]</a></span>, which is adept at capturing the complex, sequential relationships in the spectral data. To overcome the limitations of small datasets, SpectroSim leverages data augmentation to create positive pairs and negative pairs, with a natural imbalance that favors negative sample mining. This is achieved through a custom projection head, data augmentation, and NT-Xent loss function tailored to the unique characteristics of mass spectrometry.</p>
+<p>This contribution innovates existing work by being the first to apply any form of machine learning to the problem of batch detection for REIMS biomass analysis. By successfully developing SpectroSim, this chapter establishes that a self-supervised approach can achieve high accuracy (70.8%) without using any class labels during training, far surpassing traditional binary classification methods. This work provides a new and powerful capability for the seafood industry: a practical, cost-effective, and accurate method for analytical verification. This method complements emerging digital traceability systems <span class="cite-group"><a href="../papers/turkson2025digital.html" class="cite" title="Digital technologies for traceability and transparency in the global fish supply">[Turkson, 2025]</a><a href="../papers/dahariya2025enhancing.html" class="cite" title="Enhancing Livestock Supply Chains with Blockchain Traceability from Source to Ma">[Dahariya, 2025]</a></span> by providing an intrinsic, scientific tool to validate that a sample"s chemical fingerprint matches its claimed batch, thereby enhancing the integrity of data in the modern supply chain <span class="cite-group"><a href="../papers/Piroutkova2025.html" class="cite" title="An analytical and machine learning approach for total mercury and methylmercury ">[Piroutkova, 2025]</a></span>.</p>
+<h3 id="contributions">Contributions</h3>
+<p>The main contributions of the chapter are:</p>
+<ol>
+<p><li>This chapter formalizes the novel problem of analytical batch detection for REIMS data and proposes ``SpectroSim," a new self-supervised contrastive learning framework to solve it. This contribution addresses the critical industry need for a rapid and intrinsic verification method to complement modern digital traceability systems. As far as the authors are aware, this is the first formalization of this task and the first application of any machine learning framework to solve it using REIMS biomass data.</li> <li>This chapter contributes a novel architectural adaptation of the SimCLR framework, successfully integrating a Transformer-based encoder for 1D spectral data. By replacing the standard CNN backbone with a Transformer and a custom projection head, ``SpectroSim" is specifically designed to capture the complex, sequential, and long-range dependencies in mass spectra. This technical contribution overcomes a key limitation of standard contrastive learning, which is ill-suited for high-dimensional, non-image data.</li> <li>This chapter provides the first systematic comparison of learning paradigms for this pairwise comparison task, demonstrating the superiority of self-supervised contrastive learning. The analysis proves that the ``SpectroSim" framework, trained without labels, achieves a high accuracy (70.8%) and significantly outperforms all benchmarked supervised binary classification methods (which failed to surpass 60% accuracy), establishing a new state-of-the-art approach for this problem.</li> <li>This chapter demonstrates that contrastive learning can be highly effective on small, high-dimensional datasets, overcoming a primary limitation of standard implementations. ``SpectroSim" achieves its high performance with a batch size of only 16, in contrast to the large batches (e.g., 2048+) typically required by SimCLR. This finding is a significant contribution, as it makes contrastive learning a viable strategy for specialized, limited-sample domains like mass spectrometry analysis.</li></p>
+</ol>
+<h2 id="the-approach">The Approach</h2>
+<p>This section presents SpectroSim, our proposed method for self-supervised batch detection of marine biomass using REIMS data. The task is to determine whether pairs of fish samples originated from the same batch, formulated as a contrastive learning problem that can distinguish similar (same-batch) from dissimilar (different-batch) pairs without relying on labels.</p>
+<h3 id="approach-overview">Approach Overview</h3>
+<figure class="thesis-figure">
+<div class="pdf-figure-note">📄 Figure: simclr-architecture.pdf (PDF — see thesis for full image)</div>
+<p><figcaption>SpectroSim Architecture: Paired samples <span class="math">\(x_1\)</span> and <span class="math">\(x_2\)</span> (REIMS spectra) are processed by identical Transformer encoders <span class="math">\(h_1 = f(x_1), h_2 = f(x_2)\)</span> to produce embeddings , followed by a custom projection head <span class="math">\(z_1 = g(h_1), z_2 = g(h_2)\)</span> yielding <span class="math">\(z_1\)</span> and <span class="math">\(z_2\)</span> , compared via NT-Xent loss.</figcaption></p>
+</figure>
+<p><a href="#fig-spectrosim-architecture" class="internal-ref">fig:spectrosim-architecture</a> illustrates SpectroSim’s architecture. It processes pairs of REIMS spectral samples <span class="math">\(x_1\)</span> and <span class="math">\(x_2\)</span> through identical encoders <span class="math">\(h_1 = f(x_1)\)</span>, <span class="math">\(h_2 = f(x_2)\)</span>, where <span class="math">\(f\)</span> is the encoder, producing embeddings <span class="math">\(h_1\)</span> and <span class="math">\(h_2\)</span>. A custom projection head <span class="math">\(z_1 = g(h_1)\)</span>, <span class="math">\(z_2 = g(h_2)\)</span>, where <span class="math">\(g\)</span> is the projection head, maps these to <span class="math">\(z_1\)</span> and <span class="math">\(z_2\)</span>, whose similarity is evaluated using NT-Xent loss. This design extends SimCLR by adapting it for 1D spectral data, addressing SimCLR’s limitations (high computational demands, augmentation dependency, and poor small-dataset performance) through a Transformer encoder and a tailored projection head. These modifications enable efficient learning of batch-specific representations from sequential spectrometry data. A good “semantic” representation for batch detection is illustrated in <a href="#fig-good-semantic-representation" class="internal-ref">fig:good-semantic-representation</a>.</p>
+<figure class="thesis-figure">
+<p><img src="../assets/representation.png" alt="This figure illustrates a good `"semantic representation&quot;. Imagine that the different colors of fish represent fish from different batches in a batch detection task. We feed mass spectrometry samples of these fish into a deep neural network, and it generates embeddings where fish from the same batch are closer together, and fish from dissimilar batches are further apart. In theory, this should make it easy to draw classification boundaries between batches within the embedding space generated by the neural network. Contrastive learning approaches, with their projection head, generate these semantic embeddings, where the distance between samples corresponds to similar and dissimilar batches." loading="lazy" onerror="this.parentElement.innerHTML="<div class=img-missing>Image: representation.png</div>'"> <figcaption>This figure illustrates a good ``semantic representation". Imagine that the different colors of fish represent fish from different batches in a batch detection task. We feed mass spectrometry samples of these fish into a deep neural network, and it generates embeddings where fish from the same batch are closer together, and fish from dissimilar batches are further apart. In theory, this should make it easy to draw classification boundaries between batches within the embedding space generated by the neural network. Contrastive learning approaches, with their projection head, generate these semantic embeddings, where the distance between samples corresponds to similar and dissimilar batches.</figcaption></p>
+</figure>
+<h3 id="data-augmentation">Data Augmentation</h3>
+<p>In the SpectroSim framework, the self-supervised learning process relies on creating positive and negative pairs from the input data. A positive pair is formed by creating two different augmented `"views" of the same input sample. For one-dimensional REIMS spectra, augmentations can include adding a small amount of Gaussian noise or applying minor shifts to the <span class="math">\(m/z\)</span> axis. These augmentations create a pair of samples that are synthetically different but share the same underlying chemical identity. The model is trained to recognize these augmented views as being similar.</p>
+<p>Conversely, a negative pair consists of two samples from different original instances in the batch. For any given sample, all other samples in the training batch are considered negative examples. The model"s objective is to learn an embedding space where the representations of positive pairs are pulled closer together, while the representations of negative pairs are pushed further apart. This process forces the model to learn the essential, invariant features that define a sample's batch origin, while ignoring the noise introduced by the augmentation process.</p>
+<p>In our contrastive learning framework, we apply a series of data augmentations to the input spectra to generate different `"views" of the same sample. These augmentations are crucial for learning robust and invariant representations.</p>
+<p>Figure <a href="#fig:data-augmentations">[ref]</a> shows the various data augmentations we apply to a spectra with this unsupervised contrastive learning framework.</p>
+<figure class="thesis-figure">
+<p><img src="../assets/augmentations.png" alt="Visualization of the six data augmentation techniques described in Section 6.2.2. The Original Spectrum (top left) is shown alongside its six transformed &#x27;views&#x27;: (1) Jitter, (2) Shift, (3) Scale, (4) Crop &amp;amp; Pad, (5) Flip, and (6) Permutation. These augmentations are used to create the positive pairs for self-supervised contrastive learning." loading="lazy" onerror="this.parentElement.innerHTML="<div class=img-missing>Image: augmentations.png</div>'"> <figcaption>Visualization of the six data augmentation techniques described in Section 6.2.2. The <strong>Original Spectrum</strong> (top left) is shown alongside its six transformed 'views': <strong>(1) Jitter</strong>, <strong>(2) Shift</strong>, <strong>(3) Scale</strong>, <strong>(4) Crop &amp; Pad</strong>, <strong>(5) Flip</strong>, and <strong>(6) Permutation</strong>. These augmentations are used to create the positive pairs for self-supervised contrastive learning.</figcaption></p>
+</figure>
+<p>Let an input spectrum be represented by a vector <span class="math">\(x \in \mathbb{R}^L\)</span>, where <span class="math">\(L\)</span> is the number of features (m/z values). The following transformations are applied to generate an augmented view <span class="math">\(x'\)</span>:</p>
+<h4 id="jitter-noise">Jitter (Noise)</h4>
+<p>A random Gaussian noise is added to the spectrum to improve robustness to sensor noise and minor spectral variations.</p>
+<p><span class="math">\(x' = x + \epsilon\)</span></p>
+<p>where <span class="math">\(\epsilon \sim \mathcal{N}(0, \sigma^2 I)\)</span>, and <span class="math">\(\sigma\)</span> is the noise level.</p>
+<h4 id="shift">Shift</h4>
+<p>The spectrum is circularly shifted along the <span class="math">\(m/z\)</span> axis by a random amount. This simulates slight misalignments in the spectral acquisition.</p>
+<p><span class="math">\(x'i = x{(i-s) \pmod L}\)</span></p>
+<p>where <span class="math">\(s\)</span> is a random integer shift, and <span class="math">\(i\)</span> is the feature index.</p>
+<h4 id="scale">Scale</h4>
+<p>The intensity of the entire spectrum is multiplied by a random scalar. This helps the model become invariant to variations in sample concentration or instrument sensitivity.</p>
+<p><span class="math">\(x' = \alpha \cdot x\)</span></p>
+<p>Where <span class="math">\(\alpha\)</span> is a random scaling factor drawn from a uniform distribution, typically centered around 1.</p>
+<h4 id="crop-and-pad">Crop and Pad</h4>
+<p>A random contiguous sub-section of the spectrum is selected and then padded with zeros to its original length. This encourages the model to learn from partial spectral information.</p>
+<p><span class="math">\(x'_i = \begin{cases} x_i & \text{if } i \in [start, end) \\ 0 & \text{otherwise} \end{cases}\)</span></p>
+<p>Where <span class="math">\([start, end)\)</span> is a randomly selected interval of the spectral features.</p>
+<h4 id="flip">Flip</h4>
+<p>The spectrum is horizontally flipped (reversed) along the <span class="math">\(m/z\)</span> axis. This forces the model to learn features that are not dependent on their position in the spectrum.</p>
+<p><span class="math">\(x'i = x{L-1-i}\)</span></p>
+<p>for <span class="math">\(i = 0, 1, \dots, L-1\)</span>.</p>
+<h4 id="permutation">Permutation</h4>
+<p>The features of the spectrum are randomly shuffled. This is a strong augmentation that destroys the sequential nature of the data, forcing the model to learn features based on their values rather than their positions.</p>
+<p><span class="math">\(x' = P(x)\)</span></p>
+<p>Where <span class="math">\(P\)</span> is a random permutation operator.</p>
+<h3 id="encoder">Encoder</h3>
+<p>The encoder <span class="math">\(h_1 = f(x_1), h_2 = f(x_2)\)</span> is a Transformer, chosen over SimCLR’s ResNet <span class="cite-group"><a href="../papers/He2016.html" class="cite" title="Deep residual learning for image recognition">[He, 2016]</a></span> because it captures long-range dependencies in 1D spectral sequences—crucial for distinguishing subtle batch-specific chemical signatures—unlike ResNet’s focus on 2D spatial patterns. This choice reduces preprocessing needs and suits the small, high-dimensional dataset, leveraging the Transformer’s attention mechanism for robust feature extraction.</p>
+<figure class="thesis-figure">
+<div class="pdf-figure-note">📄 Figure: transformer-architecture.pdf (PDF — see thesis for full image)</div>
+<p><figcaption>In the proposed SpectroSim model, we replace the existing ResNet backbone with a Transformer backbone. The choice of transformer is motivated by previous success in REIMS-based marine biomass analysis tasks demonstrated in Chapters 4 and 5. For the sake of academic rigor, we include the original SimCLR with ResNet backbone in our experiments for comparison, and find that the Transformer backbone significantly outperforms the original SimCLR model.</figcaption></p>
+</figure>
+<h3 id="projection-head">Projection Head</h3>
+<p>In the SpectroSim model, the projection head <span class="math">\(z_1 = g(h_1), z_2 = g(h_2)\)</span> shown in <a href="#fig-spectrosim-architecture" class="internal-ref">fig:spectrosim-architecture</a>, is a custom neural network that operates after the main Transformer encoder, refining its output before the final contrastive loss calculation. Unlike the standard feedforward Multi-Layer Perceptron (MLP) used in the original SimCLR framework, this projection head is specifically designed for spectrometry data. Its primary function is to map the high-dimensional feature representations generated by the encoder into a lower-dimensional space where the NT-Xent loss is applied, a process tailored to reduce information loss by preserving the distributions of spectral peaks. This specialized design ensures the final embeddings are better aligned with the underlying physics of mass spectrometry, creating a more meaningful representation space for comparing samples.</p>
+<h3 id="loss-function">Loss Function</h3>
+<p>The NT-Xent loss, defined as</p>
+<div class="math-display">\[
+<p>_i,j = -(sim(<strong>z</strong>_i, <strong>z</strong>_j) / ) _k=1^2N 1_[k i] (sim(<strong>z</strong>_i, <strong>z</strong>_k) / ) \]</div></p>
+<p>The NT-Xent (Normalized Temperature-scaled Cross-Entropy) loss function is the engine of contrastive learning methods like SimCLR. Its primary goal is to learn an embedding space where similar samples are grouped while dissimilar ones are pushed apart. For a given sample in a batch (the ``anchor," <span class="math">\(\mathbf{z}_i\)</span>), the loss focuses on maximizing its similarity with its corresponding augmented view (the `"positive," <span class="math">\(\mathbf{z}_j\)</span>). This is achieved by maximizing the numerator of the fraction. Simultaneously, it minimizes the anchor"s similarity to all other samples in the batch (the ``negatives," <span class="math">\(\mathbf{z}_k\)</span>). The <strong>temperature parameter</strong> <span class="math">\(\tau\)</span> is a crucial hyperparameter that scales the similarity scores; a smaller <span class="math">\(\tau\)</span> makes the loss more sensitive to difficult negative examples, forcing the model to learn more discriminative features.</p>
+<p>This loss function expertly balances <strong>intra-class</strong> and <strong>inter-class</strong> similarity. In this self-supervised context, ``intra-class" refers to the positive pair of augmented views derived from the same original image, while `"inter-class" refers to pairs made from different original images. The loss function encourages high intra-class similarity by explicitly trying to maximize the similarity score <span class="math">\(sim(z_i, z_j)\)</span> in the numerator. This has the effect of pulling the representations of positive pairs closer together in the embedding space. At the same time, it promotes low inter-class similarity by including all other samples in the denominator"s sum. To minimize the overall loss, the model must learn to make the similarity scores for all negative pairs as low as possible, effectively pushing their representations far apart from the anchor. This dual action creates well-separated clusters for different semantic classes without ever seeing explicit labels.</p>
+<p>The symbol <span class="math">\(\mathbb{1}_{[k \neq i]}\)</span> is an <strong>indicator function</strong>, which acts as a simple conditional switch. It evaluates to <span class="math">\(1\)</span> if the condition inside the brackets is true (i.e., if <span class="math">\(k\)</span> is not equal to <span class="math">\(i\)</span>) and <span class="math">\(0\)</span> if the condition is false. In the denominator, the summation runs over all <span class="math">\(2N\)</span> samples in the batch. The purpose of the indicator function is to exclude the anchor sample <span class="math">\(\mathbf{z}_i\)</span> from being compared with itself in the sum. Without this condition, the term <span class="math">\(\exp(\text{sim}(\mathbf{z}_i, \mathbf{z}_i) / \tau)\)</span> would be included. Since a sample's similarity with itself is trivially perfect, this large value would dominate the denominator and prevent the model from learning the subtle but important differences between the anchor and the actual negative samples. It ensures the model focuses on contrasting positive pairs against all <em>other</em> samples, not itself.</p>
+<h3 id="threshold">Threshold</h3>
+<p>During training, the best classification threshold is determined by evaluating the performance of the contrastive model on the training data itself. For each pair of augmented samples in a batch, the model produces two embedding vectors, <span class="math">\(h_1\)</span> and <span class="math">\(h_2\)</span>. The cosine similarity between these vectors is calculated for every pair. The algorithm then iterates through a range of potential threshold values from <span class="math">\(0.0\)</span> to <span class="math">\(1.0\)</span>. For each threshold, it makes a prediction: if the cosine similarity of a pair is above the threshold, the samples are predicted to be from the same class (a positive pair); otherwise, they are considered a negative pair. The balanced accuracy of these predictions is calculated against the true pair labels. The threshold that results in the highest balanced accuracy across the training batch is selected as the optimal threshold for that training step and is used for subsequent evaluations.</p>
+<h2 id="experimental-setup">Experimental Setup</h2>
+<p>With our methodology clearly defined, we proceed to the experimental setup phase of our study, where we put these diverse machine learning techniques to the test on our REIMS dataset.</p>
+<h3 id="benchmark-methods">Benchmark Methods</h3>
+<p>To effectively evaluate the proposed method, 18 other binary classification methods are used for comparison on the batch detection for the marine biomass REIMS dataset. These methods include:</p>
+<ol>
+<p><li><strong>Benchmark Technique</strong>: OPLS-DA Boccard2013.</li> <li><strong>Traditional machine learning algorithms</strong>, providing a baseline for comparison. Specifically, Random Forest (RF) Ho1995, K-Nearest Neighbors (KNN) Fix1989, Decision Trees (DT) Breiman2017, Naive Bayes (NB) Hand2001, Logistic Regression (LR) Kleinbaum2002, Support Vector Machines (SVM) Cortes1995, and Linear Discriminant Analysis (LDA) Balakrishnama1998.</li> <li><strong>Ensemble method</strong> Hansen1990: A combination of the above traditional methods.</li> <li><strong>Contrastive Learning techniques:</strong> Simple Contrastive Learning of Representations (SimCLR) Chen2020a.</li> <li><strong>Deep learning models</strong>, (CNNs) LeCun1989a,LeCun1989b,LeCun1989c,LeCun1998; Recurrent Convolutional Neural Networks (ResNet) He2016; Long-short Term Memory (LSTMs) Hochreiter1997; Variational Autoencoders (VAEs) Kingma2013; Mamba Gu2023; and Kolmogorov-Arnold Networks (KANs) Liu2024.</li></p>
+</ol>
+<p>The number of epochs for the deep learning methods is set to 100, the same as the proposed method, to facilitate equitable comparisons. Other hyperparameters are shared across methods where applicable, for the same reason.</p>
+<h3 id="benchmark-technique">Benchmark Technique</h3>
+<p>To contextualize the performance of our proposed models, we selected <strong>Orthogonal Partial Least Squares Discriminant Analysis (OPLS-DA)</strong> as the primary benchmark. OPLS-DA is a well-established and standard technique for analyzing REIMS data in the literature, making it an ideal point of comparison between our novel deep learning methods and a traditional approach.</p>
+<p>Beyond the OPLS-DA benchmark, the deep learning architectures were evaluated under two distinct frameworks to isolate the impact of the learning strategy itself. These two approaches are illustrated in <a href="#fig-binary-versus-contrastive" class="internal-ref">fig:binary-versus-contrastive</a>.</p>
+<ol>
+<p><li><strong>Direct Binary Classification:</strong> In the first setup, models were trained for standard binary classification. The input was a difference vector, created by subtracting the feature vector of one sample from another. The classifier's task was to use this vector to predict whether the two original samples belonged to the same batch.</li> <li><strong>Contrastive Learning Framework:</strong> In the second setup, the models served as encoders within a contrastive learning framework. Instead of operating on a pre-computed difference, this method learns to generate a separate, rich embedding for each sample in a pair. The cosine similarity between these embeddings is then used to determine if the samples originate from the same batch.</li></p>
+</ol>
+<p>This dual-framework evaluation allows for a direct assessment of the effectiveness of the contrastive learning paradigm compared to a more traditional classification approach using the exact same underlying model architectures.</p>
+<figure class="thesis-figure">
+<p><img src="../assets/binary-versus-contrastive.png" alt="This diagram illustrates the difference between binary classification and contrastive learning. Here, we see binary classification takes a difference vector between the two samples and performs binary classification. Whereas contrastive learning learns an embedded representation for each sample and compares these pair-wise. The output for both methods is identical, a prediction of whether the two samples belong to the same or different batches." loading="lazy" onerror="this.parentElement.innerHTML='<div class=img-missing>Image: binary-versus-contrastive.png</div>'"> <figcaption>This diagram illustrates the difference between binary classification and contrastive learning. Here, we see binary classification takes a difference vector between the two samples and performs binary classification. Whereas contrastive learning learns an embedded representation for each sample and compares these pair-wise. The output for both methods is identical, a prediction of whether the two samples belong to the same or different batches.</figcaption></p>
+</figure>
+<h3 id="experimental-settings">Experimental Settings</h3>
+<p>To evaluate model performance robustly, we used balanced accuracy as the primary metric and conducted 30 independent runs per experiment, with deep learning methods employing early stopping <span class="cite-group"><a href="../papers/Morgan1989.html" class="cite" title="Generalization and parameter estimation in feedforward nets: Some experiments">[Morgan, 1989]</a></span> to tune epochs based on validation data. For contrastive learning, we applied NT-Xent loss with a temperature of 0.07 to enhance sensitivity to pair similarities, while binary classification used balanced accuracy for traditional methods and weighted cross-entropy for deep learning methods to address class imbalance.</p>
+<div class="math-display">\[ Balanced Accuracy = 12 ( TPTP + FN + TNTN + FP ) \]</div>
+<h3 id="parameter-settings">Parameter Settings</h3>
+<p>To allow for a fair comparison, model hyperparameters were standardized where possible. The deep learning models, including SpectroSim's Transformer encoder, share a consistent set of parameters derived through experimental tuning. Key settings are detailed in <a href="#tab-spectrosim-params" class="internal-ref">tab:spectrosim_params</a>. The AdamW optimizer was used for its effectiveness in regularization. Techniques like label smoothing, dropout, and early stopping were employed to prevent overfitting and ensure robust generalization.</p>
+<div class="table-note"><span>📊</span> See thesis PDF for full table data</div>
+<h2 id="results-and-analysis">Results and Analysis</h2>
+<p>This section presents and interprets the outcomes of applying the described machine learning techniques to the batch detection task using the REIMS dataset.</p>
+<h3 id="overall-results">Overall Results</h3>
+<div class="table-note"><span>📊</span> See thesis PDF for full table data</div>
+<div class="table-note"><span>📊</span> See thesis PDF for full table data</div>
+<div class="table-note"><span>📊</span> See thesis PDF for full table data</div>
+<p>The initial analysis focused on establishing a performance baseline using traditional machine learning methods with a difference vector approach, as shown in <a href="#tab-binary-results-traditional" class="internal-ref">tab:binary_results_traditional</a>. These models universally overfit the training data and failed to generalize, achieving a balanced accuracy only slightly better than random chance (<span class="math">\(\approx\)</span> 50%). While Linear Discriminant Analysis (LDA) emerged as the top performer in this category and marginally outperformed the OPLS-DA benchmark, its overall performance was still inadequate.</p>
+<p>When deep learning encoders were applied directly to the same binary classification task (<a href="#tab-binary-results-encoders" class="internal-ref">tab:binary_results_encoders</a>), the results were mixed. Most architectures—including CNN, KAN, VAE, Mamba, and the default ResNet encoder—performed on par with the traditional methods, demonstrating poor generalization. However, a notable exception was observed with models designed to interpret sequential data. The Transformer, Mixture of Experts (MoE), and Ensemble models all surpassed 60% balanced accuracy, suggesting that their ability to capture the sequential nature of REIMS data offers a distinct advantage over other approaches. Despite this improvement, their performance still indicated significant room for growth.</p>
+<p>A substantial performance improvement was achieved by integrating the deep learning encoders within the SimCLR contrastive learning framework (<a href="#tab-simclr-results-encoders" class="internal-ref">tab:simclr_results_encoders</a>). This shift in learning strategy yielded the best results of the study, with the Transformer (70.8%) encoders demonstrating a dramatic leap in test accuracy. Their success highlights the power of contrastive learning to develop meaningful data representations for batch detection, a task where these same models previously failed as simple classifiers.</p>
+<p>The Ensemble Transformer also performed well (67.9%), though its results were slightly behind the simple Transformer architecture. This may suggest that for learning general-purpose embeddings in this context, the architectural complexity of the ensemble model provides diminishing returns compared to more streamlined models.</p>
+<p>The success of the contrastive approach stems from its fundamentally different learning objective. Instead of training on a simple difference vector, the SimCLR framework uses the NT-Xent loss function to structure a meaningful embedding space. This process compels the model to learn the subtle, underlying chemical signatures that define a batch by pulling representations of similar samples (positive pairs) closer together while pushing dissimilar ones (negative pairs) apart.</p>
+<p>The result is a robust representation that is far less prone to overfitting and generalizes effectively to unseen data. The results confirm that combining a powerful learning paradigm like contrastive learning with architectures well-suited for sequential data, such as Transformers, is a highly effective strategy. Nevertheless, the framework is not a panacea; the failure of models like KAN and VAE even within this structure underscores that both a suitable model architecture and an appropriate learning strategy are essential for success on this challenging task.</p>
+<h3 id="visualization">Visualization</h3>
+<p>While the performance of SpectroSim is high, understanding its decision-making process is crucial for trust and verification by domain experts. To open this black box, we can employ post-hoc explanation techniques like Gradient-weighted Class Activation Mapping (Grad-CAM). These methods can highlight the specific mass-to-charge (<span class="math">\(m/z\)</span>) ratios that the model finds most important when determining if two samples belong to the same batch. Similar to Chapter 5, we give the average correct Grad-CAM, this time for positive pairs predicted by SpectroSim in batch detection. <a href="#fig-gradcam-spectrosim" class="internal-ref">fig:gradcam-spectrosim</a> provides a visualization of this Grad-CAM.</p>
+<figure class="thesis-figure">
+<p><img src="../assets/average_positive_grad_cam.png" alt="Average Grad-CAM for our Transformer-based SpectroSim model. The visualization highlights the most salient m/z features used by the model to compare mass spectra after being trained with SimCLR." loading="lazy" onerror="this.parentElement.innerHTML='<div class=img-missing>Image: average_positive_grad_cam.png</div>'"> <figcaption>Average Grad-CAM for our Transformer-based SpectroSim model. The visualization highlights the most salient m/z features used by the model to compare mass spectra after being trained with SimCLR.</figcaption></p>
+</figure>
+<p>The SpectroSim model analyzes a sample's chemical fingerprint, known as a mass spectrum, by focusing on three key areas. First, it looks at small, common molecular fragments. It then identifies regularly spaced peaks, a pattern created by a family of related molecules (like lipids or polymers) that are built from the same repeating chemical block. Finally, it uses specific, heavy molecular markers to distinguish between very similar samples. This ability to see both broad patterns and unique details shows the model has a sophisticated understanding of the sample's chemistry.</p>
+<h3 id="computational-cost">Computational Cost</h3>
+<p>To evaluate the computational efficiency of various encoder architectures for contrastive learning, we established a standardized benchmark. Each model was tested on a consistent hardware platform using PyTorch to measure key performance indicators: training time, inference time, model size (MB), and the total number of parameters. The evaluation used a single batch from an instance recognition dataset derived from REIMS data, ensuring a direct and fair comparison across architectures.</p>
+<div class="table-note"><span>📊</span> See thesis PDF for full table data</div>
+<p>The results in Table <a href="#tab-comp-cost-combined" class="internal-ref">tab:comp_cost_combined</a> detail the computational costs for each encoder within the SimCLR framework. When considered with the classification accuracies from the previous section, these results highlight the trade-off between performance and computational expense. The more complex MoE and Ensemble models are, as expected, more computationally demanding than the standard Transformer. Although the VAE is the most lightweight model with the fastest inference speed, its low classification accuracy suggests the gain in efficiency does not justify the significant loss in performance.</p>
+<h3 id="other-contrastive-learning-methods">Other Contrastive Learning Methods</h3>
+<p>To ensure that our SpectroSim method, a self-supervised SimCLR with a Transformer backbone, was up to the task, we compared it against other state-of-the-art contrastive learning methods. We use Stratified k-fold cross-validation to evaluate the accuracy. For this analysis, the contrastive learning methods we compared were:</p>
+<ul>
+<p><li>BYOL Grill2020 — This method learns representations by having an online network predict the output of a target network for a different augmented view of the same image. It prevents model collapse by using a momentum-updated target network, which provides stable regression targets without needing explicit negative samples.</li> <li>Barlow Twins Zbontar2021 — This approach learns by making the cross-correlation matrix between the embeddings of two augmented views of an image as close to the identity matrix as possible. This objective encourages the features within the embeddings to be decorrelated, thereby reducing redundancy in the learned representation.</li> <li>SimSiam Chen2021 — A simple Siamese network that maximizes the similarity between two augmentations of an image, using an encoder on one branch and an encoder-predictor pair on the other. It surprisingly avoids collapse without using negative pairs or a momentum encoder by employing a stop-gradient operation, which prevents the outputs from becoming identical.</li> <li>MoCo He2020 — MoCo frames contrastive learning as a dictionary look-up task, where an encoded ``query" from one image view must match its positive `"key" from another view and be distinct from all other negative keys in a dictionary. This dictionary is implemented as a large, dynamic queue, and the key encoder is a momentum-based moving average of the query encoder, which maintains a consistent set of negative samples without needing massive batch sizes.</li></p>
+</ul>
+<div class="table-note"><span>📊</span> See thesis PDF for full table data</div>
+<p>SimCLR is the standout winner by a significant margin, achieving a Mean Test Accuracy of 70.8%. Its success lies in its direct and aggressive use of negative examples. For each sample, SimCLR treats all other samples in the batch as negatives, creating a strong repulsive force in the embedding space. This process compels the model to learn highly discriminative features that sharply distinguish between different source images, a strategy that proved most effective for this particular task.</p>
+<p>The middle-tier methods, BYOL (51.25%) and MoCo (50.42%), underperformed because they use strategies to avoid large batches of negative examples. MoCo uses a momentum queue to supply negatives, which may have lacked the diversity of SimCLR"s in-batch approach. BYOL avoids negatives entirely, instead training a network to predict its own momentum-updated representations. While these methods are often effective, their performance here suggests that for this dataset, the explicit repulsive force provided by a large set of negatives was crucial for learning separable features.</p>
+<p>The worst-performing methods, SimSiam (48.33%) and Barlow Twins (50.00%), effectively failed to learn anything meaningful. SimSiam, which uses a simple Siamese network with a stop-gradient, is highly susceptible to ``representational collapse," where it learns a trivial solution by outputting the same features for all inputs. Barlow Twins employs a fundamentally different objective of decorrelating feature dimensions. Its complete failure suggests this complex objective was ill-suited or improperly tuned for the dataset, preventing the model from converging on a useful representation.</p>
+<h2 id="chapter-summary">Chapter Summary</h2>
+<h3 id="conclusions">Conclusions</h3>
+<p>This chapter concludes that a self-supervised contrastive learning framework is highly effective for batch detection, achieving promising accuracy and far surpassing traditional binary classification methods. The proposed Transformer-based method, ``SpectroSim," achieved the highest accuracy (70.8%) when used as an encoder within the SimCLR-based contrastive learning framework. This success highlights the superiority of using a contrastive learning paradigm over simple binary classification for this task. The findings consistently demonstrate that for every model architecture tested, contrastive learning is more effective than binary classification, and deep learning generally outperforms traditional machine learning. Furthermore, the SimCLR-based approach is shown to outperform other state-of-the-art contrastive learning techniques on this batch detection task. This work establishes the value of deep, sequence-aware models for analyzing high-dimensional REIMS data, as they can leverage natural dataset imbalances for robust representation learning.</p>
+<h3 id="future-work">Future Work</h3>
+<p>Future work could explore:</p>
+<ol>
+<p><li><strong>Advanced Model Architectures:</strong> Graph Neural Networks (GNNs) Wu2020 should be applied to this problem as they can explicitly model the chemical relationships between different mass-to-charge (m/z) peaks, such as isotopic patterns or neutral losses. This approach could capture complex inter-feature dependencies that sequential models only learn implicitly, potentially leading to more robust and chemically-informed classifications.</li> <li><strong>Hybrid Models:</strong> This should be explored because different architectures capture distinct patterns; CNNs excel at identifying local features among adjacent peaks, while Transformers model global, long-range dependencies across the entire spectrum. A hybrid model could synergistically combine these strengths to create a more comprehensive feature representation for improved classification accuracy.</li> <li><strong>Domain-specific Augmentations:</strong> The integration of domain-specific augmentations, such as spectral peak shifting or noise injection tailored to REIMS chemical profiles, could help create more robust models by artificially expanding the limited training datasets. This would improve generalization by exposing the models to a wider range of plausible spectral variations they might encounter in a real-world setting.</li></p>
+</ol>
+    </article>
+
+    <section class="chapter-references">
+      <h2>References (15)</h2>
+      <ol class="ref-list">
+        <li><a href="../papers/Bromley1993.html">Bromley (1993)</a> — Signature verification using a ``siamese&quot; time delay neural network · 4,110 citations</li>
+<li><a href="../papers/Chen2020a.html">Chen (2020)</a> — A simple framework for contrastive learning of visual representations · 23,578 citations</li>
+<li><a href="../papers/dahariya2025enhancing.html">Dahariya (2025)</a> — Enhancing Livestock Supply Chains with Blockchain Traceability from Source to Market: A Survey</li>
+<li><a href="../papers/Gastaldi2025.html">Gastaldi Garcia (2025)</a> — Technical traceability systems in the food and fisheries sectors: A comparative analysis of Spain and Sweden</li>
+<li><a href="../papers/He2016.html">He (2016)</a> — Deep residual learning for image recognition · 224,535 citations</li>
+<li><a href="../papers/Helyar2014.html">Helyar (2014)</a> — Fish product mislabelling: failings of traceability in the production chain and implications for illegal, unreported and unregulated (IUU) fishing. · 168 citations</li>
+<li><a href="../papers/jiang2025traceability.html">Jiang (2025)</a> — Traceability Data in the form of Digital Food Product Passports for Fish Supply Chains · 0 citations</li>
+<li><a href="../papers/Kinakh2021.html">Kinakh (2021)</a> — Scatsimclr: self-supervised contrastive learning with pretext task regularization for small-scale datasets · 19 citations</li>
+<li><a href="../papers/Mai2010.html">Mai (2010)</a> — Benefits of traceability in fish supply chains–case studies · 128 citations</li>
+<li><a href="../papers/Morgan1989.html">Morgan (1989)</a> — Generalization and parameter estimation in feedforward nets: Some experiments</li>
+<li><a href="../papers/Piroutkova2025.html">Piroutkova (2025)</a> — An analytical and machine learning approach for total mercury and methylmercury determination in squid: enhancing food safety testing and traceability monitoring systems · 1 citations</li>
+<li><a href="../papers/turkson2025digital.html">Turkson (2025)</a> — Digital technologies for traceability and transparency in the global fish supply chains: a systematic review and future directions · 26 citations</li>
+<li><a href="../papers/Thompson2005.html">Unknown ()</a> — Thompson2005</li>
+<li><a href="../papers/Vaswani2017.html">Unknown ()</a> — Vaswani2017</li>
+<li><a href="../papers/Untal2025.html">Untal (2025)</a> — Fishers&#x27; preference for mobile traceability platform: challenges in achieving a digital tuna supply chain in Davao Region, Philippines · 4 citations</li>
+
+      </ol>
+    </section>
+
+    <div class="chapter-nav-bottom">
+      <a href="chapter-5.html" class="nav-btn">← Oil Contamination and Cross-Species Adulteration</a>
+      <a href="chapter-7.html" class="nav-btn">Conclusions →</a>
+    </div>
+  </main>
+</div>
+
+</div>
+<footer class="site-footer">
+  <div class="footer-inner">
+    <p>
+      <strong>Jesse Wood</strong> · PhD Thesis · Victoria University of Wellington · 2025
+    </p>
+    <p class="footer-sub">Machine Learning for Rapid Evaporative Ionization Mass Spectrometry for Marine Biomass Analysis</p>
+  </div>
+</footer>
+<script src="../js/main.js"></script>
+</body>
+</html>

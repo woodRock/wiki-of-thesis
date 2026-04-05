@@ -1,0 +1,92 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>ScatSimCLR: self-supervised contrastive learning with pretex… — ML for REIMS</title>
+  <link rel="stylesheet" href="../css/style.css">
+  <script>
+    // Apply saved theme before render
+    (function(){
+      const t = localStorage.getItem('theme');
+      if(t === 'dark') document.documentElement.classList.add('dark');
+    })();
+  </script>
+  
+</head>
+<body>
+<nav class="site-nav">
+  <div class="nav-inner">
+    <a href="../index.html" class="nav-brand">
+      <img src="../assets/university-logo.png" alt="University Logo" class="nav-logo" onerror="this.style.display='none'">
+      <span class="nav-title">ML for REIMS</span>
+    </a>
+    <div class="nav-links">
+      <a href="../index.html">Home</a>
+      <a href="../chapters/chapter-1.html">Chapters</a>
+      <a href="../papers.html">Papers</a>
+    </div>
+    <div class="nav-actions">
+      <button id="search-toggle" class="icon-btn" aria-label="Search">🔍</button>
+      <button id="theme-toggle" class="icon-btn" aria-label="Toggle theme">🌙</button>
+      <button id="menu-toggle" class="icon-btn" aria-label="Menu">☰</button>
+    </div>
+  </div>
+  <div id="mobile-menu" class="mobile-menu hidden">
+    <a href="../index.html">Home</a>
+    <a href="../chapters/chapter-1.html">Chapters</a>
+    <a href="../papers.html">All Papers</a>
+  </div>
+  <div id="search-bar" class="search-bar hidden">
+    <input type="text" id="search-input" placeholder="Search papers, concepts, authors…" autocomplete="off">
+    <div id="search-results" class="search-results"></div>
+  </div>
+</nav>
+<div id="page-wrapper">
+
+<div class="paper-layout">
+  <main class="paper-main">
+    <div class="breadcrumb"><a href="../index.html">Home</a> / <a href="../papers.html">Papers</a> / Kinakh2021</div>
+
+    <article class="paper-article">
+      <header class="paper-header">
+        <h1 class="paper-title">ScatSimCLR: self-supervised contrastive learning with pretext task regularization for small-scale datasets</h1>
+        <p class="paper-authors">Vitaliy Kinakh, O. Taran, S. Voloshynovskiy</p>
+        <div class="paper-meta">
+          <span class="paper-year">2021</span>
+          <span class="paper-venue">2021 IEEE/CVF International Conference on Computer Vision Workshops (ICCVW)</span>
+          <span class="cite-count">Cited 19 times</span>
+        </div>
+        <div class="paper-links"><a href="https://doi.org/10.1109/ICCVW54120.2021.00129" target="_blank" class="ext-link">DOI ↗</a> <a href="https://arxiv.org/abs/2108.13939" target="_blank" class="ext-link">arXiv ↗</a> <a href="https://arxiv.org/pdf/2108.13939" target="_blank" class="ext-link pdf-link">PDF ↗</a></div>
+      </header>
+
+      <div class="abstract-block"><h3>Abstract</h3><p>In this paper, we consider a problem of self-supervised learning for small-scale datasets based on contrastive loss between multiple views of the data, which demonstrates the state-of-the-art performance in classification task. Despite the reported results, such factors as the complexity of training requiring complex architectures, the needed number of views produced by data augmentation, and their impact on the classification accuracy are understudied problems. To establish the role of these factors, we consider an architecture of contrastive loss system such as SimCLR, where baseline model is replaced by geometrically invariant &quot;hand-crafted&quot; network ScatNet with small trainable adapter network and argue that the number of parameters of the whole system and the number of views can be considerably reduced while practically preserving the same classification accuracy. In addition, we investigate the impact of regularization strategies using pretext task learning based on an estimation of parameters of augmentation transform such as rotation and jigsaw permutation for both traditional baseline models and ScatNet based models. Finally, we demonstrate that the proposed architecture with pretext task learning regularization achieves the state-of-the-art classification performance with a smaller number of trainable parameters and with reduced number of views. Code: https://github.com/vkinakh/scatsimclr</p></div>
+
+      <div class="cited-in-block"><h3>Cited in this thesis</h3><div class="cite-chips"><a href="../chapters/chapter-2.html" class="cite-chip">Literature Survey</a><a href="../chapters/chapter-6.html" class="cite-chip">Contrastive Learning for Batch Detection</a></div></div>
+
+      <details class="bibtex-block">
+        <summary>BibTeX</summary>
+        <pre><code>@inproceedings{Kinakh2021,
+  title = {Scatsimclr: self-supervised contrastive learning with pretext task regularization for small-scale datasets},
+  author = {Kinakh, Vitaliy and Taran, Olga and Voloshynovskiy, Svyatoslav},
+  booktitle = {Proceedings of the IEEE/CVF International Conference on Computer Vision},
+  pages = {1098–1106},
+  year = {2021},
+}</code></pre>
+      </details>
+    </article>
+  </main>
+</div>
+
+</div>
+<footer class="site-footer">
+  <div class="footer-inner">
+    <p>
+      <strong>Jesse Wood</strong> · PhD Thesis · Victoria University of Wellington · 2025
+    </p>
+    <p class="footer-sub">Machine Learning for Rapid Evaporative Ionization Mass Spectrometry for Marine Biomass Analysis</p>
+  </div>
+</footer>
+<script src="../js/main.js"></script>
+</body>
+</html>

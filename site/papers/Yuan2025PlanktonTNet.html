@@ -1,0 +1,100 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>PlanktonTNet: Rethinking Plankton Classification from a Glob… — ML for REIMS</title>
+  <link rel="stylesheet" href="../css/style.css">
+  <script>
+    // Apply saved theme before render
+    (function(){
+      const t = localStorage.getItem('theme');
+      if(t === 'dark') document.documentElement.classList.add('dark');
+    })();
+  </script>
+  
+</head>
+<body>
+<nav class="site-nav">
+  <div class="nav-inner">
+    <a href="../index.html" class="nav-brand">
+      <img src="../assets/university-logo.png" alt="University Logo" class="nav-logo" onerror="this.style.display='none'">
+      <span class="nav-title">ML for REIMS</span>
+    </a>
+    <div class="nav-links">
+      <a href="../index.html">Home</a>
+      <a href="../chapters/chapter-1.html">Chapters</a>
+      <a href="../papers.html">Papers</a>
+    </div>
+    <div class="nav-actions">
+      <button id="search-toggle" class="icon-btn" aria-label="Search">🔍</button>
+      <button id="theme-toggle" class="icon-btn" aria-label="Toggle theme">🌙</button>
+      <button id="menu-toggle" class="icon-btn" aria-label="Menu">☰</button>
+    </div>
+  </div>
+  <div id="mobile-menu" class="mobile-menu hidden">
+    <a href="../index.html">Home</a>
+    <a href="../chapters/chapter-1.html">Chapters</a>
+    <a href="../papers.html">All Papers</a>
+  </div>
+  <div id="search-bar" class="search-bar hidden">
+    <input type="text" id="search-input" placeholder="Search papers, concepts, authors…" autocomplete="off">
+    <div id="search-results" class="search-results"></div>
+  </div>
+</nav>
+<div id="page-wrapper">
+
+<div class="paper-layout">
+  <main class="paper-main">
+    <div class="breadcrumb"><a href="../index.html">Home</a> / <a href="../papers.html">Papers</a> / Yuan2025PlanktonTNet</div>
+
+    <article class="paper-article">
+      <header class="paper-header">
+        <h1 class="paper-title">PlanktonTNet: Rethinking Plankton Classification from a Global View with Swin-Transformer</h1>
+        <p class="paper-authors">Dekun Yuan, Yanping Qi, Jie Zhang, Zhongwei Li</p>
+        <div class="paper-meta">
+          <span class="paper-year">2021</span>
+          <span class="paper-venue">OCEANS 2025 Brest</span>
+          <span class="cite-count">Cited 0 times</span>
+        </div>
+        <div class="paper-links"><a href="https://doi.org/10.1109/OCEANS58557.2025.11104797" target="_blank" class="ext-link">DOI ↗</a></div>
+      </header>
+
+      <div class="abstract-block"><h3>Abstract</h3><p>Plankton, which includes both phytoplankton and zooplankton, represents a crucial ecological group in marine ecosystems. Its shape varies and is versatile in posture, especially zooplankton. Plankton can be recognized from local or global perspectives. In this paper, we propose the Plankton Transformer Network (PlanktonTNet), which identifies plankton by extracting both local and global features. PlanktonTNet incorporates a Local Features Extraction Module (LFEM) and a Global Features Extraction Module (GFEM) to extract features using CNNs and the Swin Transformer, respectively. Additionally, a Feature Fusion Module (FFM) is employed to combine these features. Among CNN-based models, ResNet-34 achieved the best performance. PlanktonTNet, however, achieves a top-1 accuracy of 97.90% on the Kaggle7 test dataset, a 2.10% improvement over ResNet-34, and a top-1 accuracy of 97.00% on the ZooScanNet6 test dataset, showing a 1.04% gain over ResNet-34. Experimental results on the Kaggle7 and ZooScanNet6 datasets demonstrate that PlanktonTNet significantly outperforms existing methods.</p></div>
+
+      
+
+      <details class="bibtex-block">
+        <summary>BibTeX</summary>
+        <pre><code>@inproceedings{Yuan2025PlanktonTNet,
+  author = {Zbontar, Jure and Jing, Li and Misra, Ishan and LeCun, Yann and Deny, Stephane},
+  booktitle = {International conference on machine learning},
+  title = {Barlow twins: Self-supervised learning via redundancy reduction},
+  year = {2021},
+  volume = {},
+  number = {},
+  pages = {12310–12320},
+  abstract = {Plankton, which includes both phytoplankton and zooplankton, represents a crucial ecological group in marine ecosystems. Its shape varies and is versatile in posture, especially zooplankton. Plankton can be recognized from local or global perspectives. In this paper, we propose the Plankton Transformer Network (PlanktonTNet), which identifies plankton by extracting both local and global features. PlanktonTNet incorporates a Local Features Extraction Module (LFEM) and a Global Features Extraction Module (GFEM) to extract features using CNNs and the Swin Transformer, respectively. Additionally, a Feature Fusion Module (FFM) is employed to combine these features. Among CNN-based models, ResNet-34 achieved the best performance. PlanktonTNet, however, achieves a top-1 accuracy of 97.90% on the Kaggle7 test dataset, a 2.10% improvement over ResNet-34, and a top-1 accuracy of 97.00% on the ZooScanNet6 test dataset, showing a 1.04% gain over ResNet-34. Experimental results on the Kaggle7 and ZooScanNet6 datasets demonstrate that PlanktonTNet significantly outperforms existing methods.},
+  keywords = {Accuracy;Shape;Plankton;Biological system modeling;Oceans;Feature extraction;Transformers;Phytoplankton;Marine ecosystems;Zooplankton;Plankton;Classification;Swin-Transformer;Deep Learning;Convolutional Neural Networks},
+  doi = {10.1109/OCEANS58557.2025.11104797},
+  issn = {},
+  month = {June},
+  organization = {PMLR},
+}</code></pre>
+      </details>
+    </article>
+  </main>
+</div>
+
+</div>
+<footer class="site-footer">
+  <div class="footer-inner">
+    <p>
+      <strong>Jesse Wood</strong> · PhD Thesis · Victoria University of Wellington · 2025
+    </p>
+    <p class="footer-sub">Machine Learning for Rapid Evaporative Ionization Mass Spectrometry for Marine Biomass Analysis</p>
+  </div>
+</footer>
+<script src="../js/main.js"></script>
+</body>
+</html>

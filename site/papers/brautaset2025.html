@@ -1,0 +1,96 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Integrating and assessing machine learning acoustic target c… — ML for REIMS</title>
+  <link rel="stylesheet" href="../css/style.css">
+  <script>
+    // Apply saved theme before render
+    (function(){
+      const t = localStorage.getItem('theme');
+      if(t === 'dark') document.documentElement.classList.add('dark');
+    })();
+  </script>
+  
+</head>
+<body>
+<nav class="site-nav">
+  <div class="nav-inner">
+    <a href="../index.html" class="nav-brand">
+      <img src="../assets/university-logo.png" alt="University Logo" class="nav-logo" onerror="this.style.display='none'">
+      <span class="nav-title">ML for REIMS</span>
+    </a>
+    <div class="nav-links">
+      <a href="../index.html">Home</a>
+      <a href="../chapters/chapter-1.html">Chapters</a>
+      <a href="../papers.html">Papers</a>
+    </div>
+    <div class="nav-actions">
+      <button id="search-toggle" class="icon-btn" aria-label="Search">🔍</button>
+      <button id="theme-toggle" class="icon-btn" aria-label="Toggle theme">🌙</button>
+      <button id="menu-toggle" class="icon-btn" aria-label="Menu">☰</button>
+    </div>
+  </div>
+  <div id="mobile-menu" class="mobile-menu hidden">
+    <a href="../index.html">Home</a>
+    <a href="../chapters/chapter-1.html">Chapters</a>
+    <a href="../papers.html">All Papers</a>
+  </div>
+  <div id="search-bar" class="search-bar hidden">
+    <input type="text" id="search-input" placeholder="Search papers, concepts, authors…" autocomplete="off">
+    <div id="search-results" class="search-results"></div>
+  </div>
+</nav>
+<div id="page-wrapper">
+
+<div class="paper-layout">
+  <main class="paper-main">
+    <div class="breadcrumb"><a href="../index.html">Home</a> / <a href="../papers.html">Papers</a> / brautaset2025</div>
+
+    <article class="paper-article">
+      <header class="paper-header">
+        <h1 class="paper-title">Integrating and assessing machine learning acoustic target classification models for fish survey estimations</h1>
+        <p class="paper-authors">N. Handegard, A. J. Holmin, Ahmet Pala, Ingrid Utseth, E. Johnsen</p>
+        <div class="paper-meta">
+          <span class="paper-year">2025</span>
+          <span class="paper-venue">ICES Journal of Marine Science</span>
+          <span class="cite-count">Cited 2 times</span>
+        </div>
+        <div class="paper-links"><a href="https://doi.org/10.1093/icesjms/fsaf069" target="_blank" class="ext-link">DOI ↗</a></div>
+      </header>
+
+      <div class="abstract-block"><h3>Abstract</h3><p>
+ Scientific acoustic-trawl surveys collect data that are used to track fish and zooplankton populations over time. Most rely on manual annotation during acoustic target classification, but automated methods have been proposed. Here, we report on a framework for testing deep learning-based acoustic classification models and integrating them into the survey estimation process. The approach was applied to North Sea lesser sandeel (Ammodytes marinus) surveys from 2009 to 2024. Three U-Net-based models were tested: a baseline model, a depth-aware model, and a model trained with similarity-based sampling for the foreground class. A threshold based on the training years was applied to the models’ SoftMax outputs. The official sandeel estimation process was used as a starting point, replacing input data with model predictions. The biomass estimates were generally similar between manual annotations and model-based estimates, but variation existed across years. The baseline model misclassified a surface layer as sandeel and was prone to bottom contamination, causing larger deviations from official estimates. Discrepancies between the similarity-based model and the official estimates resulted from an incorrectly applied SoftMax threshold, leading to missing school interiors and indicating threshold sensitivity. Unlike traditional F1 score evaluations commonly used in image-based classification, our comparison assessed predictions in a survey-relevant context. The evaluation indicated that full automation was not yet feasible, but the predictions could be used as starting points for manual scrutiny. Annotating a subset of the data to refine thresholds or employing more advanced active learning approaches could enhance efficiency. These methods could enable faster, more consistent survey annotation.</p></div>
+
+      
+
+      <details class="bibtex-block">
+        <summary>BibTeX</summary>
+        <pre><code>@article{brautaset2025,
+  title = {Integrating and assessing machine learning acoustic target classification models for fish survey estimations},
+  author = {Brautaset, Are and Johnsen, Egil and Kvamme, Cecilie},
+  journal = {ICES Journal of Marine Science},
+  volume = {82},
+  number = {5},
+  year = {2025},
+  publisher = {Oxford University Press},
+  abstract = {Scientific acoustic-trawl surveys collect data that are used to track fish and zooplankton populations over time. Most rely on manual annotation during acoustic target classification, but automated methods have been proposed. Here, we report on a framework for testing deep learning-based acoustic classification models and integrating them into the survey estimation process. The approach was applied to North Sea lesser sandeel (Ammodytes marinus) surveys from 2009 to 2024. Three U-Net-based models were tested: a baseline model, a depth-aware model, and a model trained with similarity-based sampling for the foreground class. A threshold based on the training years was applied to the models’ SoftMax outputs. The official sandeel estimation process was used as a starting point, replacing input data with model predictions. The biomass estimates were generally similar between manual annotations and model-based estimates, but variation existed across years. The baseline model misclassified a surface layer as sandeel and was prone to bottom contamination, causing larger deviations from official estimates. Discrepancies between the similarity-based model and the official estimates resulted from an incorrectly applied SoftMax threshold, leading to missing school interiors and indicating threshold sensitivity. Unlike traditional F1 score evaluations commonly used in image-based classification, our comparison assessed predictions in a survey-relevant context. The evaluation indicated that full automation was not yet feasible, but the predictions could be used as starting points for manual scrutiny. Annotating a subset of the data to refine thresholds or employing more advanced active learning approaches could enhance efficiency. These methods could enable faster, more consistent survey annotation.},
+}</code></pre>
+      </details>
+    </article>
+  </main>
+</div>
+
+</div>
+<footer class="site-footer">
+  <div class="footer-inner">
+    <p>
+      <strong>Jesse Wood</strong> · PhD Thesis · Victoria University of Wellington · 2025
+    </p>
+    <p class="footer-sub">Machine Learning for Rapid Evaporative Ionization Mass Spectrometry for Marine Biomass Analysis</p>
+  </div>
+</footer>
+<script src="../js/main.js"></script>
+</body>
+</html>
