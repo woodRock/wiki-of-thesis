@@ -610,6 +610,9 @@ class LatexConverter:
         t = re.sub(r'\\begin\{align\*?\}(.*?)\\end\{align\*?\}',
                    lambda m: f'<div class="math-display">\\[\\begin{{aligned}}{m.group(1)}\\end{{aligned}}\\]</div>',
                    t, flags=re.DOTALL)
+        # $$...$$ display math (LaTeX / common web notation)
+        t = re.sub(r'\$\$(.*?)\$\$',
+                   r'<div class="math-display">\\[\1\\]</div>', t, flags=re.DOTALL)
         # Protect already-wrapped display math before matching bare \[...\]
         _dm_store: Dict[str, str] = {}
         def _dm_protect(m):
@@ -636,25 +639,44 @@ class LatexConverter:
 
     def _figure(self, m) -> str:
         content = m.group(1)
-        img_m = re.search(r'\\includegraphics(?:\[[^\]]*\])?\{([^}]+)\}', content)
         cap_m = re.search(r'\\caption\{((?:[^{}]|\{[^{}]*\})*)\}', content)
-        if not img_m:
-            return ''
-        img_name = os.path.basename(img_m.group(1))
         caption = self._inline_simple(cap_m.group(1)) if cap_m else ''
-        alt = html.escape(re.sub(r'<[^>]+>', '', caption))
-        # PDF figures are converted to PNG at build time
-        if img_name.lower().endswith('.pdf'):
-            img_name = os.path.splitext(img_name)[0] + '.png'
-        # Stable figure ID derived from filename (unique within the site)
-        stem = re.sub(r'[^a-z0-9]+', '-', os.path.splitext(img_name)[0].lower()).strip('-')
-        fig_id = f'fig-{stem}'
-        # Collect figure for gallery (include anchor so gallery can deep-link)
-        self.figures.append({
-            'src': img_name, 'caption': caption,
-            'chapter_slug': self.chapter_slug, 'fig_id': fig_id,
-        })
-        return f'<figure class="thesis-figure" id="{html.escape(fig_id)}"><img src="../assets/{html.escape(img_name)}" alt="{alt}" loading="lazy" class="thesis-img"><figcaption>{caption}</figcaption></figure>\n'
+
+        # Collect all \includegraphics paths (handles \subfloat with multiple images)
+        img_paths = re.findall(r'\\includegraphics(?:\[[^\]]*\])?\{([^}]+)\}', content)
+        if not img_paths:
+            return ''
+
+        # Also collect per-subfloat captions if present
+        subfloat_caps = re.findall(
+            r'\\subfloat\[(?:\\centering\s*)?(.*?)\]', content)
+
+        result = ''
+        for i, raw_path in enumerate(img_paths):
+            img_name = os.path.basename(raw_path)
+            if img_name.lower().endswith('.pdf'):
+                img_name = os.path.splitext(img_name)[0] + '.png'
+            stem = re.sub(r'[^a-z0-9]+', '-', os.path.splitext(img_name)[0].lower()).strip('-')
+            fig_id = f'fig-{stem}'
+
+            # Caption: use shared caption for single images; subfloat label + shared for multiples
+            if len(img_paths) == 1:
+                fig_caption = caption
+            else:
+                sub_label = self._inline_simple(subfloat_caps[i]) if i < len(subfloat_caps) else ''
+                fig_caption = f'{sub_label} — {caption}' if sub_label else caption
+
+            alt = html.escape(re.sub(r'<[^>]+>', '', fig_caption))
+            self.figures.append({
+                'src': img_name, 'caption': fig_caption,
+                'chapter_slug': self.chapter_slug, 'fig_id': fig_id,
+            })
+            result += (f'<figure class="thesis-figure" id="{html.escape(fig_id)}">'
+                       f'<img src="../assets/{html.escape(img_name)}" alt="{alt}" '
+                       f'loading="lazy" class="thesis-img">'
+                       f'<figcaption>{fig_caption}</figcaption></figure>\n')
+
+        return result
 
     def _table(self, m) -> str:
         """Convert a LaTeX table float into HTML (or PNG image if pdflatex available)."""
