@@ -14,8 +14,13 @@
   </script>
   <script>
   window.MathJax = {
-    tex: { inlineMath: [['\\(','\\)']], displayMath: [['\\[','\\]']] },
-    options: { skipHtmlTags: ['script','noscript','style','textarea','pre'] }
+    tex: {
+      inlineMath: [['\\(', '\\)']],
+      displayMath: [['\\[', '\\]']],
+      processEscapes: true
+    },
+    options: { skipHtmlTags: ['script','noscript','style','textarea','pre'] },
+    startup: { typeset: true }
   };
 </script>
 <script src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-chtml.js" id="MathJax-script" async></script>
@@ -105,12 +110,15 @@
 <h3 id="2-advanced-safety-and-fraud-detection-chapter-5">2. Advanced Safety and Fraud Detection (Chapter 5)</h3>
 <p>This research successfully formalized and solved novel contamination problems crucial for food safety. The thesis demonstrated that deep learning models, particularly those leveraging unsupervised pre-training (Masked Spectra Modeling) and Transfer Learning, are essential for handling subtle, difficult-to-detect signals:</p>
 <ul>
-<p><li>The models achieved competitive performance in the challenging ordinal multi-class oil contamination detection task (up to <span class="math">\(49.10%\)</span> test accuracy), a significant improvement over OPLS-DA (<span class="math">\(26.43%\)</span>).</li> <li>Crucially, this section established that the more challenging contamination tasks consistently benefited from positive knowledge transfer, providing practical guidance for accelerating model development in industrial settings.</li> <li>By comparing ordinal classification techniques, the thesis validated that models which respect the inherent order of contamination levels (e.g., CORAL/CLM) yield more meaningful predictions by minimizing error distance.</li></p>
+<li>The models achieved competitive performance in the challenging ordinal multi-class oil contamination detection task (up to <span class="math">\(49.10%\)</span> test accuracy), a significant improvement over OPLS-DA (<span class="math">\(26.43%\)</span>).</li>
+<li>Crucially, this section established that the more challenging contamination tasks consistently benefited from positive knowledge transfer, providing practical guidance for accelerating model development in industrial settings.</li>
+<li>By comparing ordinal classification techniques, the thesis validated that models which respect the inherent order of contamination levels (e.g., CORAL/CLM) yield more meaningful predictions by minimizing error distance.</li>
 </ul>
 <h3 id="3-novel-label-free-batch-traceability-chapter-6">3. Novel, Label-Free Batch Traceability (Chapter 6)</h3>
 <p>The thesis achieved the critical objective of developing a practical, chemical-based solution for batch traceability, overcoming the limitations of costly physical tagging <span class="cite-group"><a href="../papers/Mai2010.html" class="cite" title="Benefits of traceability in fish supply chains–case studies">[Mai, 2010]</a></span> and complementing the field's current focus on vulnerable, data-entry-dependent digital traceability systems <span class="cite-group"><a href="../papers/turkson2025digital.html" class="cite" title="Digital technologies for traceability and transparency in the global fish supply">[Turkson, 2025]</a><a href="../papers/jiang2025traceability.html" class="cite" title="Traceability Data in the form of Digital Food Product Passports for Fish Supply ">[Jiang, 2025]</a></span>. The novel SpectroSim framework, which utilizes a self-supervised contrastive learning approach with a Transformer encoder, achieved a remarkable <span class="math">\(70.8\%\)</span> balanced accuracy in determining if two samples shared a batch origin. This result:</p>
 <ul>
-<p><li>Vastly outperformed traditional binary classification methods (which struggled to surpass <span class="math">\(60%\)</span> accuracy).</li> <li>Eliminated the need for explicit class labels during training, making it a practical, plug-and-play solution for rapid, cost-effective deployment in processing environments, thereby addressing the high-cost and infrastructure barriers that hinder the adoption of digital-only systems Untal2025.</li></p>
+<li>Vastly outperformed traditional binary classification methods (which struggled to surpass <span class="math">\(60%\)</span> accuracy).</li>
+<li>Eliminated the need for explicit class labels during training, making it a practical, plug-and-play solution for rapid, cost-effective deployment in processing environments, thereby addressing the high-cost and infrastructure barriers that hinder the adoption of digital-only systems Untal2025.</li>
 </ul>
 <p>In summary, by systematically advancing the analytical capabilities of REIMS data, from fundamental species identification to complex trace contamination detection and label-free traceability, this thesis provides a validated suite of highly accurate, efficient, and potentially interpretable machine learning methods. The foundational goal of enabling rapid, automated, and <em>in situ</em> quality assurance in the fish processing industry has therefore been successfully realized.</p>
 <h2 id="summary-of-key-findings">Summary of Key Findings</h2>
@@ -143,7 +151,10 @@
 <h2 id="limitations-of-the-research">Limitations of the Research</h2>
 <p>Despite encouraging results, certain limitations of this research should be acknowledged:</p>
 <ul>
-<p><li><strong>Dataset Scope:</strong> While the datasets from AgResearch provided a valuable foundation, they are specific to certain fish species (primarily Hoki and Mackerel) and processing conditions within New Zealand. The generalizability of the findings to a broader range of species, geographical origins, and processing environments requires further investigation. For example, geographical origin is a complex variable in its own right, with recent REIMS and ML studies focusing specifically on authenticating the provenance of a single species across different regions Lu2024.</li> <li><strong>Sample Size for Specific Tasks:</strong> Some datasets, particularly for fish body part classification, had a limited number of samples, which can affect model robustness and the statistical significance of some findings, although techniques were employed to mitigate this.</li> <li><strong>Dynamic Environmental Factors:</strong> The current research primarily utilized static datasets. Real-world processing environments can have dynamic factors (e.g., seasonal variations OpenSeas2021 in fish biochemistry, changes in processing equipment) that might affect REIMS spectra and model performance over time.</li> <li><strong>Computational Resources:</strong> While efforts were made to develop efficient models, some advanced architectures like large Transformers or extensive MoE configurations can still be computationally intensive, potentially posing a barrier for facilities with limited resources.</li></p>
+<li><strong>Dataset Scope:</strong> While the datasets from AgResearch provided a valuable foundation, they are specific to certain fish species (primarily Hoki and Mackerel) and processing conditions within New Zealand. The generalizability of the findings to a broader range of species, geographical origins, and processing environments requires further investigation. For example, geographical origin is a complex variable in its own right, with recent REIMS and ML studies focusing specifically on authenticating the provenance of a single species across different regions Lu2024.</li>
+<li><strong>Sample Size for Specific Tasks:</strong> Some datasets, particularly for fish body part classification, had a limited number of samples, which can affect model robustness and the statistical significance of some findings, although techniques were employed to mitigate this.</li>
+<li><strong>Dynamic Environmental Factors:</strong> The current research primarily utilized static datasets. Real-world processing environments can have dynamic factors (e.g., seasonal variations OpenSeas2021 in fish biochemistry, changes in processing equipment) that might affect REIMS spectra and model performance over time.</li>
+<li><strong>Computational Resources:</strong> While efforts were made to develop efficient models, some advanced architectures like large Transformers or extensive MoE configurations can still be computationally intensive, potentially posing a barrier for facilities with limited resources.</li>
 </ul>
 <h2 id="future-work">Future Work</h2>
 <p>The engagement with REIMS marine biomass analysis detailed in this thesis has illuminated several key research directions. This section aims to present these topics, identified during our work, which we assert are promising avenues for future investigation likely to yield significant impact.</p>

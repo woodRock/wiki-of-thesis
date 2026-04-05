@@ -330,18 +330,13 @@ class LatexConverter:
             return ''
         img_name = os.path.basename(img_m.group(1))
         caption = self._inline_simple(cap_m.group(1)) if cap_m else ''
-        # PDF images - note them specially
+        alt = html.escape(re.sub(r'<[^>]+>', '', caption))
         is_pdf = img_name.lower().endswith('.pdf')
         if is_pdf:
-            return f'''<figure class="thesis-figure">
-  <div class="pdf-figure-note">📄 Figure: {html.escape(img_name)} (PDF — see thesis for full image)</div>
-  <figcaption>{caption}</figcaption>
-</figure>\n'''
-        return f'''<figure class="thesis-figure">
-  <img src="../assets/{html.escape(img_name)}" alt="{html.escape(re.sub(r"<[^>]+>","",caption))}" loading="lazy"
-       onerror="this.parentElement.innerHTML='<div class=img-missing>Image: {html.escape(img_name)}</div>'">
-  <figcaption>{caption}</figcaption>
-</figure>\n'''
+            # Output single-line so _paragraphs doesn't wrap it in <p>
+            return f'<figure class="thesis-figure"><div class="pdf-figure-note">&#128196; {html.escape(img_name)} — see thesis PDF</div><figcaption>{caption}</figcaption></figure>\n'
+        # Single-line <img> — no multi-line attributes that confuse _paragraphs
+        return f'<figure class="thesis-figure"><img src="../assets/{html.escape(img_name)}" alt="{alt}" loading="lazy" class="thesis-img"><figcaption>{caption}</figcaption></figure>\n'
 
     def _enumerate(self, m) -> str:
         items = self._split_items(m.group(1))
@@ -357,7 +352,9 @@ class LatexConverter:
         return [p for p in re.split(r'\\item(?:\[[^\]]*\])?', content)[1:] if p.strip()]
 
     def _inline_simple(self, t: str) -> str:
-        """Lightweight inline converter for titles/captions."""
+        """Lightweight inline converter for titles/captions (no citation tracking)."""
+        # Strip citation commands — don't leave bare keys in output
+        t = re.sub(r'\\cite[a-z]*\{[^}]+\}', '', t)
         t = re.sub(r'\\textbf\{([^}]+)\}', r'<strong>\1</strong>', t)
         t = re.sub(r'\\textit\{([^}]+)\}', r'<em>\1</em>', t)
         t = re.sub(r'\\emph\{([^}]+)\}', r'<em>\1</em>', t)
@@ -475,7 +472,11 @@ class LatexConverter:
         return t
 
     def _paragraphs(self, t: str) -> str:
-        BLOCK = re.compile(r'^<(?:h[2-6]|figure|ul|ol|blockquote|div|table|p\b)', re.I)
+        # Recognize all block-level elements so they don't get wrapped in <p>
+        BLOCK = re.compile(
+            r'^<(?:h[2-6]|figure|img\b|figcaption|ul|ol|li\b|blockquote|div|table|thead|tbody|tr\b|td\b|th\b|p\b|pre\b|details|summary)',
+            re.I
+        )
         CLOSE = re.compile(r'^</', re.I)
         buf, out = [], []
 
@@ -737,8 +738,13 @@ def build_chapter(slug: str, title: str, latex: str, bib: Dict,
 
     mathjax = """<script>
   window.MathJax = {
-    tex: { inlineMath: [['\\\\(','\\\\)']], displayMath: [['\\\\[','\\\\]']] },
-    options: { skipHtmlTags: ['script','noscript','style','textarea','pre'] }
+    tex: {
+      inlineMath: [['\\\\(', '\\\\)']],
+      displayMath: [['\\\\[', '\\\\]']],
+      processEscapes: true
+    },
+    options: { skipHtmlTags: ['script','noscript','style','textarea','pre'] },
+    startup: { typeset: true }
   };
 </script>
 <script src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-chtml.js" id="MathJax-script" async></script>"""
@@ -1714,6 +1720,20 @@ a:hover { text-decoration: underline; color: var(--accent-hover); }
 # ── JavaScript ─────────────────────────────────────────────────────────────────
 
 JS = r"""
+// Image error handling - hide broken images gracefully
+document.querySelectorAll('.thesis-img').forEach(img => {
+  img.addEventListener('error', function() {
+    const fig = this.closest('figure');
+    if (fig) {
+      this.style.display = 'none';
+      const fb = document.createElement('div');
+      fb.className = 'img-missing';
+      fb.textContent = '🖼 ' + (this.src.split('/').pop() || 'Image unavailable');
+      fig.insertBefore(fb, this);
+    }
+  });
+});
+
 // Theme toggle
 const themeBtn = document.getElementById('theme-toggle');
 if (themeBtn) {

@@ -1,4 +1,18 @@
 
+// Image error handling - hide broken images gracefully
+document.querySelectorAll('.thesis-img').forEach(img => {
+  img.addEventListener('error', function() {
+    const fig = this.closest('figure');
+    if (fig) {
+      this.style.display = 'none';
+      const fb = document.createElement('div');
+      fb.className = 'img-missing';
+      fb.textContent = '🖼 ' + (this.src.split('/').pop() || 'Image unavailable');
+      fig.insertBefore(fb, this);
+    }
+  });
+});
+
 // Theme toggle
 const themeBtn = document.getElementById('theme-toggle');
 if (themeBtn) {
