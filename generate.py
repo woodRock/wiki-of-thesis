@@ -455,12 +455,12 @@ class LatexConverter:
         # Algorithms → remove
         t = re.sub(r'\\begin\{algorithm\}.*?\\end\{algorithm\}', '', t, flags=re.DOTALL)
         t = re.sub(r'\\begin\{algorithmic\}.*?\\end\{algorithmic\}', '', t, flags=re.DOTALL)
-        # Enumerate
-        t = re.sub(r'\\begin\{enumerate\}(.*?)\\end\{enumerate\}',
-                   self._enumerate, t, flags=re.DOTALL)
-        # Itemize
+        # Itemize first (may be nested inside enumerate)
         t = re.sub(r'\\begin\{itemize\}(.*?)\\end\{itemize\}',
                    self._itemize, t, flags=re.DOTALL)
+        # Enumerate (itemize already converted, so \item split is clean)
+        t = re.sub(r'\\begin\{enumerate\}(.*?)\\end\{enumerate\}',
+                   self._enumerate, t, flags=re.DOTALL)
         # Display math — collapse to single line so _paragraphs() won't split
         # the \[...\] delimiters across lines and inject <p> tags inside them.
         def _math_div(content: str) -> str:
