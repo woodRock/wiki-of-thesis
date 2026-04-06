@@ -378,6 +378,8 @@ class LatexConverter:
         self.figures: List[dict] = []  # {src, caption, chapter_slug}
 
     def convert(self, latex: str) -> str:
+        self._fig_counter = 0
+        self._tab_counter = 0
         self._build_label_map(latex)   # Must run before _preprocess strips \label{}
         t = self._preprocess(latex)
         t = self._environments(t)
@@ -390,9 +392,15 @@ class LatexConverter:
     def _build_label_map(self, latex: str) -> None:
         """Pre-scan raw LaTeX to build label→HTML-anchor map before labels are stripped."""
         self._label_map: Dict[str, str] = {}
-        # Figure labels → fig-{stem} anchors
+        self._display_map: Dict[str, str] = {}  # label → human-readable text for \Cref
+        chap_m = re.match(r'chapter-(\d+)', self.chapter_slug)
+        self._chap_num: str = chap_m.group(1) if chap_m else '0'
+
+        # Figure labels → fig-{stem} anchors + "Figure X.Y" display
+        fig_counter = 0
         for fig_m in re.finditer(
                 r'\\begin\{figure\*?\}(.*?)\\end\{figure\*?\}', latex, re.DOTALL):
+            fig_counter += 1
             fig_content = fig_m.group(1)
             img_paths = re.findall(r'\\includegraphics(?:\[[^\]]*\])?\{([^}]+)\}', fig_content)
             label_m = re.search(r'\\label\{([^}]+)\}', fig_content)
@@ -401,7 +409,21 @@ class LatexConverter:
                 stem = re.sub(r'[^a-z0-9]+', '-',
                               os.path.splitext(img_name)[0].lower()).strip('-')
                 self._label_map[label_m.group(1)] = f'fig-{stem}'
-        # Section labels → section slug anchors
+                self._display_map[label_m.group(1)] = f'Figure {self._chap_num}.{fig_counter}'
+
+        # Table labels → tab-{chap}-{n} anchors + "Table X.Y" display
+        tab_counter = 0
+        for tab_m in re.finditer(
+                r'\\begin\{table\*?\}(.*?)\\end\{table\*?\}', latex, re.DOTALL):
+            tab_counter += 1
+            tab_content = tab_m.group(1)
+            label_m = re.search(r'\\label\{([^}]+)\}', tab_content)
+            if label_m:
+                anchor = f'tab-{self._chap_num}-{tab_counter}'
+                self._label_map[label_m.group(1)] = anchor
+                self._display_map[label_m.group(1)] = f'Table {self._chap_num}.{tab_counter}'
+
+        # Section labels → section slug anchors + section title display
         for sec_m in re.finditer(
                 r'\\(?:subsubsection|subsection|section)\*?\{((?:[^{}]|\{[^{}]*\})*)\}',
                 latex):
@@ -410,8 +432,9 @@ class LatexConverter:
             if label_m:
                 raw_title = sec_m.group(1)
                 clean = re.sub(r'\\[a-zA-Z]+\{([^}]*)\}', r'\1', raw_title)
-                clean = re.sub(r'\\[a-zA-Z]+', '', clean)
+                clean = re.sub(r'\\[a-zA-Z]+', '', clean).strip()
                 self._label_map[label_m.group(1)] = self._slug(clean)
+                self._display_map[label_m.group(1)] = clean
 
     def _preprocess(self, t: str) -> str:
         t = re.sub(r'(?m)(?<!\\)%.*$', '', t)
@@ -455,12 +478,23 @@ class LatexConverter:
         # Algorithms → remove
         t = re.sub(r'\\begin\{algorithm\}.*?\\end\{algorithm\}', '', t, flags=re.DOTALL)
         t = re.sub(r'\\begin\{algorithmic\}.*?\\end\{algorithmic\}', '', t, flags=re.DOTALL)
-        # Itemize first (may be nested inside enumerate)
-        t = re.sub(r'\\begin\{itemize\}(.*?)\\end\{itemize\}',
-                   self._itemize, t, flags=re.DOTALL)
-        # Enumerate (itemize already converted, so \item split is clean)
-        t = re.sub(r'\\begin\{enumerate\}(.*?)\\end\{enumerate\}',
-                   self._enumerate, t, flags=re.DOTALL)
+        # Convert lists innermost-first: match only lists with no nested \begin inside,
+        # then repeat until all nesting levels are resolved. Handles arbitrary nesting
+        # of itemize/enumerate in any combination.
+        _innermost_list = re.compile(
+            r'\\begin\{(itemize|enumerate)\}'
+            r'((?:(?!\\begin\{(?:itemize|enumerate)\})[\s\S])*?)'
+            r'\\end\{\1\}',
+        )
+        def _convert_list(m: re.Match) -> str:
+            tag = 'ul' if m.group(1) == 'itemize' else 'ol'
+            items = self._split_items(m.group(2))
+            lis = '\n'.join(f'  <li>{self._item_html(item)}</li>' for item in items if item.strip())
+            return f'<{tag}>\n{lis}\n</{tag}>\n'
+        prev = None
+        while t != prev:
+            prev = t
+            t = _innermost_list.sub(_convert_list, t)
         # Display math — collapse to single line so _paragraphs() won't split
         # the \[...\] delimiters across lines and inject <p> tags inside them.
         def _math_div(content: str) -> str:
@@ -499,9 +533,12 @@ class LatexConverter:
         return t
 
     def _figure(self, m) -> str:
+        self._fig_counter += 1
+        fig_num = f'Figure {self._chap_num}.{self._fig_counter}'
         content = m.group(1)
         cap_m = re.search(r'\\caption\{((?:[^{}]|\{[^{}]*\})*)\}', content)
-        caption = self._inline_simple(cap_m.group(1)) if cap_m else ''
+        raw_caption = self._inline_simple(cap_m.group(1)) if cap_m else ''
+        caption = f'{fig_num}: {raw_caption}' if raw_caption else fig_num
 
         # Collect all \includegraphics paths (handles \subfloat with multiple images)
         img_paths = re.findall(r'\\includegraphics(?:\[[^\]]*\])?\{([^}]+)\}', content)
@@ -541,12 +578,16 @@ class LatexConverter:
 
     def _table(self, m) -> str:
         """Convert a LaTeX table float into HTML (or PNG image if pdflatex available)."""
+        self._tab_counter += 1
+        tab_num = f'Table {self._chap_num}.{self._tab_counter}'
+        tab_id = f'tab-{self._chap_num}-{self._tab_counter}'
         raw_content = m.group(0)  # full \begin{table}...\end{table} including wrapper
         content = m.group(1)
 
-        # Extract caption for alt text / fallback
+        # Extract caption and prepend "Table X.Y: "
         cap_m = re.search(r'\\caption\{((?:[^{}]|\{[^{}]*\})*)\}', content)
-        caption = self._inline_simple(cap_m.group(1)) if cap_m else ''
+        raw_caption = self._inline_simple(cap_m.group(1)) if cap_m else ''
+        caption = f'{tab_num}: {raw_caption}' if raw_caption else tab_num
 
         # --- Try PNG rendering via pdflatex (perfect output) ---
         if getattr(self, '_table_assets_dir', None) is not None and _has_tool('pdflatex'):
@@ -562,7 +603,7 @@ class LatexConverter:
             if png_path.exists():
                 alt = html.escape(re.sub(r'<[^>]+>', '', caption))
                 cap_html = f'<figcaption>{caption}</figcaption>' if caption else ''
-                return (f'<figure class="thesis-figure thesis-table-img">'
+                return (f'<figure class="thesis-figure thesis-table-img" id="{tab_id}">'
                         f'<img src="../assets/{html.escape(png_name)}" alt="{alt}" '
                         f'loading="lazy" class="thesis-img">'
                         f'{cap_html}</figure>\n')
@@ -610,12 +651,12 @@ class LatexConverter:
                 r'\\begin\{tabular[xy]\}\{[^}]*\}\{((?:[^{}]|\{(?:[^{}]|\{[^{}]*\})*\})*)\}(.*?)\\end\{tabular[xy]\}',
                 content_clean, re.DOTALL)
         if not tab_m:
-            return f'<div class="table-note">📊 {caption}</div>\n' if caption else ''
+            return f'<div class="table-note" id="{tab_id}">📊 {caption}</div>\n' if caption else ''
 
         num_cols = len(re.findall(r'[lrcpXSm]', tab_m.group(1)))
-        return self._tabular(tab_m.group(2), caption, num_cols) + '\n'
+        return self._tabular(tab_m.group(2), caption, num_cols, tab_id) + '\n'
 
-    def _tabular(self, body: str, caption: str, num_cols: int) -> str:
+    def _tabular(self, body: str, caption: str, num_cols: int, tab_id: str = '') -> str:
         """Parse LaTeX tabular body → HTML table."""
         body = body.replace('\r\n', '\n').replace('\r', '\n')
         # Only strip REAL LaTeX comments — % NOT preceded by backslash
@@ -698,7 +739,8 @@ class LatexConverter:
         cap_html = f'<caption>{caption}</caption>' if caption else ''
         thead = f'<thead>{"".join(header_rows)}</thead>' if header_rows else ''
         tbody = f'<tbody>{"".join(body_rows)}</tbody>' if body_rows else ''
-        return (f'<div class="table-wrap">\n'
+        id_attr = f' id="{tab_id}"' if tab_id else ''
+        return (f'<div class="table-wrap"{id_attr}>\n'
                 f'<table class="thesis-table">{cap_html}{thead}{tbody}</table>\n'
                 f'</div>')
 
@@ -846,6 +888,7 @@ class LatexConverter:
 
     def _cref(self, m) -> str:
         label_map = getattr(self, '_label_map', {})
+        display_map = getattr(self, '_display_map', {})
         labels = [l.strip() for l in m.group(1).split(',')]
         parts = []
         for lab in labels:
@@ -858,7 +901,7 @@ class LatexConverter:
                 # Use pre-scanned label map for precise anchors
                 if lab in label_map:
                     anchor = label_map[lab]
-                    display = 'Figure' if anchor.startswith('fig-') else 'Section'
+                    display = display_map.get(lab) or ('Figure' if anchor.startswith('fig-') else 'Section')
                     parts.append(f'<a href="#{anchor}" class="internal-ref">{display}</a>')
                 else:
                     # Fallback: normalise label to a best-guess anchor
